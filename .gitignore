@@ -38,3 +38,4 @@ bld/
 [Pp]lugins/*.json
 [Pp]lugins/*.xml
 [Pp]lugins/*.dll
+[Pp]lugins/*.pdb
