@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin format="v1">
+	<info>
+		<displayName>N64 - DuoWatch64</displayName>
+		<author>Ben Burns</author>
+        <version>1.0</version>
+        <versionDate>2019-12-28</versionDate>
+	</info>
+	<main>
+		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
+	</main>
+	<inputHandler handlerType="Plugins.DuoWatch64Plugin" handlerAssembly="HidDisplay.Controller" description="N64">
+		<item uiType="toggleButton" hwType="Button2" name="P1_A">
+			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="106" />
+			<hwSettings id="132" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="P1_B">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="60" />
+			<hwSettings id="101" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_Z">
+			<uiSettings image="z.png" overrideWidth="" overrideHeight="" xOffset="113" yOffset="78" />
+			<hwSettings id="102" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_Start">
+			<uiSettings image="start.png" overrideWidth="" overrideHeight="" xOffset="114" yOffset="32" />
+			<hwSettings id="103" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_C_Up">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="354" yOffset="61" />
+			<hwSettings id="104" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_C_Down">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="354" yOffset="113" />
+			<hwSettings id="105" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_C_Left">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="328" yOffset="87" />
+			<hwSettings id="106" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_C_Right">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="380" yOffset="87" />
+			<hwSettings id="107" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_L_Shoulder">
+			<uiSettings image="shoulder_l.png" overrideWidth="" overrideHeight="" xOffset="19" yOffset="9" />
+			<hwSettings id="110" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_R_Shoulder">
+			<uiSettings image="shoulder_r.png" overrideWidth="" overrideHeight="" xOffset="312" yOffset="9" />
+			<hwSettings id="111" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Up">
+			<uiSettings image="dpad_up.png" overrideWidth="" overrideHeight="" xOffset="42" yOffset="68" />
+			<hwSettings id="112" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Down">
+			<uiSettings image="dpad_down.png" overrideWidth="" overrideHeight="" xOffset="42" yOffset="116" />
+			<hwSettings id="113" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Left">
+			<uiSettings image="dpad_left.png" overrideWidth="" overrideHeight="" xOffset="19" yOffset="91" />
+			<hwSettings id="114" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Right">
+			<uiSettings image="dpad_right.png" overrideWidth="" overrideHeight="" xOffset="67" yOffset="91" />
+			<hwSettings id="115" stateMatch="Active"/>
+		</item>
+		<item uiType="radialVector" hwType="IRangeableInput2" name="P1_Analog">
+			<uiSettings image="stick.png" xOffset="191" yOffset="72" radialFactor="1"
+				useScale="false" scaleMin="0.5" scaleNorm="2.0" scaleMax="25.0" 
+				useSlide="true" slideFactor="1" slideMax="30"/>
+			<hwSettings id="1" inputCeiling="128" invert1="false" invert2="false"/>
+		</item>
+        
+        <item uiType="toggleButton" hwType="Button2" name="P2_A">
+			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="250" />
+			<hwSettings id="232" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="P2_B">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="204" />
+			<hwSettings id="201" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_Z">
+			<uiSettings image="z.png" overrideWidth="" overrideHeight="" xOffset="113" yOffset="222" />
+			<hwSettings id="202" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_Start">
+			<uiSettings image="start.png" overrideWidth="" overrideHeight="" xOffset="114" yOffset="176" />
+			<hwSettings id="203" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_C_Up">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="354" yOffset="205" />
+			<hwSettings id="204" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_C_Down">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="354" yOffset="257" />
+			<hwSettings id="205" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_C_Left">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="328" yOffset="231" />
+			<hwSettings id="206" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_C_Right">
+			<uiSettings image="c.png" overrideWidth="" overrideHeight="" xOffset="380" yOffset="231" />
+			<hwSettings id="207" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_L_Shoulder">
+			<uiSettings image="shoulder_l.png" overrideWidth="" overrideHeight="" xOffset="19" yOffset="154" />
+			<hwSettings id="210" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_R_Shoulder">
+			<uiSettings image="shoulder_r.png" overrideWidth="" overrideHeight="" xOffset="312" yOffset="153" />
+			<hwSettings id="211" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_D_Up">
+			<uiSettings image="dpad_up.png" overrideWidth="" overrideHeight="" xOffset="42" yOffset="212" />
+			<hwSettings id="212" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_D_Down">
+			<uiSettings image="dpad_down.png" overrideWidth="" overrideHeight="" xOffset="42" yOffset="260" />
+			<hwSettings id="213" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_D_Left">
+			<uiSettings image="dpad_left.png" overrideWidth="" overrideHeight="" xOffset="19" yOffset="235" />
+			<hwSettings id="214" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P2_D_Right">
+			<uiSettings image="dpad_right.png" overrideWidth="" overrideHeight="" xOffset="67" yOffset="235" />
+			<hwSettings id="215" stateMatch="Active"/>
+		</item>
+		<item uiType="radialVector" hwType="IRangeableInput2" name="P2_Analog">
+			<uiSettings image="stick.png" xOffset="191" yOffset="216" radialFactor="1"
+				useScale="false" scaleMin="0.5" scaleNorm="2.0" scaleMax="25.0" 
+				useSlide="true" slideFactor="1" slideMax="30"/>
+			<hwSettings id="2" inputCeiling="128" invert1="false" invert2="false"/>
+		</item>
+	</inputHandler>
+</skin>

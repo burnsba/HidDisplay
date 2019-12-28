@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <FileVersion>1.1.1.4</FileVersion>
+    <Authors>Ben Burns</Authors>
+    <Company>Ben Burns</Company>
+    <Product>HidDisplay</Product>
+    <Copyright>Ben Burns 2019</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WinApi\WinApi.csproj" />
+    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+  </ItemGroup>
+
+</Project>

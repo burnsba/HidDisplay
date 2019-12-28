@@ -1,0 +1,28 @@
+{
+  "settings": [
+    {
+      "key": "DuoWatch64.ComPort",
+      "display": "Controller COM port",
+      "input": "dropdown",
+      "datasource": "SerialComProvider",
+      "assembly": "HidDisplay.DefaultConfigDataProviders",
+      "currentValue": "COM5"
+    },
+    {
+      "key": "DuoWatch64.Baudrate",
+      "display": "Serial port baudrate",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "250000"
+    },
+    {
+      "key": "DuoWatch64.PollIntervalMs",
+      "display": "Serial port poll rate (ms)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "1"
+    }
+  ]
+}

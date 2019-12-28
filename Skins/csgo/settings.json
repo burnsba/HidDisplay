@@ -1,0 +1,44 @@
+{
+  "settings": [
+    {
+      "key": "Mouse.WatchWindowTitle",
+      "display": "Title of window to watch (mouse)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "Counter-Strike: Global Offensive"
+    },
+    {
+      "key": "Mouse.WindowTitleMatch",
+      "display": "How to match window title (mouse)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "Contains"
+    },
+    {
+      "key": "Keyboard.WatchWindowTitle",
+      "display": "Title of window to watch (keyboard)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "Counter-Strike: Global Offensive"
+    },
+    {
+      "key": "Keyboard.WindowTitleMatch",
+      "display": "How to match window title (keyboard)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "Contains"
+    },
+    {
+      "key": "Mouse.MoveUpdateIntervalMs",
+      "display": "How often to render mouse movement (ms)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "50"
+    }
+  ]
+}

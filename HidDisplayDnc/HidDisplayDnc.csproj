@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>HidDisplayDnc</AssemblyName>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <Authors>Ben Burns</Authors>
+    <Copyright>Ben Burns 2019</Copyright>
+    <FileVersion>1.1.1.4</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="background.png" />
+    <None Remove="img\close.png" />
+    <None Remove="img\max.png" />
+    <None Remove="img\min.png" />
+    <None Remove="key_a.png" />
+    <None Remove="key_ctrl.png" />
+    <None Remove="mouse_left.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HidDisplay.DefaultPlugins\HidDisplay.DefaultPlugins.csproj" />
+    <ProjectReference Include="..\HidDisplay.PluginDefinition\HidDisplay.PluginDefinition.csproj" />
+    <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
+    <ProjectReference Include="..\WinApi\WinApi.csproj" />
+    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="img\close.png" />
+    <Resource Include="img\max.png" />
+    <Resource Include="img\min.png" />
+  </ItemGroup>
+
+</Project>

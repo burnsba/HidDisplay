@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Ben Burns</Authors>
+    <Product>HidDisplay</Product>
+    <Copyright>Ben Burns 2019</Copyright>
+    <FileVersion>1.1.1.4</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
+  </ItemGroup>
+
+</Project>

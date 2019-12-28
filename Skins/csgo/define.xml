@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin format="v1">
+	<info>
+		<displayName>Counter-Strike: Global Offensive</displayName>
+		<author>Ben Burns</author>
+        <version>1.0</version>
+        <versionDate>2019-12-26</versionDate>
+	</info>
+	<main>
+		<background image="green_500.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
+	</main>
+	<inputHandler handlerType="WindowsKeyboardPlugin" handlerAssembly="HidDisplay.DefaultPlugins" description="keyboard">
+		<item uiType="toggleButton" hwType="Button2" name="Left_CTRL">
+			<uiSettings image="crouch.png" overrideWidth="" overrideHeight="" xOffset="16" yOffset="14" />
+			<hwSettings id="162" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="Left_Shift">
+			<uiSettings image="walk.png" overrideWidth="" overrideHeight="" xOffset="30" yOffset="14" />
+			<hwSettings id="160" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="Space">
+			<uiSettings image="jump.png" overrideWidth="" overrideHeight="" xOffset="58" yOffset="14" />
+			<hwSettings id="32" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="Tab">
+			<uiSettings image="scoreboard.png" overrideWidth="" overrideHeight="" xOffset="2" yOffset="14" />
+			<hwSettings id="9" stateMatch="Active"/>
+		</item>
+        
+        <item uiType="toggleButton" hwType="Button2" name="N1">
+			<uiSettings image="primary.png" overrideWidth="" overrideHeight="" xOffset="0" yOffset="0" />
+			<hwSettings id="49" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="N2">
+			<uiSettings image="secondary.png" overrideWidth="" overrideHeight="" xOffset="30" yOffset="0" />
+			<hwSettings id="50" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="N3">
+			<uiSettings image="knife.png" overrideWidth="" overrideHeight="" xOffset="44" yOffset="0" />
+			<hwSettings id="51" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="N4">
+			<uiSettings image="he.png" overrideWidth="" overrideHeight="" xOffset="30" yOffset="42" />
+			<hwSettings id="52" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="N5">
+			<uiSettings image="bomb.png" overrideWidth="" overrideHeight="" xOffset="58" yOffset="0" />
+			<hwSettings id="53" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="Q">
+			<uiSettings image="voice_chat.png" overrideWidth="" overrideHeight="" xOffset="2" yOffset="28" />
+			<hwSettings id="81" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="W">
+			<uiSettings image="w.png" overrideWidth="" overrideHeight="" xOffset="44" yOffset="14" />
+			<hwSettings id="87" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="E">
+			<uiSettings image="use.png" overrideWidth="" overrideHeight="" xOffset="86" yOffset="14" />
+			<hwSettings id="69" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="R">
+			<uiSettings image="reload.png" overrideWidth="" overrideHeight="" xOffset="72" yOffset="14" />
+			<hwSettings id="82" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="T">
+			<uiSettings image="inspect.png" overrideWidth="" overrideHeight="" xOffset="72" yOffset="28" />
+			<hwSettings id="84" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="A">
+			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="30" yOffset="28" />
+			<hwSettings id="65" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="S">
+			<uiSettings image="s.png" overrideWidth="" overrideHeight="" xOffset="44" yOffset="28" />
+			<hwSettings id="83" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="D">
+			<uiSettings image="d.png" overrideWidth="" overrideHeight="" xOffset="58" yOffset="28" />
+			<hwSettings id="68" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="F">
+			<uiSettings image="flash.png" overrideWidth="" overrideHeight="" xOffset="16" yOffset="42" />
+			<hwSettings id="70" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="H">
+			<uiSettings image="drop.png" overrideWidth="" overrideHeight="" xOffset="86" yOffset="28" />
+			<hwSettings id="72" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="X">
+			<uiSettings image="smoke.png" overrideWidth="" overrideHeight="" xOffset="2" yOffset="42" />
+			<hwSettings id="88" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="C">
+			<uiSettings image="decoy.png" overrideWidth="" overrideHeight="" xOffset="58" yOffset="42" />
+			<hwSettings id="67" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="V">
+			<uiSettings image="molotov.png" overrideWidth="" overrideHeight="" xOffset="44" yOffset="42" />
+			<hwSettings id="86" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="B">
+			<uiSettings image="buy.png" overrideWidth="" overrideHeight="" xOffset="86" yOffset="42" />
+			<hwSettings id="66" stateMatch="Active"/>
+		</item>
+	</inputHandler>
+	<inputHandler handlerType="WindowsMousePlugin" handlerAssembly="HidDisplay.DefaultPlugins" description="mouse">
+		<item uiType="toggleButton" hwType="Button2" name="Mouse_Left">
+			<uiSettings image="one.png" overrideWidth="" overrideHeight="" xOffset="72" yOffset="0" />
+			<hwSettings id="1" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="Mouse_Right">
+			<uiSettings image="two.png" overrideWidth="" overrideHeight="" xOffset="86" yOffset="0" />
+			<hwSettings id="2" stateMatch="Active"/>
+		</item>
+        <!--
+		<item uiType="radialVector" hwType="IRangeableInput2" name="mouse_move">
+			<uiSettings image="arrow.png" xOffset="122" yOffset="20" radialFactor="1"
+				useScale="true" scaleMin="0.5" scaleNorm="3" scaleMax="25.0" 
+				useSlide="false" slideFactor="5" slideMax="50"/>
+			<hwSettings id="1" inputCeiling="10" invert1="false" invert2="true"/>
+		</item>
+        -->
+	</inputHandler>
+</skin>

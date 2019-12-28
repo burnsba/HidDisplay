@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin format="v1">
+	<info>
+		<displayName>SNES Buffalo</displayName>
+		<author>Ben Burns</author>
+        <version>1.0</version>
+        <versionDate>2019-12-26</versionDate>
+	</info>
+	<main>
+		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
+	</main>
+	<inputHandler handlerType="Plugins.BuffaloSnesPlugin" handlerAssembly="HidDisplay.Controller" description="N64">
+		<item uiType="toggleButton" hwType="Button2" name="P1_A">
+			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="349" yOffset="84" />
+			<hwSettings id="109" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="P1_B">
+			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="312" yOffset="112" />
+			<hwSettings id="101" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_X">
+			<uiSettings image="x.png" overrideWidth="" overrideHeight="" xOffset="312" yOffset="56" />
+			<hwSettings id="110" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_Y">
+			<uiSettings image="x.png" overrideWidth="" overrideHeight="" xOffset="276" yOffset="84" />
+			<hwSettings id="102" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_L_Shoulder">
+			<uiSettings image="shoulder_l.png" overrideWidth="" overrideHeight="" xOffset="64" yOffset="5" />
+			<hwSettings id="111" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_R_Shoulder">
+			<uiSettings image="shoulder_r.png" overrideWidth="" overrideHeight="" xOffset="274" yOffset="6" />
+			<hwSettings id="112" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_Select">
+			<uiSettings image="start.png" overrideWidth="" overrideHeight="" xOffset="157" yOffset="100" />
+			<hwSettings id="103" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_Start">
+			<uiSettings image="start.png" overrideWidth="" overrideHeight="" xOffset="202" yOffset="100" />
+			<hwSettings id="104" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Up">
+			<uiSettings image="dpad_up.png" overrideWidth="" overrideHeight="" xOffset="84" yOffset="67" />
+			<hwSettings id="105" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Down">
+			<uiSettings image="dpad_down.png" overrideWidth="" overrideHeight="" xOffset="84" yOffset="110" />
+			<hwSettings id="106" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Left">
+			<uiSettings image="dpad_left.png" overrideWidth="" overrideHeight="" xOffset="63" yOffset="88" />
+			<hwSettings id="107" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="P1_D_Right">
+			<uiSettings image="dpad_right.png" overrideWidth="" overrideHeight="" xOffset="106" yOffset="88" />
+			<hwSettings id="108" stateMatch="Active"/>
+		</item>
+	</inputHandler>
+</skin>

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Ben Burns</Authors>
+    <Company>Ben Burns</Company>
+    <Product>HidDisplay</Product>
+    <Copyright>Ben Burns 2019</Copyright>
+    <FileVersion>1.1.1.4</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HidDisplay.PluginDefinition\HidDisplay.PluginDefinition.csproj" />
+    <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
+    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+  </ItemGroup>
+
+</Project>
