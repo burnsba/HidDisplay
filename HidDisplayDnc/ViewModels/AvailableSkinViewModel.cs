@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using HidDisplayDnc.Mvvm;
 
 namespace HidDisplayDnc.ViewModels
 {
     /// <summary>
     /// Information about available skins.
     /// </summary>
-    public class AvailableSkinViewModel
+    public class AvailableSkinViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Gets or sets hash of source file.
+        /// </summary>
+        public string Sha256 { get; set; }
+
         /// <summary>
         /// Gets or sets display name to show.
         /// </summary>

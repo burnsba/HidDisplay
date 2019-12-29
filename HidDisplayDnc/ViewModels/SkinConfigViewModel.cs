@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using HidDisplay.SkinModel.HotConfig;
 using HidDisplayDnc.Dto;
+using HidDisplayDnc.Mvvm;
+using HidDisplayDnc.Windows;
 
 namespace HidDisplayDnc.ViewModels
 {
     /// <summary>
     /// View model for skin config window.
     /// </summary>
-    public class SkinConfigViewModel
+    public class SkinConfigViewModel : WindowViewModelBase
     {
         private Settings _settingSource = null;
 
@@ -23,6 +26,16 @@ namespace HidDisplayDnc.ViewModels
         /// Gets or sets skin currently being configured.
         /// </summary>
         public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets ok button command.
+        /// </summary>
+        public ICommand OkCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets cancel button command.
+        /// </summary>
+        public ICommand CancelCommand { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SkinConfigViewModel"/> class.
@@ -43,14 +56,22 @@ namespace HidDisplayDnc.ViewModels
                 {
                     SettingItems = new List<ISkinConfigItem>();
 
-                    Context.CreateSingletonChildWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
+                    Workspace.RecreateSingletonWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
                     {
-                        FriendlyMessage = "Error loading config settings",
+                        HeaderMessage = "Error loading config settings",
                     });
 
                     return;
                 }
             }
+
+            CancelCommand = new RelayCommand<ICloseable>(CloseWindow);
+
+            OkCommand = new RelayCommand<ICloseable>(w =>
+            {
+                SaveChanges();
+                CloseWindow(w);
+            });
         }
 
         /// <inheritdoc />

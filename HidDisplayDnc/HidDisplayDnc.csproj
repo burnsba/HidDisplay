@@ -49,4 +49,16 @@
     <Resource Include="img\min.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Windows\AppConfigWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Windows\AppConfigWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

@@ -1,73 +1,87 @@
-﻿using System;
+﻿using HidDisplayDnc.Mvvm;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
 
 namespace HidDisplayDnc.ViewModels
 {
     /// <summary>
-    /// View model for error window.
+    /// ViewModel for error information.
     /// </summary>
-    public class ErrorWindowViewModel
+    public class ErrorWindowViewModel : WindowViewModelBase
     {
+        private bool _exitOnClose = false;
+
         /// <summary>
-        /// Gets or sets text content.
+        /// Gets or sets the header message.
+        /// </summary>
+        public string HeaderMessage { get; set; } = "Unhandled exception";
+
+        /// <summary>
+        /// Gets or sets the body content.
         /// </summary>
         public string TextContent { get; set; }
 
         /// <summary>
-        /// Gets or sets header message.
+        /// Gets or sets whether the exception information is from an unhandled exception.
+        /// If set to true, when the error window is closed the application will exit.
         /// </summary>
-        public string FriendlyMessage { get; set; } = "Unhandled exception";
+        public bool ExitOnClose
+        {
+            get
+            {
+                return _exitOnClose;
+            }
+
+            set
+            {
+                _exitOnClose = value;
+
+                if (_exitOnClose)
+                {
+                    CloseCommand = new RelayCommand<ICloseable>(w => { Environment.Exit(1); });
+                }
+                else
+                {
+                    CloseCommand = new RelayCommand<ICloseable>(CloseWindow);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets ok button command.
+        /// </summary>
+        public ICommand CloseCommand { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorWindowViewModel"/> class.
         /// </summary>
         public ErrorWindowViewModel()
         {
+            CloseCommand = new RelayCommand<ICloseable>(CloseWindow);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorWindowViewModel"/> class.
         /// </summary>
-        /// <param name="ex">Exception info.</param>
+        /// <param name="ex">Exception to display information about.</param>
         public ErrorWindowViewModel(Exception ex)
+            : this()
         {
-            TextContent = ErrorWindowViewModel.GetExceptionInfo(ex);
+            TextContent = Converters.ExceptionConverter.DefaultToString(ex);
         }
 
         /// <summary>
-        /// Serializes exception in the usual manner.
+        /// Initializes a new instance of the <see cref="ErrorWindowViewModel"/> class.
         /// </summary>
-        /// <param name="ex">Exception to extract.</param>
-        /// <returns>Exception content.</returns>
-        public static string GetExceptionInfo(Exception ex)
+        /// <param name="header">Header message text.</param>
+        /// <param name="ex">Exception to display information about.</param>
+        public ErrorWindowViewModel(string header, Exception ex)
+            : this()
         {
-            var sb = new StringBuilder();
-
-            string currentDepth = "Exception";
-            var currentEx = ex;
-
-            do
-            {
-                sb.AppendLine($"Exception current depth: {currentDepth}");
-                sb.AppendLine();
-                sb.AppendLine($"Exception message:");
-                sb.AppendLine(currentEx.Message);
-                sb.AppendLine();
-                sb.AppendLine($"Exception type: {ex.GetType().FullName}");
-                sb.AppendLine();
-                sb.AppendLine($"Exception stack trace:");
-                sb.Append(currentEx.StackTrace);
-                sb.AppendLine();
-                sb.AppendLine("==================================================");
-                sb.AppendLine();
-
-                currentDepth += ".InnerException";
-                currentEx = currentEx.InnerException;
-
-            } while (currentEx != null);
-
-            return sb.ToString();
+            HeaderMessage = header;
+            TextContent = Converters.ExceptionConverter.DefaultToString(ex);
         }
     }
 }

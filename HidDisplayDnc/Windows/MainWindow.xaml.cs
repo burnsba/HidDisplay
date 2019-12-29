@@ -27,15 +27,17 @@ using WinApi.Error;
 using WinApi.Hid;
 using WinApi.User32;
 using WindowsHardware.HardwareWatch;
+using HidDisplayDnc.Mvvm;
+using System.IO;
 
-namespace HidDisplayDnc
+namespace HidDisplayDnc.Windows
 {
     using Expr = System.Linq.Expressions.Expression;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, ICloseable
     {
         private WindowsHardware.HardwareWatch.RawInputHandler _rih = new WindowsHardware.HardwareWatch.RawInputHandler();
         private List<IPassiveTranslate<HidResult>> _passiveHidPlugins = new List<IPassiveTranslate<HidResult>>();
@@ -48,7 +50,7 @@ namespace HidDisplayDnc
         /// <summary>
         /// Main view model.
         /// </summary>
-        private MainViewModel _vm = new MainViewModel();
+        private MainViewModel _vm;
 
         /// <summary>
         /// Timers for flash events.
@@ -150,11 +152,11 @@ namespace HidDisplayDnc
             InitializeComponent();
             Closing += OnWindowClosing;
 
+            _vm = new MainViewModel();
+
             DataContext = _vm;
 
             DisplayGrid.Children.Clear();
-
-            this.Background = new SolidColorBrush(GetBackgroundColor());
         }
 
         /// <summary>
@@ -174,9 +176,9 @@ namespace HidDisplayDnc
             }
             catch (Exception ex)
             {
-                Context.CreateSingletonChildWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
+                Workspace.RecreateSingletonWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
                 {
-                    FriendlyMessage = "Error parsing skin definition file",
+                    HeaderMessage = "Error parsing skin definition file",
                 });
 
                 return;
@@ -197,9 +199,9 @@ namespace HidDisplayDnc
             }
             catch (Exception ex)
             {
-                Context.CreateSingletonChildWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
+                Workspace.RecreateSingletonWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
                 {
-                    FriendlyMessage = "Error when activating skin",
+                    HeaderMessage = "Error when activating skin",
                 });
 
                 UnloadSelectedSkin();
@@ -560,7 +562,7 @@ namespace HidDisplayDnc
         /// <param name="e">Args.</param>
         private void ButtonConfig_Click(object sender, RoutedEventArgs e)
         {
-            Context.CreateSingletonChildWindow<SkinConfigWindow>(_vm.SelectedSkin);
+            Workspace.CreateSingletonWindow<SkinConfigWindow>(_vm.SelectedSkin);
         }
 
         /// <summary>
@@ -593,37 +595,6 @@ namespace HidDisplayDnc
             DisplayGrid.Children.Clear();
 
             _passiveHidPlugins.Clear();
-        }
-
-        private Color GetBackgroundColor()
-        {
-            try
-            {
-                string raw = ConfigurationManager.AppSettings["BackgroundColor"]?.ToString()?.Trim();
-
-                byte r;
-                byte g;
-                byte b;
-
-                if (raw.StartsWith("#"))
-                {
-                    r = Convert.ToByte(raw.Substring(1, 2), 16);
-                    g = Convert.ToByte(raw.Substring(3, 2), 16);
-                    b = Convert.ToByte(raw.Substring(5, 2), 16);
-                }
-                else
-                {
-                    r = Convert.ToByte(raw.Substring(0, 2), 16);
-                    g = Convert.ToByte(raw.Substring(2, 2), 16);
-                    b = Convert.ToByte(raw.Substring(4, 2), 16);
-                }
-
-                return Color.FromRgb(r, g, b);
-            }
-            catch
-            {
-                return Color.FromRgb(byte.MaxValue, byte.MaxValue, byte.MaxValue);
-            }
         }
 
         protected override void OnSourceInitialized(EventArgs e)

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:HidDisplayDnc"
              Startup="App_Startup"
-             StartupUri="MainWindow.xaml">
+             StartupUri="Windows\MainWindow.xaml">
     <Application.Resources>
          
     </Application.Resources>

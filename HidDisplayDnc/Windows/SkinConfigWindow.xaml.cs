@@ -9,14 +9,15 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using HidDisplayDnc.Mvvm;
 using HidDisplayDnc.ViewModels;
 
-namespace HidDisplayDnc
+namespace HidDisplayDnc.Windows
 {
     /// <summary>
     /// Interaction logic for SkinConfigWindow.xaml
     /// </summary>
-    public partial class SkinConfigWindow : Window
+    public partial class SkinConfigWindow : Window, ICloseable
     {
         private SkinConfigViewModel _vm = null;
 
@@ -29,28 +30,8 @@ namespace HidDisplayDnc
             InitializeComponent();
 
             _vm = new SkinConfigViewModel(availableSkinViewModel);
+
             DataContext = _vm;
-        }
-
-        /// <summary>
-        /// Ok button handler.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Args.</param>
-        private void ButtonOk_Click(object sender, RoutedEventArgs e)
-        {
-            _vm.SaveChanges();
-            this.Close();
-        }
-
-        /// <summary>
-        /// Cancel button handler.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Args.</param>
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }
