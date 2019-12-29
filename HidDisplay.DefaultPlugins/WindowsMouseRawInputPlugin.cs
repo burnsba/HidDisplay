@@ -1,0 +1,409 @@
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Text;
+using System.Timers;
+using HidDisplay.PluginDefinition;
+using WinApi.User32;
+using WinApi.Windows;
+using WindowsHardwareWatch.HardwareWatch;
+using WindowsHardwareWatch.HardwareWatch.Enums;
+using WindowsHardwareWatch.Windows;
+
+namespace HidDisplay.DefaultPlugins
+{
+    /// <summary>
+    /// Plugin wrapper to listen for mouse events.
+    /// </summary>
+    /// <remarks>
+    /// Instead of immediately forwarding every mousemovement, this accumulates events
+    /// for a set period of time the forwards the sum of the movements.
+    /// </remarks>
+    public class WindowsMouseRawInputPlugin : PluginBase, IPlugin, IPassiveTranslatePlugin, IPassiveTranslate<RawMouse>
+    {
+        // via settings.json
+        private const string ConfigMoveUpdateIntervalMs = "Mouse.MoveUpdateIntervalMs";
+
+        //private MouseWatcher _mouseWatcher;
+        private bool _isSetup = false;
+        private Timer _mouseMoveSmoothTimer;
+        private ConcurrentQueue<WindowsPoint> _mouseMoveAccumulator = new ConcurrentQueue<WindowsPoint>();
+
+        /// <summary>
+        /// Gets or sets how long to accumulate move events before updating the ui.
+        /// </summary>
+        public int MouseMoveUpdateIntervalMs { get; set; } = -1;
+
+        /// <inheritdoc />
+        public override void InstanceDispose()
+        {
+            Stop();
+        }
+
+        /// <inheritdoc />
+        public override void Setup(Dictionary<string, string> configOptions)
+        {
+            if (_isSetup)
+            {
+                return;
+            }
+
+            if (!configOptions.ContainsKey(ConfigMoveUpdateIntervalMs))
+            {
+                throw new ArgumentException($"Missing required config setting: {ConfigMoveUpdateIntervalMs}");
+            }
+
+            MouseMoveUpdateIntervalMs = int.Parse(configOptions[ConfigMoveUpdateIntervalMs]);
+
+            if (MouseMoveUpdateIntervalMs <= 0)
+            {
+                throw new ArgumentException($"{MouseMoveUpdateIntervalMs} must be positive integer.");
+            }
+
+            _mouseMoveSmoothTimer = new Timer();
+            _mouseMoveSmoothTimer.AutoReset = true;
+            _mouseMoveSmoothTimer.Interval = MouseMoveUpdateIntervalMs;
+            _mouseMoveSmoothTimer.Elapsed += MouseMoveSmootherElapsed;
+            _mouseMoveSmoothTimer.Start();
+
+            _isSetup = true;
+        }
+
+        /// <inheritdoc />
+        public override void Start()
+        {
+            IsEnabled = true;
+        }
+
+        /// <inheritdoc />
+        public override void Stop()
+        {
+            IsEnabled = false;
+
+            _isSetup = false;
+
+            if (!object.ReferenceEquals(null, _mouseMoveSmoothTimer))
+            {
+                _mouseMoveSmoothTimer.Stop();
+                _mouseMoveSmoothTimer = null;
+            }
+
+            WindowsPoint p;
+            while (!_mouseMoveAccumulator.IsEmpty)
+            {
+                _mouseMoveAccumulator.TryDequeue(out p);
+            }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsMouseRawInputPlugin"/> class.
+        /// </summary>
+        public WindowsMouseRawInputPlugin()
+        {
+        }
+
+        /// <summary>
+        /// Accepts hardware mouse events. Button and scroll events are forwarded
+        /// immediately. Movement events are added to the accumulator to be
+        /// forwarded later.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="args">Event args.</param>
+        private void InputEventMapper(object sender, MouseChangeEventArgs args)
+        {
+            if (!IsEnabled)
+            {
+                return;
+            }
+
+            if (!AnyEventListeners())
+            {
+                return;
+            }
+
+            // Split immediate and accumulator inputs.
+            bool anyImmediate = false;
+
+            var genArgs = new GenericInputEventArgs();
+
+            if (args.EventType == MouseEventType.Button)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)args.Button,
+                    Name = args.Button.ToString(),
+                    State = FromMouseButton(args.ButtonDirection),
+                });
+                anyImmediate = true;
+            }
+            else if (args.EventType == MouseEventType.Scroll)
+            {
+                genArgs.Button3s.Add(new Button3()
+                {
+                    Id = (int)args.Scroll,
+                    Name = args.Scroll.ToString(),
+                    State = FromMouseScroll(args.ScrollDirection),
+                });
+                anyImmediate = true;
+            }
+            else if (args.EventType == MouseEventType.Move)
+            {
+                _mouseMoveAccumulator.Enqueue(new WindowsPoint(args.DeltaPosition.X, args.DeltaPosition.Y));
+            }
+
+            if (anyImmediate)
+            {
+                FireEventHandler(sender, genArgs);
+            }
+        }
+
+        /// <summary>
+        /// Forwards sum of movements to app for display.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="args">Args.</param>
+        private void MouseMoveSmootherElapsed(object sender, EventArgs args)
+        {
+            Int64 xtotal = 0;
+            Int64 ytotal = 0;
+            int count = 0;
+            var genArgs = new GenericInputEventArgs();
+
+            while (!_mouseMoveAccumulator.IsEmpty)
+            {
+                WindowsPoint p;
+                while (!_mouseMoveAccumulator.TryDequeue(out p))
+                    ;
+
+                // Shouldn't receive a move event that doesn't move ...
+                if (p.X == 0 && p.Y == 0)
+                {
+                    continue;
+                }
+
+                xtotal += p.X;
+                ytotal += p.Y;
+                count++;
+            }
+
+            if (count == 0)
+            {
+                // Need something to trigger the processing logic
+                genArgs.RangeableInput2s.Add(new MouseMoveRangeableInput(double.NaN, double.NaN)
+                {
+                    Id = 1,
+                    IsEmpty = true,
+                    Name = "MouseMove",
+                });
+
+                FireEventHandler(sender, genArgs);
+                return;
+            }
+
+            double xaverage = xtotal / count;
+            double yaverage = ytotal / count;
+
+            genArgs.RangeableInput2s.Add(new MouseMoveRangeableInput(xaverage, yaverage)
+            {
+                Id = 1,
+                IsEmpty = false,
+                Name = "MouseMove",
+            });
+
+            FireEventHandler(sender, genArgs);
+        }
+
+        /// <summary>
+        /// Translate button state from hardware watch to plugin event format.
+        /// </summary>
+        /// <param name="direction">Hardware button state.</param>
+        /// <returns>Plugin button state.</returns>
+        private Button2State FromMouseButton(ButtonChangeDirection direction)
+        {
+            switch (direction)
+            {
+                case ButtonChangeDirection.Down:
+                    return Button2State.Active;
+                case ButtonChangeDirection.Up:
+                    return Button2State.Released;
+                default:
+                    return Button2State.Unknown;
+            }
+        }
+
+        /// <summary>
+        /// Translate scroll state from hardware watch to plugin event format.
+        /// </summary>
+        /// <param name="direction">Hardware scroll state.</param>
+        /// <returns>Plugin button state.</returns>
+        private Button3State FromMouseScroll(ScrollChangeDirection direction)
+        {
+            switch (direction)
+            {
+                case ScrollChangeDirection.Up:
+                    return Button3State.State2;
+                case ScrollChangeDirection.Down:
+                    return Button3State.State3;
+                default:
+                    return Button3State.StateDefault;
+            }
+        }
+
+        public void AcceptMessage(object sender, RawMouse message)
+        {
+            var genArgs = new GenericInputEventArgs();
+
+            // Split immediate and accumulator inputs.
+            bool anyImmediate = false;
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.LeftDown) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.LeftButton,
+                    Name = ButtonSource.LeftButton.ToString(),
+                    State = Button2State.Active,
+                });
+                anyImmediate = true;
+            }
+            else if ((message.RawMouseData.ButtonFlags & RawMouseButtons.LeftUp) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.LeftButton,
+                    Name = ButtonSource.LeftButton.ToString(),
+                    State = Button2State.Released,
+                });
+                anyImmediate = true;
+            }
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.RightDown) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.RightButton,
+                    Name = ButtonSource.RightButton.ToString(),
+                    State = Button2State.Active,
+                });
+                anyImmediate = true;
+            }
+            else if ((message.RawMouseData.ButtonFlags & RawMouseButtons.RightUp) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.RightButton,
+                    Name = ButtonSource.RightButton.ToString(),
+                    State = Button2State.Released,
+                });
+                anyImmediate = true;
+            }
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.MiddleDown) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.MiddleButton,
+                    Name = ButtonSource.MiddleButton.ToString(),
+                    State = Button2State.Active,
+                });
+                anyImmediate = true;
+            }
+            else if ((message.RawMouseData.ButtonFlags & RawMouseButtons.MiddleUp) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.MiddleButton,
+                    Name = ButtonSource.MiddleButton.ToString(),
+                    State = Button2State.Released,
+                });
+                anyImmediate = true;
+            }
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.Button4Down) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.Mouse4,
+                    Name = ButtonSource.Mouse4.ToString(),
+                    State = Button2State.Active,
+                });
+                anyImmediate = true;
+            }
+            else if ((message.RawMouseData.ButtonFlags & RawMouseButtons.Button4Up) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.Mouse4,
+                    Name = ButtonSource.Mouse4.ToString(),
+                    State = Button2State.Released,
+                });
+                anyImmediate = true;
+            }
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.Button5Down) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.Mouse5,
+                    Name = ButtonSource.Mouse5.ToString(),
+                    State = Button2State.Active,
+                });
+                anyImmediate = true;
+            }
+            else if ((message.RawMouseData.ButtonFlags & RawMouseButtons.Button5Up) > 0)
+            {
+                genArgs.Button2s.Add(new Button2()
+                {
+                    Id = (int)ButtonSource.Mouse5,
+                    Name = ButtonSource.Mouse5.ToString(),
+                    State = Button2State.Released,
+                });
+                anyImmediate = true;
+            }
+
+            if ((message.RawMouseData.ButtonFlags & RawMouseButtons.MouseWheel) > 0)
+            {
+                var scroll = (short)message.RawMouseData.ButtonData;
+
+                if (scroll > 0)
+                {
+                    genArgs.Button3s.Add(new Button3()
+                    {
+                        Id = (int)ScrollSource.VerticalScrollWheel,
+                        Name = ScrollSource.VerticalScrollWheel.ToString(),
+                        State = Button3State.State2,
+                    });
+                }
+                else
+                {
+                    genArgs.Button3s.Add(new Button3()
+                    {
+                        Id = (int)ScrollSource.VerticalScrollWheel,
+                        Name = ScrollSource.VerticalScrollWheel.ToString(),
+                        State = Button3State.State3,
+                    });
+                }
+
+                anyImmediate = true;
+            }
+
+            _mouseMoveAccumulator.Enqueue(new WindowsPoint(message.LastX, message.LastY));
+
+            //System.Diagnostics.Debug.WriteLine(
+            //    $"{message.Flags.ToString(), 20}, " +
+            //    $"{message.RawMouseData.Buttons.ToString("X2"),  8}, " +
+            //    $"{((ushort)message.RawMouseData.ButtonFlags).ToString("X2"),  6}, " +
+            //    $"{message.RawMouseData.ButtonData.ToString("X2"), 6}, " +
+            //    $"{message.RawButtons.ToString("X2"), 8} " +
+            //    $"{message.LastX, 8}, " +
+            //    $"{message.LastY, 8}"
+            //    );
+
+            if (anyImmediate)
+            {
+                FireEventHandler(sender, genArgs);
+            }
+        }
+    }
+}

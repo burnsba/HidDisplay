@@ -105,7 +105,7 @@ namespace WinApi.User32
 
                 var ribytes = new byte[dwSize];
                 Marshal.Copy(rawInputBuffer, ribytes, 0, (int)dwSize);
-                ri = RawInput.FromBytes(ribytes, 0);
+                ri = RawInput.FromBytes(ribytes, 0, out int t);
 
                 return ri;
             }
@@ -233,7 +233,7 @@ namespace WinApi.User32
                 Marshal.Copy(pbuttoncaps, buttonCapBytes, 0, bytelength);
                 for (int i = 0; i < (int)hidpcaps.NumberInputButtonCaps; i++)
                 {
-                    buttonCaps[i] = HidpButtonCaps.FromByteArray(buttonCapBytes, i * Marshal.SizeOf(typeof(HidpButtonCaps)));
+                    buttonCaps[i] = HidpButtonCaps.FromBytes(buttonCapBytes, i * Marshal.SizeOf(typeof(HidpButtonCaps)), out int t);
                 }
 
                 return buttonCaps;
@@ -284,7 +284,7 @@ namespace WinApi.User32
                 Marshal.Copy(pvaluecaps, valueCapBytes, 0, bytelength);
                 for (int i = 0; i < (int)hidpcaps.NumberInputValueCaps; i++)
                 {
-                    valueCaps[i] = HidpValueCaps.FromByteArray(valueCapBytes, i * Marshal.SizeOf(typeof(HidpValueCaps)));
+                    valueCaps[i] = HidpValueCaps.FromBytes(valueCapBytes, i * Marshal.SizeOf(typeof(HidpValueCaps)), out int t);
                 }
 
                 return valueCaps;

@@ -221,7 +221,8 @@ namespace HidDisplay.SkinModel
                 return;
             }
 
-            var directory = PluginsDirectory;
+            // Need an absolute path to iterate over the sub directories
+            var directory = Path.GetFullPath(PluginsDirectory);
 
             if (string.IsNullOrEmpty(directory))
             {

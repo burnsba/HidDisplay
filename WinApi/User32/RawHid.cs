@@ -37,7 +37,7 @@ namespace WinApi.User32
         [FieldOffset(8)]
         public byte[] bRawData;
 
-        public static RawHid FromByteArray(byte[] bytes, int offset)
+        public static RawHid FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             int dwSizeHid = (int)(((int)bytes[offset + 3] << 24) | ((int)bytes[offset + 2] << 16) | ((int)bytes[offset + 1] << 8) | (int)(bytes[offset]));
             int dwCount = (int)(((int)bytes[offset + 7] << 24) | ((int)bytes[offset + 6] << 16) | ((int)bytes[offset + 5] << 8) | (int)(bytes[offset + 4]));
@@ -51,6 +51,8 @@ namespace WinApi.User32
                 dwCount = dwCount,
                 bRawData = arrdata
             };
+
+            nextByteOffset = offset + 7 + len + 1;
 
             return hid;
         }

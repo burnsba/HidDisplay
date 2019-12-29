@@ -41,10 +41,11 @@ namespace HidDisplayDnc.Windows
     {
         private WindowsHardware.HardwareWatch.RawInputHandler _rih = new WindowsHardware.HardwareWatch.RawInputHandler();
         private List<IPassiveTranslate<HidResult>> _passiveHidPlugins = new List<IPassiveTranslate<HidResult>>();
+        private List<IPassiveTranslate<RawMouse>> _passiveRawMousePlugins = new List<IPassiveTranslate<RawMouse>>();
 
         private bool AnyWndProcListeners()
         {
-            return _passiveHidPlugins.Any();
+            return _passiveHidPlugins.Any() || _passiveRawMousePlugins.Any();
         }
 
         /// <summary>
@@ -214,6 +215,10 @@ namespace HidDisplayDnc.Windows
                 if (typeof(IPassiveTranslate<HidResult>).IsAssignableFrom(handler.Handler.GetType()))
                 {
                     _passiveHidPlugins.Add((IPassiveTranslate<HidResult>)handler.Handler);
+                }
+                else if (typeof(IPassiveTranslate<RawMouse>).IsAssignableFrom(handler.Handler.GetType()))
+                {
+                    _passiveRawMousePlugins.Add((IPassiveTranslate<RawMouse>)handler.Handler);
                 }
             }
         }
@@ -595,6 +600,7 @@ namespace HidDisplayDnc.Windows
             DisplayGrid.Children.Clear();
 
             _passiveHidPlugins.Clear();
+            _passiveRawMousePlugins.Clear();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
@@ -617,6 +623,11 @@ namespace HidDisplayDnc.Windows
             rid[1].Flags = RawInputDeviceFlags.InputSink;
             rid[1].WindowHandle = win;
 
+            rid[1].UsagePage = HidUsagePages.GenericDesktop;
+            rid[1].Usage = (ushort)WinApi.Hid.Usage.GenericDesktop.Mouse;
+            rid[1].Flags = RawInputDeviceFlags.InputSink;
+            rid[1].WindowHandle = win;
+
             if (WinApi.User32.Api.RegisterRawInputDevices(rid, (uint)rid.Length, (uint)Marshal.SizeOf(rid[0])) == false)
             {
                 var err = Marshal.GetLastWin32Error();
@@ -633,10 +644,10 @@ namespace HidDisplayDnc.Windows
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            if (!AnyWndProcListeners())
-            {
-                return hwnd;
-            }
+            //if (!AnyWndProcListeners())
+            //{
+            //    return hwnd;
+            //}
 
             switch (msg)
             {
@@ -644,13 +655,28 @@ namespace HidDisplayDnc.Windows
                     {
                         //System.Diagnostics.Debug.WriteLine("Received WndProc.WM_INPUT");
 
-                        if (_passiveHidPlugins.Any())
-                        {
-                            var hidResult = _rih.WindowsMessageExtract(lParam);
+                        var ri = _rih.WndProcToRawInput(lParam);
 
-                            foreach (var plugin in _passiveHidPlugins)
+                        if (ri.Header.dwType == RawInputDeviceType.Mouse)
+                        {
+                            if (_passiveRawMousePlugins.Any())
                             {
-                                plugin.AcceptMessage(this, hidResult);
+                                foreach (var plugin in _passiveRawMousePlugins)
+                                {
+                                    plugin.AcceptMessage(this, ri.Data.Mouse);
+                                }
+                            }
+                        }
+                        else if (ri.Header.dwType == RawInputDeviceType.Hid)
+                        {
+                            if (_passiveHidPlugins.Any())
+                            {
+                                var hidResult = _rih.RawInputHidDetail(ri);
+
+                                foreach (var plugin in _passiveHidPlugins)
+                                {
+                                    plugin.AcceptMessage(this, hidResult);
+                                }
                             }
                         }
                     }

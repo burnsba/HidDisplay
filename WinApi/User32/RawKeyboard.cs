@@ -54,7 +54,7 @@ namespace WinApi.User32
                                                 Makecode, Flags, Reserved, VKey, Message, ExtraInformation);
         }
 
-        public static RawKeyboard FromByteArray(byte[] bytes, int offset)
+        public static RawKeyboard FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             var rk = new RawKeyboard()
             {
@@ -65,6 +65,8 @@ namespace WinApi.User32
                 Message = (uint)(((int)bytes[offset + 11] << 24) | ((int)bytes[offset + 10] << 16) | ((int)bytes[offset + 9] << 8) | (int)(bytes[offset + 8])),
                 ExtraInformation = (uint)(((uint)bytes[offset + 15] << 24) | ((uint)bytes[offset + 14] << 16) | ((uint)bytes[offset + 13] << 8) | (uint)(bytes[offset + 12])),
             };
+
+            nextByteOffset = offset + 15 + 1;
 
             return rk;
         }

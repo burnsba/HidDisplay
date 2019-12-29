@@ -13,33 +13,35 @@ namespace WinApi.User32
     /// <remarks>
     /// https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-rawinput
     /// </remarks>
-    [StructLayout(LayoutKind.Explicit)]
     public struct RawInput
     {
         /// <summary>
         /// Header info.
         /// </summary>
-        [FieldOffset(0)]
         public RawInputHeader Header;
 
         /// <summary>
         /// Input data.
         /// </summary>
-        [FieldOffset(16)]
         public RawInputData Data;
 
-        public static RawInput FromBytes(byte[] bytes, int offset)
+        public static RawInput FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             RawInput ri;
+
+            int headerOffset;
+            int dataOffset;
+
+            var header = RawInputHeader.FromBytes(bytes, offset + 0, out headerOffset);
 
             if ((int)bytes[offset] == (int)RawInputDeviceType.Mouse)
             {
                 ri = new RawInput()
                 {
-                    Header = RawInputHeader.FromBytes(bytes, offset + 0),
+                    Header = header,
                     Data = new RawInputData()
                     {
-                        Mouse = RawMouse.FromByteArray(bytes, offset + Marshal.SizeOf(typeof(RawInputHeader)))
+                        Mouse = RawMouse.FromBytes(bytes, headerOffset, out dataOffset)
                     }
                 };
             }
@@ -47,10 +49,10 @@ namespace WinApi.User32
             {
                 ri = new RawInput()
                 {
-                    Header = RawInputHeader.FromBytes(bytes, offset + 0),
+                    Header = header,
                     Data = new RawInputData()
                     {
-                        Keyboard = RawKeyboard.FromByteArray(bytes, offset + Marshal.SizeOf(typeof(RawInputHeader)))
+                        Keyboard = RawKeyboard.FromBytes(bytes, headerOffset, out dataOffset)
                     }
                 };
             }
@@ -58,10 +60,10 @@ namespace WinApi.User32
             {
                 ri = new RawInput()
                 {
-                    Header = RawInputHeader.FromBytes(bytes, offset + 0),
+                    Header = header,
                     Data = new RawInputData()
                     {
-                        Hid = RawHid.FromByteArray(bytes, offset + Marshal.SizeOf(typeof(RawInputHeader)))
+                        Hid = RawHid.FromBytes(bytes, headerOffset, out dataOffset)
                     }
                 };
             }
@@ -69,6 +71,8 @@ namespace WinApi.User32
             {
                 throw new NotSupportedException();
             }
+
+            nextByteOffset = dataOffset;
 
             return ri;
         }

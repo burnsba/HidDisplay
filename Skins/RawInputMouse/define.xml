@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin format="v1">
+	<info>
+		<displayName>RawInput - Mouse</displayName>
+		<author>Ben Burns</author>
+        <version>1.0</version>
+        <versionDate>2019-12-28</versionDate>
+	</info>
+	<main>
+		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
+	</main>
+	<inputHandler handlerType="WindowsMouseRawInputPlugin" handlerAssembly="HidDisplay.DefaultPlugins" description="keyboard">
+		<item uiType="toggleButton" hwType="Button2" name="mouse_1">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="5" yOffset="5" />
+			<hwSettings id="1" stateMatch="Active"/>
+		</item>
+		<item uiType="toggleButton" hwType="Button2" name="mouse_2">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="25" yOffset="5" />
+			<hwSettings id="2" stateMatch="Active"/>
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="mouse_3">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="45" yOffset="5" />
+			<hwSettings id="3" stateMatch="Active" />
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="mouse_4">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="65" yOffset="5" />
+			<hwSettings id="4" stateMatch="Active" />
+		</item>
+        <item uiType="toggleButton" hwType="Button2" name="mouse_5">
+			<uiSettings image="b.png" overrideWidth="" overrideHeight="" xOffset="85" yOffset="5" />
+			<hwSettings id="5" stateMatch="Active" />
+		</item>
+        <item uiType="flashButton" hwType="Button3" name="mouse_scroll_up">
+			<uiSettings image="b.png" duration="200" overrideWidth="" overrideHeight="" xOffset="105" yOffset="5" />
+			<hwSettings id="1" stateMatch="State2" />
+		</item>
+        <item uiType="flashButton" hwType="Button3" name="mouse_scroll_down">
+			<uiSettings image="b.png" duration="200" overrideWidth="" overrideHeight="" xOffset="125" yOffset="5" />
+			<hwSettings id="1" stateMatch="State3" />
+		</item>
+		<item uiType="radialVector" hwType="IRangeableInput2" name="mouse_move">
+			<uiSettings image="arrow.png" xOffset="65" yOffset="65" radialFactor="1"
+				useScale="true" scaleMin="0.5" scaleNorm="3" scaleMax="25.0" 
+				useSlide="false" slideFactor="5" slideMax="50"/>
+			<hwSettings id="1" inputCeiling="10" invert1="false" invert2="true"/>
+		</item>
+	</inputHandler>
+</skin>

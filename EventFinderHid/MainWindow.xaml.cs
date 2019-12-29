@@ -78,15 +78,20 @@ namespace EventFinderHid
                 case (int)WinApi.Windows.WindowsMessages.INPUT:
                     {
                         System.Diagnostics.Debug.WriteLine("Received WndProc.WM_INPUT");
-                        var hidResult = _rih.WindowsMessageExtract(lParam);
+                        var ri = _rih.WndProcToRawInput(lParam);
 
-                        System.Diagnostics.Debug.WriteLine($"HID input manufacturer: {hidResult.HidDeviceInfo.GetManufacturer()}");
-                        System.Diagnostics.Debug.WriteLine($"HID product description: {hidResult.HidDeviceInfo.GetProduct()}");
+                        if (ri.Header.dwType == RawInputDeviceType.Hid)
+                        {
+                            var hidResult = _rih.RawInputHidDetail(ri);
 
-                        System.Diagnostics.Debug.WriteLine(String.Join(",", hidResult.ButtonStates.Select(x => x ? "1" : "0")));
-                        var xval = hidResult.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.X);
-                        var yval = hidResult.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.Y);
-                        System.Diagnostics.Debug.WriteLine($"{xval.Value},{yval.Value}");
+                            System.Diagnostics.Debug.WriteLine($"HID input manufacturer: {hidResult.HidDeviceInfo.GetManufacturer()}");
+                            System.Diagnostics.Debug.WriteLine($"HID product description: {hidResult.HidDeviceInfo.GetProduct()}");
+
+                            System.Diagnostics.Debug.WriteLine(String.Join(",", hidResult.ButtonStates.Select(x => x ? "1" : "0")));
+                            var xval = hidResult.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.X);
+                            var yval = hidResult.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.Y);
+                            System.Diagnostics.Debug.WriteLine($"{xval.Value},{yval.Value}");
+                        }
                     }
 
                     break;

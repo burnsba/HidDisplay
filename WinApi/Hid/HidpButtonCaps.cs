@@ -129,8 +129,10 @@ namespace WinApi.Hid
             return Utility.UsagePageAndUsageToString(UsagePage, NotRange.Usage);
         }
 
-        public static HidpButtonCaps FromByteArray(byte[] bytes, int offset)
+        public static HidpButtonCaps FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
+            int nextOffset;
+
             var hbc = new HidpButtonCaps()
             {
                 UsagePage = (ushort)(((ushort)bytes[offset+1] << 8) | (ushort)(bytes[offset])),
@@ -144,8 +146,10 @@ namespace WinApi.Hid
                 IsDesignatorRange = bytes[offset + 12] > 0 ? true : false,
                 IsAbsolute = bytes[offset + 13] > 0 ? true : false,
                 // skip reserved
-                Range = HidpButtonCapsRange.FromByteArray(bytes, offset + 56)
+                Range = HidpButtonCapsRange.FromBytes(bytes, offset + 56, out nextOffset)
             };
+
+            nextByteOffset = nextOffset;
 
             return hbc;
         }

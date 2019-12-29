@@ -51,7 +51,7 @@ namespace WinApi.Hid
         /// </summary>
         internal ushort Reserved4;
 
-        public static HidpValueValueCapsNotRange FromByteArray(byte[] bytes, int offset)
+        public static HidpValueValueCapsNotRange FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             var hvvcp = new HidpValueValueCapsNotRange()
             {
@@ -64,6 +64,8 @@ namespace WinApi.Hid
                 DataIndex = (ushort)(((ushort)bytes[offset + 13] << 8) | (ushort)(bytes[offset + 12])),
                 Reserved4 = (ushort)(((ushort)bytes[offset + 15] << 8) | (ushort)(bytes[offset + 14])),
             };
+
+            nextByteOffset = offset + 15 + 1;
 
             return hvvcp;
         }

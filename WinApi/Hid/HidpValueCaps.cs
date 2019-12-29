@@ -209,8 +209,10 @@ namespace WinApi.Hid
             return Utility.UsagePageAndUsageToString(UsagePage, NotRange.Usage);
         }
 
-        public static HidpValueCaps FromByteArray(byte[] bytes, int offset)
+        public static HidpValueCaps FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
+            int nextOffset;
+
             var hbc = new HidpValueCaps()
             {
                 UsagePage = (ushort)(((ushort)bytes[offset + 1] << 8) | (ushort)(bytes[offset + 0])),
@@ -235,8 +237,10 @@ namespace WinApi.Hid
                 PhysicalMin = (int)(((int)bytes[offset + 51] << 24) | ((int)bytes[offset + 50] << 16) | ((int)bytes[offset + 49] << 8) | (int)(bytes[offset + 48])),
                 PhysicalMax = (int)(((int)bytes[offset + 55] << 24) | ((int)bytes[offset + 54] << 16) | ((int)bytes[offset + 53] << 8) | (int)(bytes[offset + 52])),
 
-                Range = HidpValueValueCapsRange.FromByteArray(bytes, offset + 56)
+                Range = HidpValueValueCapsRange.FromBytes(bytes, offset + 56, out nextOffset)
             };
+
+            nextByteOffset = nextOffset;
 
             return hbc;
         }

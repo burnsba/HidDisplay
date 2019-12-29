@@ -64,7 +64,7 @@ namespace WinApi.Hid
         /// </summary>
         public ushort DataIndexMax;
 
-        public static HidpValueValueCapsRange FromByteArray(byte[] bytes, int offset)
+        public static HidpValueValueCapsRange FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             var hvvcp = new HidpValueValueCapsRange()
             {
@@ -77,6 +77,8 @@ namespace WinApi.Hid
                 DataIndexMin = (ushort)(((ushort)bytes[offset + 13] << 8) | (ushort)(bytes[offset + 12])),
                 DataIndexMax = (ushort)(((ushort)bytes[offset + 15] << 8) | (ushort)(bytes[offset + 14])),
             };
+
+            nextByteOffset = offset + 15 + 1;
 
             return hvvcp;
         }

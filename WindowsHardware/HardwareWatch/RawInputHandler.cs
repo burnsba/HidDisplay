@@ -42,12 +42,18 @@ namespace WindowsHardware.HardwareWatch
             }
         }
 
+        public RawInput WndProcToRawInput(IntPtr lParam)
+        {
+            var ri = WinApi.User32.Managed.GetRawInputData(lParam);
+            return ri;
+        }
+
         /// <summary>
-        /// Evaluates WndProc message lParam and extracts raw input HID data.
+        /// Extracts HID information from RawInput message.
         /// </summary>
-        /// <param name="lParam">WndProc lParam.</param>
+        /// <param name="ri">RawInput.</param>
         /// <returns>Associated device information and current button/range status are returned.</returns>
-        public HidResult WindowsMessageExtract(IntPtr lParam)
+        public HidResult RawInputHidDetail(RawInput ri)
         {
             IntPtr preparsedData = IntPtr.Zero;
             var preparsedDataAllocated = false;
@@ -55,8 +61,6 @@ namespace WindowsHardware.HardwareWatch
 
             try
             {
-                var ri = WinApi.User32.Managed.GetRawInputData(lParam);
-
                 preparsedData = GetPreparsedData(ri);
                 preparsedDataAllocated = true;
 
@@ -68,12 +72,7 @@ namespace WindowsHardware.HardwareWatch
                     _devices.Add(ri.Header.hDevice, hidDevice);
                 }
 
-                // Ensure the following information is loaded
-                hidDevice.GetCapabilities(preparsedData);
-                hidDevice.GetButtonCapabilities(preparsedData);
-                hidDevice.GetValueCapabilities(preparsedData);
-
-                // Now load up hardware description stuff
+                // Load up hardware description stuff
                 hidDevice.GetDeviceNameFull();
                 hidDevice.GetManufacturer();
                 hidDevice.GetPhysicalDescriptor();
@@ -83,36 +82,44 @@ namespace WindowsHardware.HardwareWatch
 
                 result.HidDeviceInfo = hidDevice;
 
-                var availableReports = GetAllReports(hidDevice, ri);
-
-                // Get button status.
-                if (hidDevice.HidpCapabilities.NumberInputButtonCaps > 0)
+                if (ri.Header.dwType == RawInputDeviceType.Hid)
                 {
-                    // It's not exactly clear to me, but I think you only need to do this once, just
-                    // on the first buttonCaps collection.
-                    //
-                    // It might be the case that you're supposed to check for usages or multiple reports
-                    // but only one report is used in practice? Not really sure.
-                    //
-                    // https://www.codeproject.com/Articles/185522/Using-the-Raw-Input-API-to-Process-Joystick-Input
+                    // Ensure the following information is loaded
+                    hidDevice.GetCapabilities(preparsedData);
+                    hidDevice.GetButtonCapabilities(preparsedData);
+                    hidDevice.GetValueCapabilities(preparsedData);
 
-                    var buttonStatus = GetButtonUsageList(hidDevice, preparsedData, availableReports);
+                    var availableReports = GetAllReports(hidDevice, ri);
 
-                    result.ButtonIndexActive = buttonStatus.Item2;
-                    
-                    var numberOfButtons = (hidDevice.ButtonCaps[0].Range.UsageMax - hidDevice.ButtonCaps[0].Range.UsageMin + 1);
-                    var bButtonStates = new byte[numberOfButtons];
+                    // Get button status.
+                    if (hidDevice.HidpCapabilities.NumberInputButtonCaps > 0)
+                    {
+                        // It's not exactly clear to me, but I think you only need to do this once, just
+                        // on the first buttonCaps collection.
+                        //
+                        // It might be the case that you're supposed to check for usages or multiple reports
+                        // but only one report is used in practice? Not really sure.
+                        //
+                        // https://www.codeproject.com/Articles/185522/Using-the-Raw-Input-API-to-Process-Joystick-Input
 
-                    for (int i = 0; i < buttonStatus.Item1; i++)
-                        bButtonStates[result.ButtonIndexActive[i] - hidDevice.ButtonCaps[0].Range.UsageMin] = 1;
+                        var buttonStatus = GetButtonUsageList(hidDevice, preparsedData, availableReports);
 
-                    result.ButtonStates = bButtonStates.Select(x => x > 0 ? true : false).ToArray(); 
-                }
+                        result.ButtonIndexActive = buttonStatus.Item2;
 
-                // Now get other value status.
-                if (hidDevice.HidpCapabilities.NumberInputValueCaps > 0)
-                {
-                    result.UsageValues = GetUsageValues(hidDevice, preparsedData, availableReports); 
+                        var numberOfButtons = (hidDevice.ButtonCaps[0].Range.UsageMax - hidDevice.ButtonCaps[0].Range.UsageMin + 1);
+                        var bButtonStates = new byte[numberOfButtons];
+
+                        for (int i = 0; i < buttonStatus.Item1; i++)
+                            bButtonStates[result.ButtonIndexActive[i] - hidDevice.ButtonCaps[0].Range.UsageMin] = 1;
+
+                        result.ButtonStates = bButtonStates.Select(x => x > 0 ? true : false).ToArray();
+                    }
+
+                    // Now get other value status.
+                    if (hidDevice.HidpCapabilities.NumberInputValueCaps > 0)
+                    {
+                        result.UsageValues = GetUsageValues(hidDevice, preparsedData, availableReports);
+                    }
                 }
 
                 return result;
@@ -155,7 +162,7 @@ namespace WindowsHardware.HardwareWatch
                 throw new Win32ErrorCode($"GetLastWin32Error: {win32error}") { ErrorCode = win32error };
             }
 
-            if (callResult <= 0)
+            if (callResult < 0)
             {
                 throw new BadResultException($"GetRawInputDeviceInfo (RIDI_PREPARSEDDATA), pData allocated") { CallResult = callResult };
             }

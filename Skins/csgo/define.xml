@@ -104,7 +104,7 @@
 			<hwSettings id="66" stateMatch="Active"/>
 		</item>
 	</inputHandler>
-	<inputHandler handlerType="WindowsMousePlugin" handlerAssembly="HidDisplay.DefaultPlugins" description="mouse">
+	<inputHandler handlerType="WindowsMouseRawInputPlugin" handlerAssembly="HidDisplay.DefaultPlugins" description="mouse">
 		<item uiType="toggleButton" hwType="Button2" name="Mouse_Left">
 			<uiSettings image="one.png" overrideWidth="" overrideHeight="" xOffset="72" yOffset="0" />
 			<hwSettings id="1" stateMatch="Active"/>
@@ -113,13 +113,13 @@
 			<uiSettings image="two.png" overrideWidth="" overrideHeight="" xOffset="86" yOffset="0" />
 			<hwSettings id="2" stateMatch="Active"/>
 		</item>
-        <!--
+        
 		<item uiType="radialVector" hwType="IRangeableInput2" name="mouse_move">
 			<uiSettings image="arrow.png" xOffset="122" yOffset="20" radialFactor="1"
 				useScale="true" scaleMin="0.5" scaleNorm="3" scaleMax="25.0" 
 				useSlide="false" slideFactor="5" slideMax="50"/>
 			<hwSettings id="1" inputCeiling="10" invert1="false" invert2="true"/>
 		</item>
-        -->
+       
 	</inputHandler>
 </skin>

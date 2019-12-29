@@ -1,0 +1,12 @@
+{
+  "settings": [
+    {
+      "key": "Mouse.MoveUpdateIntervalMs",
+      "display": "How often to render mouse movement (ms)",
+      "input": "textbox",
+      "datasource": null,
+      "assembly": null,
+      "currentValue": "50"
+    }
+  ]
+}

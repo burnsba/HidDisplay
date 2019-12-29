@@ -1,9 +1,9 @@
 This program shows button or key presses on screen while a user interacts with a device. Supported hardware:
 
-- Mouse (via [SetWindowsHookEx](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexa), WH_MOUSE_LL)
+- Mouse (via [SetWindowsHookEx](https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowshookexa), WH_MOUSE_LL; and RawInput)
 - Keyboard (via SetWindowsHookEx, WH_KEYBOARD_LL)
 - Serial port input
-- RawInput (HID "Gamepad" and "Joystick" only; not supported: mouse, keyboard)
+- RawInput HID ("Gamepad" and "Joystick" only; not supported: RawInput keyboard)
 
 The serial port and RawInput HID are used to display keypresses and interaction from the following devices:
 

@@ -47,7 +47,7 @@ namespace WinApi.User32
             return string.Format("RawInputHeader\n dwType : {0}\n dwSize : {1}\n hDevice : {2}\n wParam : {3}", dwType, dwSize, hDevice, wParam);
         }
 
-        public static RawInputHeader FromBytes(byte[] bytes, int offset)
+        public static RawInputHeader FromBytes(byte[] bytes, int offset, out int nextByteOffset)
         {
             var ptrsize = IntPtr.Size;
 
@@ -58,6 +58,8 @@ namespace WinApi.User32
                 hDevice = Utility.MakePointer(bytes, 8),
                 wParam = Utility.MakePointer(bytes, 8 + IntPtr.Size),
             };
+
+            nextByteOffset = offset + 7 + IntPtr.Size + IntPtr.Size + 1;
 
             return rih;
         }
