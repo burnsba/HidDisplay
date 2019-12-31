@@ -9,6 +9,6 @@ namespace HidDisplay.SkinModel.HotConfig.DataSource
     /// </summary>
     public interface IConfigDataProvider
     {
-        Dictionary<string, string> FetchData();
+        
     }
 }

@@ -10,7 +10,7 @@ namespace HidDisplay.SkinModel.Core.Display
     /// <summary>
     /// Should be displayed until state changes or hidden.
     /// </summary>
-    public class ToggleButton : IUiItem
+    public class ToggleButton : IUiImageItem
     {
         /// <inheritdoc />
         public ImageInfo Image { get; set; }

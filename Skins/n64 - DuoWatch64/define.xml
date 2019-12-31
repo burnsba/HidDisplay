@@ -9,7 +9,7 @@
 	<main>
 		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
 	</main>
-	<inputHandler handlerType="Plugins.DuoWatch64Plugin" handlerAssembly="HidDisplay.Controller" description="N64">
+	<inputHandler handlerType="Plugins.DuoWatch64Plugin" handlerAssembly="HidDisplay.XenoPlugins" description="N64">
 		<item uiType="toggleButton" hwType="Button2" name="P1_A">
 			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="106" />
 			<hwSettings id="132" stateMatch="Active"/>

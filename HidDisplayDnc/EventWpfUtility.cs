@@ -34,21 +34,21 @@ namespace HidDisplayDnc
         /// <summary>
         /// Creates new action to set item visibility to visible.
         /// </summary>
-        /// <param name="img">Item to set visibility.</param>
+        /// <param name="item">Item to set visibility.</param>
         /// <returns>New action.</returns>
-        public static Action MakeShowAction(Image img)
+        public static Action MakeShowAction(FrameworkElement item)
         {
-            return () => img.Visibility = Visibility.Visible;
+            return () => item.Visibility = Visibility.Visible;
         }
 
         /// <summary>
         /// Creates new action to set item visibility to hidden.
         /// </summary>
-        /// <param name="img">Item to set visibility.</param>
+        /// <param name="item">Item to set visibility.</param>
         /// <returns>New action.</returns>
-        public static Action MakeHideAction(Image img)
+        public static Action MakeHideAction(FrameworkElement item)
         {
-            return () => img.Visibility = Visibility.Hidden;
+            return () => item.Visibility = Visibility.Hidden;
         }
 
         /// <summary>

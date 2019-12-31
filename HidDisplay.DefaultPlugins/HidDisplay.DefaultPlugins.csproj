@@ -6,7 +6,7 @@
     <Company>Ben Burns</Company>
     <Product>HidDisplay</Product>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.1.1.4</FileVersion>
+    <FileVersion>1.1.5.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

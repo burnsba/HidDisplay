@@ -11,7 +11,7 @@ namespace HidDisplay.SkinModel.Core.Display
     /// Used for something like a 2d joystick around a central point.
     /// Should always be displayed until hidden. 
     /// </summary>
-    public class RadialVector : IUiItem
+    public class RadialVector : IUiImageItem
     {
         /// <inheritdoc />
         public ImageInfo Image { get; set; }

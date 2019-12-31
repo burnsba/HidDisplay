@@ -77,7 +77,7 @@ namespace HidDisplay.SkinModel.Core
         /// </summary>
         public void LoadConfigOptions()
         {
-            var jsonSettings = Settings.FromFile(Path.Combine(AbsoluteContainerPath, SkinModel.Constants.SkinSettingsFilename));
+            var jsonSettings = SettingsCollection.FromFile(Path.Combine(AbsoluteContainerPath, SkinModel.Constants.SkinSettingsFilename));
             
             if (!object.ReferenceEquals(null, jsonSettings))
             {

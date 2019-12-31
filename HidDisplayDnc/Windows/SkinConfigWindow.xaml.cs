@@ -33,5 +33,10 @@ namespace HidDisplayDnc.Windows
 
             DataContext = _vm;
         }
+
+        private void SkinConfigWindowx_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            _vm.Dispose();
+        }
     }
 }

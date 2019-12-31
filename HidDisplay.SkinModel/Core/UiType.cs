@@ -28,5 +28,10 @@ namespace HidDisplay.SkinModel.Core
         /// <see cref="HidDisplay.SkinModel.Core.Display.FlashButton" />.
         /// </summary>
         FlashButton = 3,
+
+        /// <summary>
+        /// <see cref="HidDisplay.SkinModel.Core.Display.SimpleToString" />.
+        /// </summary>
+        SimpleToString = 4,
     }
 }

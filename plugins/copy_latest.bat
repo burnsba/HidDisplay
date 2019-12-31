@@ -1,6 +1,6 @@
-xcopy /C /Y ..\HidDisplay.Controller\bin\Debug\netstandard2.0\HidDisplay.Controller.deps.json .
-xcopy /C /Y ..\HidDisplay.Controller\bin\Debug\netstandard2.0\HidDisplay.Controller.dll .
-xcopy /C /Y ..\HidDisplay.Controller\bin\Debug\netstandard2.0\HidDisplay.Controller.pdb .
+xcopy /C /Y ..\HidDisplay.XenoPlugins\bin\Debug\netstandard2.0\HidDisplay.XenoPlugins.deps.json .
+xcopy /C /Y ..\HidDisplay.XenoPlugins\bin\Debug\netstandard2.0\HidDisplay.XenoPlugins.dll .
+xcopy /C /Y ..\HidDisplay.XenoPlugins\bin\Debug\netstandard2.0\HidDisplay.XenoPlugins.pdb .
 xcopy /C /Y ..\HidDisplay.DefaultConfigDataProviders\bin\Debug\netstandard2.0\HidDisplay.DefaultConfigDataProviders.deps.json .
 xcopy /C /Y ..\HidDisplay.DefaultConfigDataProviders\bin\Debug\netstandard2.0\HidDisplay.DefaultConfigDataProviders.dll .
 xcopy /C /Y ..\HidDisplay.DefaultConfigDataProviders\bin\Debug\netstandard2.0\HidDisplay.DefaultConfigDataProviders.pdb .

@@ -279,10 +279,11 @@ namespace HidDisplayDnc.Windows
 
                 foreach (var descriptionItem in b2DescriptionItems)
                 {
-                    var wpfImage = ImageHelper($"DYN_{nameof(Button2)}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", descriptionItem.Ui.Image);
+                    // also adds FrameworkElement to DisplayGrid UI grid.
+                    FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
 
-                    Action fshow = EventWpfUtility.MakeShowAction(wpfImage);
-                    Action fhide = EventWpfUtility.MakeHideAction(wpfImage);
+                    Action fshow = EventWpfUtility.MakeShowAction(wpfObject);
+                    Action fhide = EventWpfUtility.MakeHideAction(wpfObject);
 
                     MethodCallExpression singleIdActionExpression = null;
 
@@ -315,7 +316,7 @@ namespace HidDisplayDnc.Windows
                                 {
                                     Dispatcher.Invoke(() =>
                                     {
-                                        wpfImage.Visibility = Visibility.Visible;
+                                        wpfObject.Visibility = Visibility.Visible;
                                         RefreshFlashTimer(
                                             typeof(Button2),
                                             arg.EventSourceId,
@@ -356,10 +357,11 @@ namespace HidDisplayDnc.Windows
 
                 foreach (var descriptionItem in b3DescriptionItems)
                 {
-                    var wpfImage = ImageHelper($"DYN_{nameof(Button3)}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", descriptionItem.Ui.Image);
+                    // also adds FrameworkElement to DisplayGrid UI grid.
+                    FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
 
-                    Action fshow = EventWpfUtility.MakeShowAction(wpfImage);
-                    Action fhide = EventWpfUtility.MakeHideAction(wpfImage);
+                    Action fshow = EventWpfUtility.MakeShowAction(wpfObject);
+                    Action fhide = EventWpfUtility.MakeHideAction(wpfObject);
 
                     MethodCallExpression singleIdActionExpression = null;
 
@@ -392,7 +394,7 @@ namespace HidDisplayDnc.Windows
                                 {
                                     Dispatcher.Invoke(() =>
                                     {
-                                        wpfImage.Visibility = Visibility.Visible;
+                                        wpfObject.Visibility = Visibility.Visible;
                                         RefreshFlashTimer(
                                             typeof(Button3),
                                             arg.EventSourceId,
@@ -428,7 +430,54 @@ namespace HidDisplayDnc.Windows
 
             if (rangeableDescriptionItems.Any())
             {
-                throw new NotSupportedException();
+                var r1IdMatchIfExpressions = new List<Expr>();
+                var r1 = Expr.Parameter(typeof(IRangeableInput), "r1");
+
+                foreach (var descriptionItem in rangeableDescriptionItems)
+                {
+                    // also adds FrameworkElement to DisplayGrid UI grid.
+                    FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
+
+                    Action fshow = EventWpfUtility.MakeShowAction(wpfObject);
+                    Action fhide = EventWpfUtility.MakeHideAction(wpfObject);
+
+                    MethodCallExpression singleIdActionExpression = null;
+
+                    if (descriptionItem.UiType == UiType.SimpleToString)
+                    {
+                        Action<IRangeableInput> action = arg =>
+                        {
+                            if (arg.Id == descriptionItem.Hw.Id)
+                            {
+                                Dispatcher.Invoke(() =>
+                                {
+                                    wpfObject.Visibility = Visibility.Visible;
+                                    ((TextBlock)wpfObject).Text = arg.Value.ToString();
+                                });
+                            }
+                        };
+
+                        singleIdActionExpression = Expr.Call(Expr.Constant(action.Target), action.Method, r1);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+
+                    r1IdMatchIfExpressions.Add(singleIdActionExpression);
+                }
+
+                var r1Block = Expr.Block(r1IdMatchIfExpressions);
+                var r1BlockMethod = Expr.Lambda<Action<IRangeableInput>>(r1Block, r1).Compile();
+
+                Action<GenericInputEventArgs> processRangeable1s = (e) => {
+                    foreach (var item in e.RangeableInputs)
+                    {
+                        r1BlockMethod(item);
+                    }
+                };
+
+                inputEventHandlerExpressions.Add(Expr.Call(Expr.Constant(processRangeable1s.Target), processRangeable1s.Method, e));
             }
 
             if (rangeable2DescriptionItems.Any())
@@ -438,18 +487,19 @@ namespace HidDisplayDnc.Windows
 
                 foreach (var descriptionItem in rangeable2DescriptionItems)
                 {
-                    var wpfImage = ImageHelper($"DYN_{nameof(IRangeableInput2)}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", descriptionItem.Ui.Image);
-
-                    wpfImage.RenderTransformOrigin = new Point(0.5, 0.5);
-
                     if (descriptionItem.UiType == UiType.RadialVector)
                     {
                         // supported!
                     }
                     else
                     {
-                        throw new NotSupportedException();
+                        throw new NotSupportedException($"Only {nameof(UiType.RadialVector)} is allowed for {nameof(IRangeableInput2)}");
                     }
+
+                    // also adds FrameworkElement to DisplayGrid UI grid.
+                    FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
+
+                    wpfObject.RenderTransformOrigin = new Point(0.5, 0.5);
 
                     Action<IRangeableInput2> action = arg => {
                         try
@@ -460,13 +510,13 @@ namespace HidDisplayDnc.Windows
                                 {
                                     if (arg.IsEmpty)
                                     {
-                                        wpfImage.Visibility = Visibility.Hidden;
+                                        wpfObject.Visibility = Visibility.Hidden;
                                     }
                                     else
                                     {
                                         var transform = EventWpfUtility.RadialVector2Transform(arg.Value1.ValueDouble, arg.Value2.ValueDouble, descriptionItem);
-                                        wpfImage.RenderTransform = transform;
-                                        wpfImage.Visibility = Visibility.Visible;
+                                        wpfObject.RenderTransform = transform;
+                                        wpfObject.Visibility = Visibility.Visible;
                                     }
                                 });
                             }
@@ -523,7 +573,7 @@ namespace HidDisplayDnc.Windows
         /// </summary>
         /// <param name="name">WPF control name.</param>
         /// <param name="image">Image info.</param>
-        private Image ImageHelper(string name, ImageInfo image)
+        private FrameworkElement ImageHelper(string name, ImageInfo image)
         {
             var wpfImage = new Image();
             wpfImage.Name = name;
@@ -547,6 +597,31 @@ namespace HidDisplayDnc.Windows
             DisplayGrid.Children.Add(wpfImage);
 
             return wpfImage;
+        }
+
+        private FrameworkElement TextHelper(string name, TextInfo textThing)
+        {
+            var wpfTextblock = new TextBlock();
+
+            wpfTextblock.Name = name;
+
+            wpfTextblock.FontFamily = new FontFamily(textThing.Font);
+            wpfTextblock.FontSize = textThing.FontSize;
+
+            wpfTextblock.Margin = new Thickness()
+            {
+                Left = textThing.XOffset,
+                Top = textThing.YOffset,
+                Right = 0,
+                Bottom = 0,
+            };
+            wpfTextblock.HorizontalAlignment = HorizontalAlignment.Left;
+            wpfTextblock.VerticalAlignment = VerticalAlignment.Top;
+            wpfTextblock.Visibility = Visibility.Hidden;
+
+            DisplayGrid.Children.Add(wpfTextblock);
+
+            return wpfTextblock;
         }
 
         /// <summary>
@@ -640,6 +715,26 @@ namespace HidDisplayDnc.Windows
                     throw new Win32ErrorCode("RegisterRawInputDevices failed with error code 0. Parameter count mis-match?");
                 }
             }
+        }
+
+        private FrameworkElement BuildFrameworkElement(InputHandlerItem descriptionItem)
+        {
+            FrameworkElement wpfObject;
+
+            if (HidDisplay.SkinModel.Core.UiHelper.IsImage(descriptionItem.Ui))
+            {
+                wpfObject = ImageHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiImageItem)descriptionItem.Ui).Image);
+            }
+            else if (HidDisplay.SkinModel.Core.UiHelper.IsText(descriptionItem.Ui))
+            {
+                wpfObject = TextHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiTextItem)descriptionItem.Ui).TextInfo);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            return wpfObject;
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)

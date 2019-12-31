@@ -169,6 +169,10 @@ namespace HidDisplay.SkinModel
             {
                 return RadialVector.FromXElement(itemNode, parent);
             }
+            else if (uiType == UiType.SimpleToString)
+            {
+                return SimpleToString.FromXElement(itemNode, parent);
+            }
             else
             {
                 throw new UiNotSupported($"Could not load type {uiType.ToString()} (line: {Parsers.GetNodeLine(itemNode)})");
@@ -290,7 +294,8 @@ namespace HidDisplay.SkinModel
                 return;
             }
 
-            var directory = PluginsDirectory;
+            // Need an absolute path to iterate over the sub directories
+            var directory = Path.GetFullPath(PluginsDirectory);
 
             if (string.IsNullOrEmpty(directory))
             {

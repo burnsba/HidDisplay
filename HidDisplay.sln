@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidDisplay.DefaultPlugins",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidDisplay.DefaultConfigDataProviders", "HidDisplay.DefaultConfigDataProviders\HidDisplay.DefaultConfigDataProviders.csproj", "{0B518D2E-BC05-4506-BFA5-C002A0F37C84}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidDisplay.Controller", "HidDisplay.Controller\HidDisplay.Controller.csproj", "{0396375E-C08F-481B-BC46-A096D533009E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidDisplay.XenoPlugins", "HidDisplay.XenoPlugins\HidDisplay.XenoPlugins.csproj", "{0396375E-C08F-481B-BC46-A096D533009E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinApi", "WinApi\WinApi.csproj", "{38FFA068-617B-4C1B-ACB8-252993EB1116}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HidDisplay.PluginDefinition", "HidDisplay.PluginDefinition\HidDisplay.PluginDefinition.csproj", "{4554E45B-2884-4931-B073-DF82D8CF507B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventFinderHid", "EventFinderHid\EventFinderHid.csproj", "{160F183C-25D6-4E39-BBE1-6AB038474C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventFinderHid", "EventFinderHid\EventFinderHid.csproj", "{160F183C-25D6-4E39-BBE1-6AB038474C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

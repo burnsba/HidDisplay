@@ -5,18 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HidDisplayDnc"
         xmlns:dts="clr-namespace:HidDisplayDnc.DataTemplateSelectors"
+        xmlns:c="clr-namespace:HidDisplayDnc.Converters"
         mc:Ignorable="d"
         Name="SkinConfigWindowx"
-        Title="Config" Height="450" Width="800">
+        Title="Config" Height="450" Width="800" Closing="SkinConfigWindowx_Closing">
 
     <Window.Resources>
-        <dts:SkinConfigItemsSelector x:Key="scis"></dts:SkinConfigItemsSelector>
+        <dts:SkinConfigSettingTemplateSelector x:Key="scis"></dts:SkinConfigSettingTemplateSelector>
+        <c:InverseBooleanConverter x:Key="InverseBooleanConverter"></c:InverseBooleanConverter>
+        <c:BoolToVisbilityConverter x:Key="btcc"></c:BoolToVisbilityConverter>
         
         <DataTemplate x:Key="ConfigTextboxDataTemplate">
             <Grid Margin="0,10,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="300" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="{Binding Path=Display}" TextWrapping="Wrap"/>
@@ -28,16 +31,19 @@
             <Grid Margin="0,10,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Column="0" Text="{Binding Path=Display}" TextWrapping="Wrap"/>
+                <TextBlock Grid.Column="1" Text="Scanning ..." TextWrapping="Wrap" Visibility="{Binding Path=ShowScanningInfo, Converter={StaticResource btcc}}"/>
 
                 <ComboBox 
-                    Grid.Column="1"
-                    ItemsSource="{Binding Path=Items}"
+                    Grid.Column="2"
+                    ItemsSource="{Binding Path=Items, IsAsync=True}"
                     SelectedItem="{Binding Path=SelectedItem}"
                     DisplayMemberPath="Text"
+                    IsEnabled="{Binding Path=ShowScanningInfo, Converter={StaticResource InverseBooleanConverter}}"
                     ></ComboBox>
             </Grid>
         </DataTemplate>

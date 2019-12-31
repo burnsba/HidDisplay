@@ -11,7 +11,7 @@ namespace HidDisplay.SkinModel.Core
     /// <summary>
     /// Describes image information.
     /// </summary>
-    public class ImageInfo : IDisposable
+    public class ImageInfo : IPositionable, IDisposable
     {
         /// <summary>
         /// Gets or sets absolute path to image file.

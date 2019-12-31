@@ -1,0 +1,12 @@
+{
+  "settings": [
+    {
+      "key": "BluetoothHeartRate.DeviceAddress",
+      "display": "Bluetooth device",
+      "input": "dropdown",
+      "datasource": "BluetoothAddressProvider",
+      "assembly": "HidDisplay.DefaultConfigDataProviders",
+      "currentValue": "251300765383294"
+    }
+  ]
+}

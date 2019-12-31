@@ -10,7 +10,7 @@ namespace HidDisplay.SkinModel.Core.Display
     /// <summary>
     /// Should be displayed for a brief period of time and then disappear.
     /// </summary>
-    public class FlashButton : IUiItem
+    public class FlashButton : IUiImageItem
     {
         /// <inheritdoc />
         public ImageInfo Image { get; set; }

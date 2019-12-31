@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin format="v1">
+	<info>
+		<displayName>Bluetooth LE - heartrate</displayName>
+		<author>Ben Burns</author>
+        <version>1.0</version>
+        <versionDate>2019-12-29</versionDate>
+	</info>
+	<main>
+		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
+	</main>
+	<inputHandler handlerType="Plugins.BluetoothLowEnergyHeartratePlugin" handlerAssembly="HidDisplay.XenoPlugins" description="heartratePlugin">
+        <item uiType="SimpleToString" hwType="IRangeableInput" name="heartrate">
+			<uiSettings xOffset="25" yOffset="25" fontSize="24" font="Courier New"/>
+			<hwSettings id="1" inputCeiling="240" invert1="false"/>
+		</item>
+    </inputHandler>
+</skin>

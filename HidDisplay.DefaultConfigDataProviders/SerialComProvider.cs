@@ -12,7 +12,7 @@ namespace HidDisplay.DefaultConfigDataProviders
     /// <summary>
     /// Lists available serial ports.
     /// </summary>
-    public class SerialComProvider : IConfigDataProvider
+    public class SerialComProvider : IConfigDataProviderOnce
     {
         /// <inheritdoc />
         public Dictionary<string, string> FetchData()

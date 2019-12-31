@@ -5,15 +5,27 @@
     <Authors>Ben Burns</Authors>
     <Product>HidDisplay</Product>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.1.1.4</FileVersion>
+    <FileVersion>1.1.5.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+    <PackageReference Include="System.Runtime.InteropServices.WindowsRuntime" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
+    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Runtime.WindowsRuntime">
+      <HintPath>..\lib\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\lib\Windows.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
   </ItemGroup>
 
 </Project>

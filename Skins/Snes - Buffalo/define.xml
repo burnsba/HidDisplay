@@ -9,7 +9,7 @@
 	<main>
 		<background image="background.png" overrideWidth="" overrideHeight="" xOffset="" yOffset=""></background>
 	</main>
-	<inputHandler handlerType="Plugins.BuffaloSnesPlugin" handlerAssembly="HidDisplay.Controller" description="N64">
+	<inputHandler handlerType="Plugins.BuffaloSnesPlugin" handlerAssembly="HidDisplay.XenoPlugins" description="N64">
 		<item uiType="toggleButton" hwType="Button2" name="P1_A">
 			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="349" yOffset="84" />
 			<hwSettings id="109" stateMatch="Active"/>

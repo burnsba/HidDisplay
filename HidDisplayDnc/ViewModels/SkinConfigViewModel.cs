@@ -13,14 +13,14 @@ namespace HidDisplayDnc.ViewModels
     /// <summary>
     /// View model for skin config window.
     /// </summary>
-    public class SkinConfigViewModel : WindowViewModelBase
+    public class SkinConfigViewModel : WindowViewModelBase, IDisposable
     {
-        private Settings _settingSource = null;
+        private SettingsCollection _settingSource = null;
 
         /// <summary>
         /// Gets or sets list of settings items.
         /// </summary>
-        public List<ISkinConfigItem> SettingItems { get; set; }
+        public List<IConfigSetting> SettingItems { get; set; }
 
         /// <summary>
         /// Gets or sets skin currently being configured.
@@ -44,7 +44,7 @@ namespace HidDisplayDnc.ViewModels
         public SkinConfigViewModel(AvailableSkinViewModel askv)
         {
             DisplayName = askv.DisplayName;
-            _settingSource = Settings.FromFile(System.IO.Path.Combine(askv.SkinDirectoryPath, HidDisplay.SkinModel.Constants.SkinSettingsFilename));
+            _settingSource = SettingsCollection.FromFile(System.IO.Path.Combine(askv.SkinDirectoryPath, HidDisplay.SkinModel.Constants.SkinSettingsFilename));
 
             if (!object.ReferenceEquals(null, _settingSource))
             {
@@ -54,7 +54,7 @@ namespace HidDisplayDnc.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    SettingItems = new List<ISkinConfigItem>();
+                    SettingItems = new List<IConfigSetting>();
 
                     Workspace.RecreateSingletonWindow<ErrorWindow>(new ErrorWindowViewModel(ex)
                     {
@@ -95,22 +95,31 @@ namespace HidDisplayDnc.ViewModels
             _settingSource.SaveChanges();
         }
 
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            foreach (var item in SettingItems)
+            {
+                item.Dispose();
+            }
+        }
+
         /// <summary>
         /// Converts a json setting item to better typed object.
         /// </summary>
         /// <param name="item">Item to convert.</param>
         /// <returns>Config item.</returns>
-        private ISkinConfigItem SettingsItemConverter(SettingsItem item)
+        private IConfigSetting SettingsItemConverter(Setting item)
         {
             InputTypes type = InputTypesConverter.StringToInputTypes(item.Input);
 
             if (type == InputTypes.Textbox)
             {
-                return new SkinConfigItemTextboxViewModel(item);
+                return new SkinConfigSettingTextboxViewModel(item);
             }
             else if (type == InputTypes.Dropdown)
             {
-                return new SkinConfigItemDropdownViewModel(item);
+                return new SkinConfigSettingDropdownViewModel(item);
             }
             else
             {
