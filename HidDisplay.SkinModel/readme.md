@@ -70,6 +70,7 @@ Attributes:
 `uiType` can be:
 - `toggleButton` (case insensitive): Image is shown when button is pressed, otherwise hidden.
 - `flashButton` (case insensitive): Image is shown for a brief period of time on input.
+- `simpleToString` (case insensitive): Calls `.ToString()` on the received value and updates an associated `System.Windows.Controls.Textblock`.
 - `radialVector` (case insensitive): Image is centered at a location, the orientation is rotated or translated about the central point. This is used for showing mouse or joystick position.
 
 Note the type names are parsed as an enum ignoring case, so the xml doesn't need to match case either.
@@ -77,6 +78,8 @@ Note the type names are parsed as an enum ignoring case, so the xml doesn't need
 ### inputHandler.item.uiSettings
 
 Each `inputHandler.item` has settings to explain what the `uiType` should look like. Specific attributes depend on the `uiType`.
+
+Regardless of type, most `uiSettings` attributes should be optional, and should fallback to sane values if not supplied.
 
 ### inputHandler.item.uiSettings.toggleButton
 
@@ -90,6 +93,17 @@ Each `inputHandler.item` has settings to explain what the `uiType` should look l
 
 - Same attributes as `toggleButton`
 - `duration`: number of milliseconds image should be shown on input
+
+### inputHandler.item.uiSettings.simpleToString
+
+- `xOffset` (int): x offset (from left) where this image is placed
+- `yOffset` (int): y offset (from top) where this image is placed
+- `fontSize` (int): render font size
+- `font` (string): font used to display text
+- `isBold` (bool): whether to apply bold text decoration
+- `isItalic` (bool): whether to apply italic text decoration
+- `isUnderline` (bool): whether to apply underline text decoration
+- `toStringFormatParameters` (string): parameters or format to pass to `.ToString()`.
 
 ### inputHandler.item.uiSettings.radialVector
 
@@ -144,7 +158,10 @@ Attributes:
 
 ### inputHandler.item.hwSettings.IRangeableInput
 
-Not implemented. For one dimensional ranges, like temperature or heartrate.
+For one dimensional ranges, like temperature or heartrate.
+
+Attributes:
+- `id`: id to match.
 
 ### inputHandler.item.hwSettings.IRangeableInput2
 

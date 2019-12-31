@@ -43,6 +43,8 @@ namespace HidDisplayDnc.Windows
         private List<IPassiveTranslate<HidResult>> _passiveHidPlugins = new List<IPassiveTranslate<HidResult>>();
         private List<IPassiveTranslate<RawMouse>> _passiveRawMousePlugins = new List<IPassiveTranslate<RawMouse>>();
 
+        private Dictionary<Type, System.Reflection.MethodInfo> _simpleToStringMethodCache = new Dictionary<Type, System.Reflection.MethodInfo>();
+
         private bool AnyWndProcListeners()
         {
             return _passiveHidPlugins.Any() || _passiveRawMousePlugins.Any();
@@ -451,8 +453,27 @@ namespace HidDisplayDnc.Windows
                             {
                                 Dispatcher.Invoke(() =>
                                 {
+                                    var textItem = (IUiTextItem)descriptionItem.Ui;
+                                    var toStringParams = textItem.TextInfo.ToStringFormatParameters;
+
                                     wpfObject.Visibility = Visibility.Visible;
-                                    ((TextBlock)wpfObject).Text = arg.Value.ToString();
+
+                                    if (!string.IsNullOrEmpty(toStringParams))
+                                    {
+                                        System.Reflection.MethodInfo toStringMethod;
+                                        
+                                        if (!_simpleToStringMethodCache.TryGetValue(arg.RangeInfo.BaseType, out toStringMethod))
+                                        {
+                                            toStringMethod = arg.RangeInfo.BaseType.GetMethod(nameof(object.ToString), new Type[] { typeof(string) });
+                                            _simpleToStringMethodCache.Add(arg.RangeInfo.BaseType, toStringMethod);
+                                        }
+
+                                        ((TextBlock)wpfObject).Text = (string)toStringMethod.Invoke(arg.Value, new object[] { toStringParams });
+                                    }
+                                    else
+                                    {
+                                        ((TextBlock)wpfObject).Text = arg.Value.ToString();
+                                    }
                                 });
                             }
                         };
@@ -676,6 +697,8 @@ namespace HidDisplayDnc.Windows
 
             _passiveHidPlugins.Clear();
             _passiveRawMousePlugins.Clear();
+
+            _simpleToStringMethodCache.Clear();
         }
 
         protected override void OnSourceInitialized(EventArgs e)
