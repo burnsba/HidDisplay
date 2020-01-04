@@ -45,8 +45,6 @@ The top level directory structure:
 - img
 - plugins
 - Skins
-- WinApi
-- WindowsHardware
 
 Contents of each directory:
 
@@ -88,9 +86,3 @@ Default plugin directory (when running from the default build folder).
 
 ### Skins
 Default skin directory (when running from the default build folder). Contains some sample skins.
-
-### WinApi
-CSharp project, library. Extern definitions and managed wrappers for PInvoke system calls. Covers user32, kernel32, setupapi, and hid (dlls).
-
-### WindowsHardware
-CSharp project, library. Builds on top of WinApi to capture mouse and keyboard events. Contains helper wrapper for interacting with the serial port by polling. This is supposed to be somewhat generic, to be reused in other projects without HidDisplay specifics.
