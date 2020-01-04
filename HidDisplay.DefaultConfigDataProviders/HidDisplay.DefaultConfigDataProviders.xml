@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HidDisplay.DefaultConfigDataProviders</name>
+    </assembly>
+    <members>
+        <member name="T:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider">
+            <summary>
+            Scans for connected bluetooth devices.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider"/> class.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.DataItems">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.Start">
+            <summary>
+            Starts scanning for bluetooth devices.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.Stop">
+            <summary>
+            Stops scanning for bluetooth devices.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.BluetoothAddressProvider.OnAdvertisementReceived(Windows.Devices.Bluetooth.Advertisement.BluetoothLEAdvertisementWatcher,Windows.Devices.Bluetooth.Advertisement.BluetoothLEAdvertisementReceivedEventArgs)">
+            <summary>
+            Event handler when a new advertisement is received.
+            </summary>
+            <param name="watcher">Watcher.</param>
+            <param name="eventArgs">Args.</param>
+        </member>
+        <member name="T:HidDisplay.DefaultConfigDataProviders.SerialComProvider">
+            <summary>
+            Lists available serial ports.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.SerialComProvider.FetchData">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultConfigDataProviders.SerialComProvider.GetPortNames">
+            <summary>
+            Gets list of serial com ports.
+            </summary>
+            <returns>List of serial com ports.</returns>
+            <remarks>
+            Had assembly loading problems just trying to call SerialPort.GetPortNames, so copied implementation here.
+            https://github.com/dotnet/runtime/blob/master/src/libraries/System.IO.Ports/src/System/IO/Ports/SerialPort.Win32.cs .
+            </remarks>
+        </member>
+    </members>
+</doc>

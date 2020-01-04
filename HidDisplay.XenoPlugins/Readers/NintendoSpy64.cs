@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using HidDisplay.Controller.ControllerState;
-using HidDisplay.Controller.ControllerState.Nintendo64;
-using HidDisplay.Controller.Readers;
-using HidDisplay.PluginDefinition;
 using BurnsBac.WindowsHardware.SerialPort;
+using HidDisplay.Controller.ControllerState.Nintendo64;
 
 namespace HidDisplay.Controller.Readers
 {
@@ -13,8 +9,9 @@ namespace HidDisplay.Controller.Readers
     /// Listens to serial port for NintendoSpy protocol messages and forwards state change events.
     /// </summary>
     /// <remarks>
-    /// https://github.com/jaburns/NintendoSpy
+    /// https://github.com/jaburns/NintendoSpy .
     /// </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1629:", Justification = "Documentation text ends in period.")]
     public class NintendoSpy64 : SerialTranslatorBase
     {
         private List<byte> _readBuffer = new List<byte>();
@@ -65,9 +62,16 @@ namespace HidDisplay.Controller.Readers
             {
                 // Try and find 2 splitting characters in our buffer.
                 endPacketIndex = _readBuffer.LastIndexOf(0x0A);
-                if (endPacketIndex <= 1) return;
+                if (endPacketIndex <= 1)
+                {
+                    return;
+                }
+
                 startPacketIndex = _readBuffer.LastIndexOf(0x0A, endPacketIndex - 1);
-                if (startPacketIndex == -1) return;
+                if (startPacketIndex == -1)
+                {
+                    return;
+                }
 
                 // Grab the latest packet out of the buffer and fire it off to the receive event listeners.
                 var dataLen = endPacketIndex - startPacketIndex;
@@ -83,6 +87,7 @@ namespace HidDisplay.Controller.Readers
                 {
                     // someone modified the list between the above statements.
                     // probably safe to ignore.
+                    ///////
 
                     return;
                 }
@@ -106,9 +111,8 @@ namespace HidDisplay.Controller.Readers
                 c_left = dataBytes[15] > 0;
                 c_right = dataBytes[16] > 0;
 
-                analogx = (short)(Utility.MakeSignedReverseByte(dataBytes, 17));
-                analogy = (short)(Utility.MakeSignedReverseByte(dataBytes, 25));
-
+                analogx = (short)Utility.MakeSignedReverseByte(dataBytes, 17);
+                analogy = (short)Utility.MakeSignedReverseByte(dataBytes, 25);
 
                 Nintendo64ControllerStateChange(this, new Nintendo64ControllerState()
                 {
@@ -130,7 +134,8 @@ namespace HidDisplay.Controller.Readers
                     AnalogX = analogx,
                     AnalogY = analogy,
                 });
-            } while (true);
+            }
+            while (true);
         }
     }
 }

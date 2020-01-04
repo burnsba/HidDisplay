@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using HidDisplay.Controller.ControllerState;
-using HidDisplay.Controller.ControllerState.Nintendo64;
 using BurnsBac.WindowsHardware.SerialPort;
+using HidDisplay.Controller.ControllerState.Nintendo64;
 
 namespace HidDisplay.Controller.Readers
 {
@@ -167,7 +165,8 @@ namespace HidDisplay.Controller.Readers
                     AnalogX = analogx,
                     AnalogY = analogy,
                 });
-            } while (true);
+            }
+            while (true);
         }
     }
 }

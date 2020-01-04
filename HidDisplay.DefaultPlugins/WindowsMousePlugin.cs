@@ -21,17 +21,24 @@ namespace HidDisplay.DefaultPlugins
     /// </remarks>
     public class WindowsMousePlugin : PluginBase, IPlugin, IActiveMonitorPlugin
     {
+        private const string ConfigMoveUpdateIntervalMs = "Mouse.MoveUpdateIntervalMs";
+
         // via settings.json
         private const string ConfigWatchWindowTitleKey = "Mouse.WatchWindowTitle";
         private const string ConfigWindowTitleMatch = "Mouse.WindowTitleMatch";
-        private const string ConfigMoveUpdateIntervalMs = "Mouse.MoveUpdateIntervalMs";
-
-        private MouseWatcher _mouseWatcher;
         private bool _isSetup = false;
-        private string _windowTitle;
-        private WindowTitleMatch _titleMatch;
-        private Timer _mouseMoveSmoothTimer;
         private ConcurrentQueue<WindowsPoint> _mouseMoveAccumulator = new ConcurrentQueue<WindowsPoint>();
+        private Timer _mouseMoveSmoothTimer;
+        private MouseWatcher _mouseWatcher;
+        private WindowTitleMatch _titleMatch;
+        private string _windowTitle;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsMousePlugin"/> class.
+        /// </summary>
+        public WindowsMousePlugin()
+        {
+        }
 
         /// <summary>
         /// Gets or sets how long to accumulate move events before updating the ui.
@@ -134,10 +141,39 @@ namespace HidDisplay.DefaultPlugins
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsMousePlugin"/> class.
+        /// Translate button state from hardware watch to plugin event format.
         /// </summary>
-        public WindowsMousePlugin()
+        /// <param name="direction">Hardware button state.</param>
+        /// <returns>Plugin button state.</returns>
+        private Button2State FromMouseButton(ButtonChangeDirection direction)
         {
+            switch (direction)
+            {
+                case ButtonChangeDirection.Down:
+                    return Button2State.Active;
+                case ButtonChangeDirection.Up:
+                    return Button2State.Released;
+                default:
+                    return Button2State.Unknown;
+            }
+        }
+
+        /// <summary>
+        /// Translate scroll state from hardware watch to plugin event format.
+        /// </summary>
+        /// <param name="direction">Hardware scroll state.</param>
+        /// <returns>Plugin button state.</returns>
+        private Button3State FromMouseScroll(ScrollChangeDirection direction)
+        {
+            switch (direction)
+            {
+                case ScrollChangeDirection.Up:
+                    return Button3State.State2;
+                case ScrollChangeDirection.Down:
+                    return Button3State.State3;
+                default:
+                    return Button3State.StateDefault;
+            }
         }
 
         /// <summary>
@@ -200,6 +236,8 @@ namespace HidDisplay.DefaultPlugins
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="args">Args.</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "SpinWait")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1106:Code should not contain empty statements", Justification = "SpinWait")]
         private void MouseMoveSmootherElapsed(object sender, EventArgs args)
         {
             Int64 xtotal = 0;
@@ -249,42 +287,6 @@ namespace HidDisplay.DefaultPlugins
             });
 
             FireEventHandler(sender, genArgs);
-        }
-
-        /// <summary>
-        /// Translate button state from hardware watch to plugin event format.
-        /// </summary>
-        /// <param name="direction">Hardware button state.</param>
-        /// <returns>Plugin button state.</returns>
-        private Button2State FromMouseButton(ButtonChangeDirection direction)
-        {
-            switch (direction)
-            {
-                case ButtonChangeDirection.Down:
-                    return Button2State.Active;
-                case ButtonChangeDirection.Up:
-                    return Button2State.Released;
-                default:
-                    return Button2State.Unknown;
-            }
-        }
-
-        /// <summary>
-        /// Translate scroll state from hardware watch to plugin event format.
-        /// </summary>
-        /// <param name="direction">Hardware scroll state.</param>
-        /// <returns>Plugin button state.</returns>
-        private Button3State FromMouseScroll(ScrollChangeDirection direction)
-        {
-            switch (direction)
-            {
-                case ScrollChangeDirection.Up:
-                    return Button3State.State2;
-                case ScrollChangeDirection.Down:
-                    return Button3State.State3;
-                default:
-                    return Button3State.StateDefault;
-            }
         }
     }
 }

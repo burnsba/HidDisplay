@@ -15,15 +15,6 @@ namespace HidDisplay.SkinModel.Core.Display
         /// <inheritdoc />
         public ImageInfo Image { get; set; }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            if (!object.ReferenceEquals(null, Image))
-            {
-                Image.Dispose();
-            }
-        }
-
         /// <summary>
         /// Processes xelement and creates <see cref="ToggleButton"/>.
         /// </summary>
@@ -45,6 +36,15 @@ namespace HidDisplay.SkinModel.Core.Display
             }
 
             return tb;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (!object.ReferenceEquals(null, Image))
+            {
+                Image.Dispose();
+            }
         }
     }
 }

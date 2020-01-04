@@ -21,7 +21,8 @@ namespace HidDisplay.SkinModel.Error
         /// Initializes a new instance of the <see cref="GenericHardwareNotSupported"/> class.
         /// </summary>
         /// <param name="message">Exception message.</param>
-        public GenericHardwareNotSupported(string message) : base(message)
+        public GenericHardwareNotSupported(string message)
+            : base(message)
         {
         }
 
@@ -30,7 +31,8 @@ namespace HidDisplay.SkinModel.Error
         /// </summary>
         /// <param name="message">Exception message.</param>
         /// <param name="innerException">Inner exception.</param>
-        public GenericHardwareNotSupported(string message, Exception innerException) : base(message, innerException)
+        public GenericHardwareNotSupported(string message, Exception innerException)
+            : base(message, innerException)
         {
         }
 
@@ -39,7 +41,8 @@ namespace HidDisplay.SkinModel.Error
         /// </summary>
         /// <param name="info">SerializationInfo.</param>
         /// <param name="context">StreamingContext.</param>
-        protected GenericHardwareNotSupported(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected GenericHardwareNotSupported(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
         }
     }

@@ -7,6 +7,7 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
     /// <summary>
     /// Constants for Nintendo64 controller.
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1310:Field names should not contain underscore", Justification = "Button constants.")]
     public static class Nintendo64Constants
     {
         /// <summary>
@@ -14,7 +15,7 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
         /// </summary>
         /// <remarks>
         /// Source protocol bit: 0.
-        /// 
+        ///
         /// I don't want to assign this id 0, so I'm using
         /// the first non-bit in the console communication protocol.
         /// Id: 32.
@@ -137,7 +138,5 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
         /// Id: 15.
         /// </remarks>
         public const int Button_D_Right_Id = 15;
-
-
     }
 }

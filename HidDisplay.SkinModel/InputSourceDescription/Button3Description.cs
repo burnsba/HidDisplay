@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using HidDisplay.PluginDefinition;
 using BurnsBac.HotConfig.Error;
+using HidDisplay.PluginDefinition;
 
 namespace HidDisplay.SkinModel.InputSourceDescription
 {
@@ -20,21 +18,14 @@ namespace HidDisplay.SkinModel.InputSourceDescription
         public string Name { get; set; }
 
         /// <summary>
-        /// Button state to match.
+        /// Gets or sets button state to match.
         /// </summary>
         public Button3State StateMatch { get; set; }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{Name}: {StateMatch}";
-        }
 
         /// <summary>
         /// Processes xelement and creates <see cref="Button3Description"/>.
         /// </summary>
         /// <param name="node">Node to process.</param>
-        /// <param name="containingDirectory">Parent directory containing images.</param>
         /// <returns>New <see cref="Button3Description"/>.</returns>
         public static Button3Description FromXElement(XElement node)
         {
@@ -69,6 +60,12 @@ namespace HidDisplay.SkinModel.InputSourceDescription
             }
 
             return inputSource;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{Name}: {StateMatch}";
         }
     }
 }

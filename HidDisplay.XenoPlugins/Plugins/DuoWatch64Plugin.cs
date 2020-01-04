@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using HidDisplay.Controller.ControllerState;
+using BurnsBac.WindowsHardware.SerialPort;
 using HidDisplay.Controller.ControllerState.Nintendo64;
 using HidDisplay.Controller.Readers;
 using HidDisplay.PluginDefinition;
-using BurnsBac.WindowsHardware.SerialPort;
 
 namespace HidDisplay.Controller.Plugins
 {
@@ -14,18 +12,23 @@ namespace HidDisplay.Controller.Plugins
     /// </summary>
     public class DuoWatch64Plugin : PluginBase, IPlugin, IActiveMonitorPlugin
     {
-        private const string ConfigComPort = "DuoWatch64.ComPort";
         private const string ConfigBaud = "DuoWatch64.Baudrate";
+        private const string ConfigComPort = "DuoWatch64.ComPort";
         private const string ConfigPollInterval = "DuoWatch64.PollIntervalMs";
 
-        private bool _isSetup = false;
-
-        private string _comPort;
         private int _baudrate;
-        private int _pollInterval;
-
+        private string _comPort;
         private DuoWatch64 _duoWatch64;
+        private bool _isSetup = false;
+        private int _pollInterval;
         private SerialPortProxy _serialPortProxy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DuoWatch64Plugin"/> class.
+        /// </summary>
+        public DuoWatch64Plugin()
+        {
+        }
 
         /// <inheritdoc />
         public override void InstanceDispose()
@@ -93,18 +96,16 @@ namespace HidDisplay.Controller.Plugins
             _duoWatch64 = null;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DuoWatch64Plugin"/> class.
-        /// </summary>
-        public DuoWatch64Plugin()
+        private Button2State FromBool(bool b)
         {
+            return b ? Button2State.Active : Button2State.Released;
         }
 
         /// <summary>
         /// Accepts events from the hardware watch and translates them to plugin event format.
         /// </summary>
         /// <param name="sender">Sender.</param>
-        /// <param name="args">Event args.</param>
+        /// <param name="state">Event args.</param>
         private void InputEventMapper(object sender, Nintendo64ControllerState state)
         {
             if (!IsEnabled)
@@ -227,11 +228,6 @@ namespace HidDisplay.Controller.Plugins
             });
 
             FireEventHandler(sender, genArgs);
-        }
-
-        private Button2State FromBool(bool b)
-        {
-            return b ? Button2State.Active : Button2State.Released;
         }
     }
 }

@@ -12,6 +12,15 @@ namespace HidDisplay.PluginDefinition
     public class Button2 : IInputSource
     {
         /// <inheritdoc />
+        public UInt64 EventSourceId
+        {
+            get
+            {
+                return (UInt64)((Id * 10) + (int)State);
+            }
+        }
+
+        /// <inheritdoc />
         public int Id { get; set; }
 
         /// <inheritdoc />
@@ -26,15 +35,6 @@ namespace HidDisplay.PluginDefinition
         public override string ToString()
         {
             return $"{Name}: {State}";
-        }
-
-        /// <inheritdoc />
-        public UInt64 EventSourceId
-        {
-            get
-            {
-                return (UInt64)((Id * 10) + (int)State);
-            }
         }
     }
 }

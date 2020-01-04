@@ -8,7 +8,7 @@ namespace HidDisplay.SkinModel.Core
     /// Interface definition for an object that can be drawn in the display area.
     /// </summary>
     /// <remarks>
-    /// Should this be merged into IUiItem?
+    /// Should this be merged into IUiItem? .
     /// </remarks>
     public interface IPositionable
     {

@@ -20,12 +20,12 @@ namespace HidDisplay.DefaultConfigDataProviders
         }
 
         /// <summary>
-        /// Gets list of serial com ports. 
+        /// Gets list of serial com ports.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of serial com ports.</returns>
         /// <remarks>
         /// Had assembly loading problems just trying to call SerialPort.GetPortNames, so copied implementation here.
-        /// https://github.com/dotnet/runtime/blob/master/src/libraries/System.IO.Ports/src/System/IO/Ports/SerialPort.Win32.cs
+        /// https://github.com/dotnet/runtime/blob/master/src/libraries/System.IO.Ports/src/System/IO/Ports/SerialPort.Win32.cs .
         /// </remarks>
         private String[] GetPortNames()
         {
@@ -35,6 +35,7 @@ namespace HidDisplay.DefaultConfigDataProviders
             // QueryDosDevice: https://msdn.microsoft.com/en-us/library/windows/desktop/aa365461.aspx
             //
             // QueryDosDevice involves finding any ports that map to \Device\Serialx (call with null to get all, then iterate to get the actual device name)
+            /////////
 
             using (RegistryKey serialKey = Registry.LocalMachine.OpenSubKey(@"HARDWARE\DEVICEMAP\SERIALCOMM"))
             {

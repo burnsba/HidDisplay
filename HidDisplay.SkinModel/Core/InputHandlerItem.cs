@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Xml.Linq;
-using HidDisplay.PluginDefinition;
 using BurnsBac.HotConfig.Error;
+using HidDisplay.PluginDefinition;
 using HidDisplay.SkinModel.InputSourceDescription;
 
 namespace HidDisplay.SkinModel.Core
@@ -16,17 +13,12 @@ namespace HidDisplay.SkinModel.Core
     public class InputHandlerItem : IDisposable
     {
         /// <summary>
-        /// Gets or sets the friendly name of the item being monitored.
+        /// Gets or sets skin defition of what to monitor for.
         /// </summary>
-        public string Name { get; set; }
+        public IInputSourceDescription Hw { get; set; }
 
         /// <summary>
-        /// Gets or sets ui display type.
-        /// </summary>
-        public UiType UiType { get; set; }
-
-        /// <summary>
-        /// Gets or sets input event type (what comes from the <see cref="GenericInputEventArgs />).
+        /// Gets or sets input event type (what comes from the <see cref="GenericInputEventArgs" />).
         /// </summary>
         public Type HwType { get; set; }
 
@@ -36,29 +28,19 @@ namespace HidDisplay.SkinModel.Core
         public string HwTypeName { get; set; }
 
         /// <summary>
+        /// Gets or sets the friendly name of the item being monitored.
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets wpf ui element.
         /// </summary>
         public IUiItem Ui { get; set; }
 
         /// <summary>
-        /// Gets or sets skin defition of what to monitor for.
+        /// Gets or sets ui display type.
         /// </summary>
-        public IInputSourceDescription Hw { get; set; }
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            if (!object.ReferenceEquals(null, Ui))
-            {
-                Ui.Dispose();
-            }
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return Name;
-        }
+        public UiType UiType { get; set; }
 
         /// <summary>
         /// Processes xelement and creates <see cref="InputHandlerItem"/>.
@@ -145,6 +127,21 @@ namespace HidDisplay.SkinModel.Core
             }
 
             return ihi;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (!object.ReferenceEquals(null, Ui))
+            {
+                Ui.Dispose();
+            }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }

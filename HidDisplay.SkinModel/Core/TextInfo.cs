@@ -32,24 +32,24 @@ namespace HidDisplay.SkinModel.Core
         /// Gets or sets the font size to display text.
         /// </summary>
         public int FontSize { get; set; }
-        
+
         /// <summary>
         /// Gets or sets name of the font to display text.
         /// </summary>
         public string Font { get; set; }
 
         /// <summary>
-        /// Gets or sets a flag indicating whether bold styling should be applied to the font.
+        /// Gets or sets a value indicating whether bold styling should be applied to the font.
         /// </summary>
         public bool IsBold { get; set; }
 
         /// <summary>
-        /// Gets or sets a flag indicating whether italic styling should be applied to the font.
+        /// Gets or sets a value indicating whether italic styling should be applied to the font.
         /// </summary>
         public bool IsItalic { get; set; }
 
         /// <summary>
-        /// Gets or sets a flag indicating whether underline styling should be applied to the font.
+        /// Gets or sets a value indicating whether underline styling should be applied to the font.
         /// </summary>
         public bool IsUnderline { get; set; }
 

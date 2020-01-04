@@ -1,28 +1,9 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Linq.Expressions;
-using System.Linq;
-using System.Text;
-using System.Timers;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HidDisplay.PluginDefinition;
-using HidDisplay.SkinModel.InputSourceDescription;
 using HidDisplay.SkinModel.Core;
 using HidDisplay.SkinModel.Core.Display;
-using BurnsBac.WindowsHardware.HardwareWatch;
-using BurnsBac.WindowsHardware.HardwareWatch.Enums;
-using BurnsBac.WindowsHardware.Windows;
+using HidDisplay.SkinModel.InputSourceDescription;
 
 namespace HidDisplayDnc
 {
@@ -105,7 +86,7 @@ namespace HidDisplayDnc
             var rotateTransform = new RotateTransform(deg);
             transformGroup.Children.Add(rotateTransform);
 
-            norm = Math.Sqrt(xaverage * xaverage + yaverage * yaverage);
+            norm = Math.Sqrt((xaverage * xaverage) + (yaverage * yaverage));
 
             // set a max cutoff value;
             if (norm > inputCeiling)
@@ -136,11 +117,11 @@ namespace HidDisplayDnc
 
             var translateX = h * Math.Cos(rad);
             var translateY = h * Math.Sin(rad) * -1; // translate from cartesian back to wpf coordinates
-            
+
             var translateTransform = new TranslateTransform(translateX, translateY);
             transformGroup.Children.Add(translateTransform);
 
-            //System.Diagnostics.Debug.WriteLine($"{x},{y} ({norm}) -> {deg}");
+            ////// System.Diagnostics.Debug.WriteLine($"{x},{y} ({norm}) -> {deg}");
 
             return transformGroup;
         }

@@ -19,10 +19,17 @@ namespace HidDisplay.DefaultPlugins
         private const string ConfigWatchWindowTitleKey = "Keyboard.WatchWindowTitle";
         private const string ConfigWindowTitleMatch = "Keyboard.WindowTitleMatch";
 
-        private KeyboardWatcher _keyboardWatcher;
         private bool _isSetup = false;
-        private string _windowTitle;
+        private KeyboardWatcher _keyboardWatcher;
         private WindowTitleMatch _titleMatch;
+        private string _windowTitle;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsKeyboardPlugin"/> class.
+        /// </summary>
+        public WindowsKeyboardPlugin()
+        {
+        }
 
         /// <inheritdoc />
         public override void InstanceDispose()
@@ -91,10 +98,21 @@ namespace HidDisplay.DefaultPlugins
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WindowsKeyboardPlugin"/> class.
+        /// Translate button state from hardware watch to plugin event format.
         /// </summary>
-        public WindowsKeyboardPlugin()
+        /// <param name="direction">Hardware button state.</param>
+        /// <returns>Plugin button state.</returns>
+        private Button2State FromKeys(KeyChangeDirection direction)
         {
+            switch (direction)
+            {
+                case KeyChangeDirection.KeyDown:
+                    return Button2State.Active;
+                case KeyChangeDirection.KeyUp:
+                    return Button2State.Released;
+                default:
+                    return Button2State.Unknown;
+            }
         }
 
         /// <summary>
@@ -123,24 +141,6 @@ namespace HidDisplay.DefaultPlugins
             });
 
             FireEventHandler(sender, genArgs);
-        }
-
-        /// <summary>
-        /// Translate button state from hardware watch to plugin event format.
-        /// </summary>
-        /// <param name="direction">Hardware button state.</param>
-        /// <returns>Plugin button state.</returns>
-        private Button2State FromKeys(KeyChangeDirection direction)
-        {
-            switch (direction)
-            {
-                case KeyChangeDirection.KeyDown:
-                    return Button2State.Active;
-                case KeyChangeDirection.KeyUp:
-                    return Button2State.Released;
-                default:
-                    return Button2State.Unknown;
-            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace HidDisplay.PluginDefinition
         int ValueInt { get; }
 
         /// <summary>
-        /// Gets or sets "empty" flag.
+        /// Gets a value indicating whether the input is "empty".
         /// </summary>
         /// <remarks>
         /// There should be a way to distinguish between an empty reading, and

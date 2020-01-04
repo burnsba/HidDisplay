@@ -14,60 +14,9 @@ namespace HidDisplay.SkinModel.Core
     public class ImageInfo : IPositionable, IDisposable
     {
         /// <summary>
-        /// Gets or sets absolute path to image file.
-        /// </summary>
-        private string AbsolutePathFilename { get; set; }
-
-        /// <summary>
         /// Gets or sets image filename.
         /// </summary>
         public string Filename { get; set; }
-
-        /// <summary>
-        /// Gets or sets the width of the image according to the file source.
-        /// </summary>
-        public int OriginalWidth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the height of the image according to the file source.
-        /// </summary>
-        public int OriginalHeight { get; set; }
-
-        /// <summary>
-        /// Gets or sets width image should be resized to.
-        /// </summary>
-        public int? OverrideWidth { get; set; }
-
-        /// <summary>
-        /// Gets or sets the height the image should be resized to.
-        /// </summary>
-        public int? OverrideHeight { get; set; }
-
-        /// <summary>
-        /// Gets or sets the x offfset used to display the image in the main area.
-        /// </summary>
-        public int XOffset { get; set; }
-
-        /// <summary>
-        /// Gets or sets the y offset used to display the image in the main area.
-        /// </summary>
-        public int YOffset { get; set; }
-
-        /// <summary>
-        /// Gets the width used for the image.
-        /// </summary>
-        public int Width
-        {
-            get
-            {
-                if (OverrideWidth.HasValue)
-                {
-                    return OverrideWidth.Value;
-                }
-
-                return OriginalWidth;
-            }
-        }
 
         /// <summary>
         /// Gets the height used for the image.
@@ -91,36 +40,55 @@ namespace HidDisplay.SkinModel.Core
         public BitmapImage ImageData { get; private set; }
 
         /// <summary>
-        /// Loads image from disk into memory.
+        /// Gets or sets the height of the image according to the file source.
         /// </summary>
-        public void LoadImageFromDisk()
+        public int OriginalHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the width of the image according to the file source.
+        /// </summary>
+        public int OriginalWidth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the height the image should be resized to.
+        /// </summary>
+        public int? OverrideHeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets width image should be resized to.
+        /// </summary>
+        public int? OverrideWidth { get; set; }
+
+        /// <summary>
+        /// Gets the width used for the image.
+        /// </summary>
+        public int Width
         {
-            ImageData = new BitmapImage(new Uri(AbsolutePathFilename));
-            OriginalHeight = ImageData.PixelHeight;
-            OriginalWidth = ImageData.PixelWidth;
+            get
+            {
+                if (OverrideWidth.HasValue)
+                {
+                    return OverrideWidth.Value;
+                }
+
+                return OriginalWidth;
+            }
         }
 
         /// <summary>
-        /// Unloads image from memory.
+        /// Gets or sets the x offfset used to display the image in the main area.
         /// </summary>
-        public void FreeImageResources()
-        {
-            ImageData = null;
-            OriginalHeight = 0;
-            OriginalWidth = 0;
-        }
+        public int XOffset { get; set; }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            FreeImageResources();
-        }
+        /// <summary>
+        /// Gets or sets the y offset used to display the image in the main area.
+        /// </summary>
+        public int YOffset { get; set; }
 
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return Filename;
-        }
+        /// <summary>
+        /// Gets or sets absolute path to image file.
+        /// </summary>
+        private string AbsolutePathFilename { get; set; }
 
         /// <summary>
         /// Processes xelement and creates <see cref="ImageInfo"/>.
@@ -181,6 +149,38 @@ namespace HidDisplay.SkinModel.Core
             }
 
             return image;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            FreeImageResources();
+        }
+
+        /// <summary>
+        /// Unloads image from memory.
+        /// </summary>
+        public void FreeImageResources()
+        {
+            ImageData = null;
+            OriginalHeight = 0;
+            OriginalWidth = 0;
+        }
+
+        /// <summary>
+        /// Loads image from disk into memory.
+        /// </summary>
+        public void LoadImageFromDisk()
+        {
+            ImageData = new BitmapImage(new Uri(AbsolutePathFilename));
+            OriginalHeight = ImageData.PixelHeight;
+            OriginalWidth = ImageData.PixelWidth;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Filename;
         }
     }
 }

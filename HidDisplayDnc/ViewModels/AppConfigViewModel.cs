@@ -23,47 +23,33 @@ namespace HidDisplayDnc.ViewModels
     {
         private string _backgroundColorString = null;
         private bool _backgroundColorStringChange = false;
+        private MainViewModel _mainVm;
         private string _pluginsPath = null;
         private bool _pluginsPathChange = false;
         private string _skinsPath = null;
         private bool _skinsPathChange = false;
 
-        private MainViewModel _mainVm;
-
         /// <summary>
-        /// Gets or sets path to directory containing skins.
+        /// Initializes a new instance of the <see cref="AppConfigViewModel"/> class.
         /// </summary>
-        public string SkinsPath
+        /// <param name="mainVm">Mainview model. Config options are proxied here until saved, at which point the main vm will be updated.</param>
+        public AppConfigViewModel(MainViewModel mainVm)
         {
-            get
-            {
-                return _skinsPath;
-            }
+            _mainVm = mainVm;
 
-            set
-            {
-                _skinsPath = value;
-                _skinsPathChange = true;
-                OnPropertyChanged(nameof(SkinsPath));
-            }
-        }
+            _backgroundColorString = mainVm.BackgroundColorString;
+            _skinsPath = mainVm.SkinsPath;
+            _pluginsPath = ConfigurationManager.AppSettings["PluginsPath"];
 
-        /// <summary>
-        /// Gets or sets path to directory containing skins.
-        /// </summary>
-        public string PluginsPath
-        {
-            get
-            {
-                return _pluginsPath;
-            }
+            CancelCommand = new RelayCommand<ICloseable>(CloseWindow);
 
-            set
+            OkCommand = new RelayCommand<ICloseable>(w =>
             {
-                _pluginsPath = value;
-                _pluginsPathChange = true;
-                OnPropertyChanged(nameof(PluginsPath));
-            }
+                if (SaveChanges())
+                {
+                    CloseWindow(w);
+                }
+            });
         }
 
         /// <summary>
@@ -92,41 +78,55 @@ namespace HidDisplayDnc.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets ok button command.
-        /// </summary>
-        public ICommand OkCommand { get; set; }
-
-        /// <summary>
         /// Gets or sets cancel button command.
         /// </summary>
         public ICommand CancelCommand { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AppConfigViewModel"/> class.
+        /// Gets or sets ok button command.
         /// </summary>
-        /// <param name="mainVm">Mainview model. Config options are proxied here until saved, at which point the main vm will be updated.</param>
-        public AppConfigViewModel(MainViewModel mainVm)
+        public ICommand OkCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets path to directory containing skins.
+        /// </summary>
+        public string PluginsPath
         {
-            _mainVm = mainVm;
-
-            _backgroundColorString = mainVm.BackgroundColorString;
-            _skinsPath = mainVm.SkinsPath;
-            _pluginsPath = ConfigurationManager.AppSettings["PluginsPath"];
-
-            CancelCommand = new RelayCommand<ICloseable>(CloseWindow);
-
-            OkCommand = new RelayCommand<ICloseable>(w =>
+            get
             {
-                if (SaveChanges())
-                {
-                    CloseWindow(w);
-                }
-            });
+                return _pluginsPath;
+            }
+
+            set
+            {
+                _pluginsPath = value;
+                _pluginsPathChange = true;
+                OnPropertyChanged(nameof(PluginsPath));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets path to directory containing skins.
+        /// </summary>
+        public string SkinsPath
+        {
+            get
+            {
+                return _skinsPath;
+            }
+
+            set
+            {
+                _skinsPath = value;
+                _skinsPathChange = true;
+                OnPropertyChanged(nameof(SkinsPath));
+            }
         }
 
         /// <summary>
         /// Writes config settings to settings json file.
         /// </summary>
+        /// <returns>True is changes saved, false otherwise.</returns>
         public bool SaveChanges()
         {
             string originalSkinsPath = ConfigurationManager.AppSettings["SkinsPath"];
@@ -204,7 +204,7 @@ namespace HidDisplayDnc.ViewModels
                 {
                     _mainVm.SkinsPath = originalSkinsPath;
                     _mainVm.BackgroundColorString = originalBackgroundColorString;
-                    // no plugins setting in main VM
+                    ////// no plugins setting in main VM
 
                     ConfigurationManager.AppSettings["SkinsPath"] = originalSkinsPath;
                     ConfigurationManager.AppSettings["BackgroundColor"] = originalBackgroundColorString;

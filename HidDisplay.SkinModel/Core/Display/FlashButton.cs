@@ -12,22 +12,13 @@ namespace HidDisplay.SkinModel.Core.Display
     /// </summary>
     public class FlashButton : IUiImageItem
     {
-        /// <inheritdoc />
-        public ImageInfo Image { get; set; }
-
         /// <summary>
         /// Gets or sets duration in milliseconds for how long to display the item.
         /// </summary>
         public int DisplayDurationMs { get; set; }
 
         /// <inheritdoc />
-        public void Dispose()
-        {
-            if (!object.ReferenceEquals(null, Image))
-            {
-                Image.Dispose();
-            }
-        }
+        public ImageInfo Image { get; set; }
 
         /// <summary>
         /// Processes xelement and creates <see cref="FlashButton"/>.
@@ -59,6 +50,15 @@ namespace HidDisplay.SkinModel.Core.Display
             }
 
             return fb;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (!object.ReferenceEquals(null, Image))
+            {
+                Image.Dispose();
+            }
         }
     }
 }

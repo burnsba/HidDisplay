@@ -1,10 +1,9 @@
-﻿using HidDisplay.PluginDefinition;
-using BurnsBac.HotConfig.Error;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using BurnsBac.HotConfig.Error;
+using HidDisplay.PluginDefinition;
 
 namespace HidDisplay.SkinModel.Core
 {
@@ -14,14 +13,14 @@ namespace HidDisplay.SkinModel.Core
     public class InputHandler : IDisposable
     {
         /// <summary>
+        /// Gets or sets input handler description.
+        /// </summary>
+        public string Description { get; set; }
+
+        /// <summary>
         /// Gets or sets the event handler.
         /// </summary>
         public IPlugin Handler { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type name of hardware event handler.
-        /// </summary>
-        public string HandlerTypeName { get; set; }
 
         /// <summary>
         /// Gets or sets the assembly name containing hardware event handler.
@@ -29,37 +28,14 @@ namespace HidDisplay.SkinModel.Core
         public string HandlerAssemblyName { get; set; }
 
         /// <summary>
-        /// Gets or sets input handler description.
+        /// Gets or sets the type name of hardware event handler.
         /// </summary>
-        public string Description { get; set; }
+        public string HandlerTypeName { get; set; }
 
         /// <summary>
         /// Gets or sets list of items to monitor.
         /// </summary>
         public List<InputHandlerItem> Items { get; set; } = new List<InputHandlerItem>();
-
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            if (!object.ReferenceEquals(null, Handler))
-            {
-                Handler.Dispose();
-            }
-
-            if (!object.ReferenceEquals(null, Items) && Items.Any())
-            {
-                foreach (var x in Items)
-                {
-                    x.Dispose();
-                }
-            }
-        }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return Description;
-        }
 
         /// <summary>
         /// Processes xelement and creates <see cref="InputHandler"/>.
@@ -115,6 +91,29 @@ namespace HidDisplay.SkinModel.Core
             }
 
             return ih;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (!object.ReferenceEquals(null, Handler))
+            {
+                Handler.Dispose();
+            }
+
+            if (!object.ReferenceEquals(null, Items) && Items.Any())
+            {
+                foreach (var x in Items)
+                {
+                    x.Dispose();
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return Description;
         }
     }
 }

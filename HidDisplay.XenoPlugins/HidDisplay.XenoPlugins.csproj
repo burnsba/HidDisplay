@@ -9,6 +9,10 @@
     <FileVersion>1.2.1.1</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\tolos\code\csharp\HidDisplay\HidDisplay.XenoPlugins\HidDisplay.XenoPlugins.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="BurnsBac.WindowsHardware" Version="1.0.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">

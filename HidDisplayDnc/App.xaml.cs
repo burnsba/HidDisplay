@@ -13,11 +13,11 @@ using BurnsBac.WindowsAppToolkit.Windows;
 namespace HidDisplayDnc
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    /// Interaction logic for App.xaml .
     /// </summary>
     public partial class App : Application
     {
-        void App_Startup(object sender, StartupEventArgs e)
+        private void App_Startup(object sender, StartupEventArgs e)
         {
             // I was going to make this configurable, but there are possible issues with multiple conflicting types
             // existing in the CLR at the same time, I don't want to sort that out now.
@@ -46,14 +46,18 @@ namespace HidDisplayDnc
         {
             // Ignore missing resources
             if (args.Name.Contains(".resources"))
+            {
                 return null;
+            }
 
             var names = AppDomain.CurrentDomain.GetAssemblies().Select(x => x.FullName).OrderBy(x => x).ToList();
 
             // check for assemblies already loaded
             Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
             if (assembly != null)
+            {
                 return assembly;
+            }
 
             return null;
         }
@@ -68,7 +72,7 @@ namespace HidDisplayDnc
         {
             var ewvm = new ErrorWindowViewModel($"Unhandled exception in application: {source}", ex)
             {
-                ExitOnClose = true
+                ExitOnClose = true,
             };
 
             Workspace.RecreateSingletonWindow<ErrorWindow>(ewvm);

@@ -4,10 +4,13 @@ using System.Text;
 
 namespace HidDisplay.PluginDefinition
 {
+    /// <summary>
+    /// Describes three dimensional input.
+    /// </summary>
     public interface IRangeableInput3 : IInputSource
     {
         /// <summary>
-        /// Gets or sets "empty" flag.
+        /// Gets a value indicating whether the input is "empty".
         /// </summary>
         /// <remarks>
         /// There should be a way to distinguish between an empty reading, and

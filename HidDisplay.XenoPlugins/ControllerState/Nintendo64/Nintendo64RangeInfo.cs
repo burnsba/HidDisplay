@@ -1,7 +1,5 @@
-﻿using HidDisplay.PluginDefinition;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using HidDisplay.PluginDefinition;
 
 namespace HidDisplay.Controller.ControllerState.Nintendo64
 {
@@ -12,7 +10,9 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
     {
         private static Nintendo64RangeInfo _instance = new Nintendo64RangeInfo();
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the static instance.
+        /// </summary>
         public static Nintendo64RangeInfo Instance { get { return _instance; } }
 
         /// <inheritdoc />

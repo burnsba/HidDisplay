@@ -15,7 +15,7 @@ using HidDisplayDnc.ViewModels;
 namespace HidDisplayDnc.Windows
 {
     /// <summary>
-    /// Interaction logic for AppConfigWindow.xaml
+    /// Interaction logic for AppConfigWindow.xaml .
     /// </summary>
     public partial class AppConfigWindow : Window, ICloseable
     {
@@ -24,7 +24,7 @@ namespace HidDisplayDnc.Windows
         /// <summary>
         /// Initializes a new instance of the <see cref="AppConfigWindow"/> class.
         /// </summary>
-        /// <param name="availableSkinViewModel">Source info.</param>
+        /// <param name="mainVm">Source info.</param>
         public AppConfigWindow(MainViewModel mainVm)
         {
             InitializeComponent();

@@ -20,7 +20,7 @@ namespace HidDisplay.PluginDefinition
         string Name { get; }
 
         /// <summary>
-        /// Gets unique sourceid. This should resolve based on item performing the action, such as 
+        /// Gets unique sourceid. This should resolve based on item performing the action, such as
         /// left mouse button click event, or mouse wheel scroll up event. This is used to
         /// make reset timers, which is why just identifying "mouse wheel vertical scroll"
         /// is not enough (need direction as well).

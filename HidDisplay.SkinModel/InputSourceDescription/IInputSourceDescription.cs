@@ -15,7 +15,7 @@ namespace HidDisplay.SkinModel.InputSourceDescription
         int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets name of event to match/process
+        /// Gets or sets name of event to match/process.
         /// </summary>
         string Name { get; set; }
     }

@@ -12,7 +12,9 @@ namespace HidDisplay.XenoPlugins.SensorRange
     {
         private static GenericIntRangeInfo _instance = new GenericIntRangeInfo();
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the static instance.
+        /// </summary>
         public static GenericIntRangeInfo Instance { get { return _instance; } }
 
         /// <inheritdoc />

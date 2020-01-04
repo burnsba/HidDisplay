@@ -10,11 +10,22 @@ namespace HidDisplay.DefaultPlugins
     /// </summary>
     public sealed class MouseMoveRangeableInput : IRangeableInput2
     {
-        private static MouseMoveRangeableInput _empty = 
-            new MouseMoveRangeableInput(double.NaN, double.NaN) 
+        private static MouseMoveRangeableInput _empty =
+            new MouseMoveRangeableInput(double.NaN, double.NaN)
             {
-                IsEmpty = true
+                IsEmpty = true,
             };
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MouseMoveRangeableInput"/> class.
+        /// </summary>
+        /// <param name="x">X value.</param>
+        /// <param name="y">Y value.</param>
+        public MouseMoveRangeableInput(double x, double y)
+        {
+            Value1 = new MouseMoveAxisInput(x) { Id = 1, Name = "X" };
+            Value2 = new MouseMoveAxisInput(y) { Id = 2, Name = "Y" };
+        }
 
         /// <summary>
         /// Gets the generic null movement.
@@ -28,13 +39,22 @@ namespace HidDisplay.DefaultPlugins
         }
 
         /// <inheritdoc />
+        public UInt64 EventSourceId
+        {
+            get
+            {
+                return (UInt64)Id;
+            }
+        }
+
+        /// <inheritdoc />
         public int Id { get; set; }
 
         /// <inheritdoc />
-        public string Name { get; set; }
-        
-        /// <inheritdoc />
         public bool IsEmpty { get; set; } = false;
+
+        /// <inheritdoc />
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets mouse X movement.
@@ -46,30 +66,10 @@ namespace HidDisplay.DefaultPlugins
         /// </summary>
         public IRangeableInput Value2 { get; private set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MouseMoveRangeableInput"/> class.
-        /// </summary>
-        /// <param name="x">X value.</param>
-        /// <param name="y">Y value.</param>
-        public MouseMoveRangeableInput(double x, double y)
-        {
-            Value1 = new MouseMoveAxisInput(x) { Id = 1, Name = "X" };
-            Value2 = new MouseMoveAxisInput(y) { Id = 2, Name = "Y" };
-        }
-
         /// <inheritdoc />
         public override string ToString()
         {
             return $"{Value1}, {Value2}";
-        }
-
-        /// <inheritdoc />
-        public UInt64 EventSourceId
-        {
-            get
-            {
-                return (UInt64)Id;
-            }
         }
     }
 }

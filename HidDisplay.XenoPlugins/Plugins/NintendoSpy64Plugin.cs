@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using HidDisplay.Controller.ControllerState;
+using BurnsBac.WindowsHardware.SerialPort;
 using HidDisplay.Controller.ControllerState.Nintendo64;
 using HidDisplay.Controller.Readers;
 using HidDisplay.PluginDefinition;
-using BurnsBac.WindowsHardware.SerialPort;
 
 namespace HidDisplay.Controller.Plugins
 {
@@ -14,18 +12,23 @@ namespace HidDisplay.Controller.Plugins
     /// </summary>
     public class NintendoSpy64Plugin : PluginBase, IPlugin, IActiveMonitorPlugin
     {
-        private const string ConfigComPort = "NintendoSpy64.ComPort";
         private const string ConfigBaud = "NintendoSpy64.Baudrate";
+        private const string ConfigComPort = "NintendoSpy64.ComPort";
         private const string ConfigPollInterval = "NintendoSpy64.PollIntervalMs";
 
-        private bool _isSetup = false;
-
-        private string _comPort;
         private int _baudrate;
-        private int _pollInterval;
-
+        private string _comPort;
+        private bool _isSetup = false;
         private NintendoSpy64 _nintendoSpy64;
+        private int _pollInterval;
         private SerialPortProxy _serialPortProxy;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NintendoSpy64Plugin"/> class.
+        /// </summary>
+        public NintendoSpy64Plugin()
+        {
+        }
 
         /// <inheritdoc />
         public override void InstanceDispose()
@@ -93,11 +96,9 @@ namespace HidDisplay.Controller.Plugins
             _nintendoSpy64 = null;
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NintendoSpy64Plugin"/> class.
-        /// </summary>
-        public NintendoSpy64Plugin()
+        private Button2State FromBool(bool b)
         {
+            return b ? Button2State.Active : Button2State.Released;
         }
 
         /// <summary>
@@ -227,11 +228,6 @@ namespace HidDisplay.Controller.Plugins
             });
 
             FireEventHandler(sender, genArgs);
-        }
-
-        private Button2State FromBool(bool b)
-        {
-            return b ? Button2State.Active : Button2State.Released;
         }
     }
 }

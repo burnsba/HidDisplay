@@ -1,12 +1,10 @@
-﻿using BurnsBac.HotConfig.Error;
-using BurnsBac.HotConfig;
-using HidDisplay.SkinModel.Error;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
+using BurnsBac.HotConfig;
+using HidDisplay.SkinModel.Error;
 
 namespace HidDisplay.SkinModel.Core
 {
@@ -16,51 +14,6 @@ namespace HidDisplay.SkinModel.Core
     public class Skin : IDisposable
     {
         /// <summary>
-        /// Event to hook for setup to initialize wpf ui during activation.
-        /// </summary>
-        public event EventHandler<InputHandler> SetupCallback;
-
-        /// <summary>
-        /// Gets or sets the name of this skin.
-        /// </summary>
-        public string DisplayName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the author of the skin.
-        /// </summary>
-        public string Author { get; set; }
-
-        /// <summary>
-        /// Gets or sets the format version used.
-        /// </summary>
-        public string MetaFormat { get; set; }
-
-        /// <summary>
-        /// Gets or sets the absolute path of the directory containing this skin.
-        /// </summary>
-        public string AbsoluteContainerPath { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name of the directory containing this skin.
-        /// </summary>
-        public string DirectoryContainerName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the background image.
-        /// </summary>
-        public ImageInfo BackgroundImage { get; set; }
-
-        /// <summary>
-        /// Gets or sets associated input handlers to be used by this skin.
-        /// </summary>
-        public List<InputHandler> InputHandlers { get; set; } = new List<InputHandler>();
-
-        /// <summary>
-        /// Gets or sets list of configuration options forwarded to input handlers during activation/startup.
-        /// </summary>
-        public Dictionary<string, string> ConfigOptions { get; set; } = new Dictionary<string, string>();
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Skin"/> class.
         /// </summary>
         /// <param name="containingDirectory">Absolute path of directory containing skin.</param>
@@ -69,25 +22,140 @@ namespace HidDisplay.SkinModel.Core
             AbsoluteContainerPath = containingDirectory;
 
             var index = AbsoluteContainerPath.LastIndexOf(System.IO.Path.DirectorySeparatorChar);
-            
+
             DirectoryContainerName = AbsoluteContainerPath.Substring(index + 1, AbsoluteContainerPath.Length - index - 1);
         }
 
         /// <summary>
-        /// Looks in the skin directory and attempts to read settings json file into ConfigOptions.
+        /// Event to hook for setup to initialize wpf ui during activation.
         /// </summary>
-        public void LoadConfigOptions()
+        public event EventHandler<InputHandler> SetupCallback;
+
+        /// <summary>
+        /// Gets or sets the absolute path of the directory containing this skin.
+        /// </summary>
+        public string AbsoluteContainerPath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the author of the skin.
+        /// </summary>
+        public string Author { get; set; }
+
+        /// <summary>
+        /// Gets or sets the background image.
+        /// </summary>
+        public ImageInfo BackgroundImage { get; set; }
+
+        /// <summary>
+        /// Gets or sets list of configuration options forwarded to input handlers during activation/startup.
+        /// </summary>
+        public Dictionary<string, string> ConfigOptions { get; set; } = new Dictionary<string, string>();
+
+        /// <summary>
+        /// Gets or sets the name of the directory containing this skin.
+        /// </summary>
+        public string DirectoryContainerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of this skin.
+        /// </summary>
+        public string DisplayName { get; set; }
+
+        /// <summary>
+        /// Gets or sets associated input handlers to be used by this skin.
+        /// </summary>
+        public List<InputHandler> InputHandlers { get; set; } = new List<InputHandler>();
+
+        /// <summary>
+        /// Gets or sets the format version used.
+        /// </summary>
+        public string MetaFormat { get; set; }
+
+        /// <summary>
+        /// Processes xml file and creates <see cref="Skin"/>.
+        /// </summary>
+        /// <param name="path">Absolute path of skin definition file.</param>
+        /// <returns>New <see cref="Skin"/>.</returns>
+        public static Skin FromXmlFile(string path)
         {
-            var jsonSettings = SettingsCollection.FromFile(Path.Combine(AbsoluteContainerPath, SkinModel.Constants.SkinSettingsFilename));
-            
-            if (!object.ReferenceEquals(null, jsonSettings))
+            var xmlraw = File.ReadAllText(path);
+
+            var d2 = path.LastIndexOf(Path.DirectorySeparatorChar);
+            var dirpath = path.Substring(0, d2);
+
+            var skin = Skin.FromXmlRaw(xmlraw, dirpath);
+
+            return skin;
+        }
+
+        /// <summary>
+        /// Processes xml and creates <see cref="Skin"/>.
+        /// </summary>
+        /// <param name="xml">Full xml string to parse.</param>
+        /// <param name="containingDirectory">Absolute path of directory containing skin.</param>
+        /// <returns>New <see cref="Skin"/>.</returns>
+        public static Skin FromXmlRaw(string xml, string containingDirectory)
+        {
+            if (string.IsNullOrEmpty(xml))
             {
-                ConfigOptions = jsonSettings.ToSettingsDictionary(); 
+                throw new ArgumentNullException(nameof(xml));
             }
-            else
+
+            var xdoc = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            var skin = new Skin(containingDirectory);
+
+            var root = xdoc.Descendants("skin").First();
+            skin.MetaFormat = (string)root.Attribute("format");
+
+            var infoNode = root.Descendants("info").FirstOrDefault();
+            if (!object.ReferenceEquals(null, infoNode))
             {
-                ConfigOptions = new Dictionary<string, string>();
+                skin.DisplayName = (string)infoNode.Element("displayName");
+                skin.Author = (string)infoNode.Element("author");
             }
+
+            var mainNode = root.Descendants("main").FirstOrDefault();
+            if (!object.ReferenceEquals(null, mainNode))
+            {
+                skin.BackgroundImage = ImageInfo.FromXElement(mainNode.Element("background"), containingDirectory);
+            }
+
+            var inputHandlersNodes = root.Descendants("inputHandler");
+            foreach (var inputHandlerNode in inputHandlersNodes)
+            {
+                skin.InputHandlers.Add(InputHandler.FromXElement(inputHandlerNode, skin));
+            }
+
+            return skin;
+        }
+
+        /// <summary>
+        /// Partially loads skin, just enough to read the meta-data associated.
+        /// </summary>
+        /// <param name="xml">Full xml string to parse.</param>
+        /// <param name="containingDirectory">Absolute path of directory containing skin.</param>
+        /// <returns>New <see cref="Skin"/>.</returns>
+        public static Skin InfoFromXmlRaw(string xml, string containingDirectory)
+        {
+            if (string.IsNullOrEmpty(xml))
+            {
+                throw new ArgumentNullException(nameof(xml));
+            }
+
+            var xdoc = XDocument.Parse(xml, LoadOptions.SetLineInfo);
+            var skin = new Skin(containingDirectory);
+
+            var root = xdoc.Descendants("skin").First();
+            skin.MetaFormat = (string)root.Attribute("format");
+
+            var infoNode = root.Descendants("info").FirstOrDefault();
+            if (!object.ReferenceEquals(null, infoNode))
+            {
+                skin.DisplayName = (string)infoNode.Element("displayName");
+                skin.Author = (string)infoNode.Element("author");
+            }
+
+            return skin;
         }
 
         /// <summary>
@@ -157,90 +225,20 @@ namespace HidDisplay.SkinModel.Core
         }
 
         /// <summary>
-        /// Processes xml file and creates <see cref="Skin"/>.
+        /// Looks in the skin directory and attempts to read settings json file into ConfigOptions.
         /// </summary>
-        /// <param name="path">Absolute path of skin definition file.</param>
-        /// <returns>New <see cref="Skin"/>.</returns>
-        public static Skin FromXmlFile(string path)
+        public void LoadConfigOptions()
         {
-            var xmlraw = File.ReadAllText(path);
+            var jsonSettings = SettingsCollection.FromFile(Path.Combine(AbsoluteContainerPath, SkinModel.Constants.SkinSettingsFilename));
 
-            var d2 = path.LastIndexOf(Path.DirectorySeparatorChar);
-            var dirpath = path.Substring(0, d2);
-
-            var skin = Skin.FromXmlRaw(xmlraw, dirpath);
-
-            return skin;
-        }
-
-        /// <summary>
-        /// Partially loads skin, just enough to read the meta-data associated.
-        /// </summary>
-        /// <param name="xml">Full xml string to parse.</param>
-        /// <param name="containingDirectory">Absolute path of directory containing skin.</param>
-        /// <returns>New <see cref="Skin"/>.</returns>
-        public static Skin InfoFromXmlRaw(string xml, string containingDirectory)
-        {
-            if (string.IsNullOrEmpty(xml))
+            if (!object.ReferenceEquals(null, jsonSettings))
             {
-                throw new ArgumentNullException(nameof(xml));
+                ConfigOptions = jsonSettings.ToSettingsDictionary();
             }
-
-            var xdoc = XDocument.Parse(xml, LoadOptions.SetLineInfo);
-            var skin = new Skin(containingDirectory);
-
-            var root = xdoc.Descendants("skin").First();
-            skin.MetaFormat = (string)root.Attribute("format");
-
-            var infoNode = root.Descendants("info").FirstOrDefault();
-            if (!object.ReferenceEquals(null, infoNode))
+            else
             {
-                skin.DisplayName = (string)infoNode.Element("displayName");
-                skin.Author = (string)infoNode.Element("author");
+                ConfigOptions = new Dictionary<string, string>();
             }
-
-            return skin;
-        }
-
-        /// <summary>
-        /// Processes xml and creates <see cref="Skin"/>.
-        /// </summary>
-        /// <param name="xml">Full xml string to parse.</param>
-        /// <param name="containingDirectory">Absolute path of directory containing skin.</param>
-        /// <returns>New <see cref="Skin"/>.</returns>
-        public static Skin FromXmlRaw(string xml, string containingDirectory)
-        {
-            if (string.IsNullOrEmpty(xml))
-            {
-                throw new ArgumentNullException(nameof(xml));
-            }
-
-            var xdoc = XDocument.Parse(xml, LoadOptions.SetLineInfo);
-            var skin = new Skin(containingDirectory);
-
-            var root = xdoc.Descendants("skin").First();
-            skin.MetaFormat = (string)root.Attribute("format");
-
-            var infoNode = root.Descendants("info").FirstOrDefault();
-            if (!object.ReferenceEquals(null, infoNode))
-            {
-                skin.DisplayName = (string)infoNode.Element("displayName");
-                skin.Author = (string)infoNode.Element("author");
-            }
-            
-            var mainNode = root.Descendants("main").FirstOrDefault();
-            if (!object.ReferenceEquals(null, mainNode))
-            {
-                skin.BackgroundImage = ImageInfo.FromXElement(mainNode.Element("background"), containingDirectory);
-            }
-
-            var inputHandlersNodes = root.Descendants("inputHandler");
-            foreach (var inputHandlerNode in inputHandlersNodes)
-            {
-                skin.InputHandlers.Add(InputHandler.FromXElement(inputHandlerNode, skin));
-            }
-
-            return skin;
         }
     }
 }

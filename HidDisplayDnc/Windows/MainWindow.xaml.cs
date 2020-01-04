@@ -1,57 +1,46 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Configuration;
 using System.ComponentModel;
-using System.Linq.Expressions;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HidDisplay.PluginDefinition;
-using HidDisplay.SkinModel.InputSourceDescription;
-using HidDisplay.SkinModel.Core;
-using HidDisplay.SkinModel.Core.Display;
-using HidDisplayDnc.ViewModels;
 using BurnsBac.WinApi.Error;
 using BurnsBac.WinApi.Hid;
 using BurnsBac.WinApi.User32;
-using BurnsBac.WindowsHardware.HardwareWatch;
+using BurnsBac.WindowsAppToolkit;
 using BurnsBac.WindowsAppToolkit.Mvvm;
-using System.IO;
 using BurnsBac.WindowsAppToolkit.ViewModels;
 using BurnsBac.WindowsAppToolkit.Windows;
-using BurnsBac.WindowsAppToolkit;
+using BurnsBac.WindowsHardware.HardwareWatch;
+using HidDisplay.PluginDefinition;
+using HidDisplay.SkinModel.Core;
+using HidDisplay.SkinModel.Core.Display;
+using HidDisplay.SkinModel.InputSourceDescription;
+using HidDisplayDnc.ViewModels;
 
 namespace HidDisplayDnc.Windows
 {
     using Expr = System.Linq.Expressions.Expression;
 
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml .
     /// </summary>
     public partial class MainWindow : Window, ICloseable
     {
-        private RawInputHandler _rih = new RawInputHandler();
+        /// <summary>
+        /// Timers for flash events.
+        /// </summary>
+        public Dictionary<Type, Dictionary<UInt64, Timer>> _hwFlashTimers;
+
         private List<IPassiveTranslate<HidResult>> _passiveHidPlugins = new List<IPassiveTranslate<HidResult>>();
         private List<IPassiveTranslate<RawMouse>> _passiveRawMousePlugins = new List<IPassiveTranslate<RawMouse>>();
-
+        private RawInputHandler _rih = new RawInputHandler();
         private Dictionary<Type, System.Reflection.MethodInfo> _simpleToStringMethodCache = new Dictionary<Type, System.Reflection.MethodInfo>();
-
-        private bool AnyWndProcListeners()
-        {
-            return _passiveHidPlugins.Any() || _passiveRawMousePlugins.Any();
-        }
 
         /// <summary>
         /// Main view model.
@@ -59,63 +48,137 @@ namespace HidDisplayDnc.Windows
         private MainViewModel _vm;
 
         /// <summary>
-        /// Timers for flash events.
+        /// Initializes a new instance of the <see cref="MainWindow"/> class.
         /// </summary>
-        public Dictionary<Type, Dictionary<UInt64, Timer>> _hwFlashTimers;
+        public MainWindow()
+        {
+            InitializeComponent();
+            Closing += OnWindowClosing;
+
+            _vm = new MainViewModel();
+
+            DataContext = _vm;
+
+            DisplayGrid.Children.Clear();
+        }
 
         /// <summary>
-        /// Stops a timer for an existing event and restarts it. If the timer
-        /// does not exist, it will be created.
+        /// Window closing handler. Tries to stop event listeners before exiting.
         /// </summary>
-        /// <param name="type">Concrete type of <see cref="IInputSource>".</param>
-        /// <param name="eventSourceId">Event source id.</param>
-        /// <param name="interval">Timer interval in ms if timer is created.</param>
-        /// <param name="act">Elapsed action to be performed if timer is created.</param>
-        private void RefreshFlashTimer(Type type, UInt64 eventSourceId, int interval, Action act)
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Args.</param>
+        public void OnWindowClosing(object sender, CancelEventArgs e)
         {
-            if (object.ReferenceEquals(null, _hwFlashTimers))
+            UnloadSelectedSkin();
+
+            _rih.Dispose();
+        }
+
+        /// <summary>
+        /// Windows start event to hook raw input events.
+        /// </summary>
+        /// <param name="e">Args.</param>
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+
+            var win = source.Handle;
+
+            RawInputDevice[] rid = new RawInputDevice[2];
+
+            rid[0].UsagePage = HidUsagePages.GenericDesktop;
+            rid[0].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.GamePad;
+            rid[0].Flags = RawInputDeviceFlags.InputSink;
+            rid[0].WindowHandle = win;
+
+            rid[1].UsagePage = HidUsagePages.GenericDesktop;
+            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Joystick;
+            rid[1].Flags = RawInputDeviceFlags.InputSink;
+            rid[1].WindowHandle = win;
+
+            rid[1].UsagePage = HidUsagePages.GenericDesktop;
+            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Mouse;
+            rid[1].Flags = RawInputDeviceFlags.InputSink;
+            rid[1].WindowHandle = win;
+
+            if (BurnsBac.WinApi.User32.Api.RegisterRawInputDevices(rid, (uint)rid.Length, (uint)Marshal.SizeOf(rid[0])) == false)
             {
-                _hwFlashTimers = new Dictionary<Type, Dictionary<ulong, Timer>>();
+                var err = Marshal.GetLastWin32Error();
+                if (err > 0)
+                {
+                    throw new Win32ErrorCode($"GetLastWin32Error: {err}");
+                }
+                else
+                {
+                    throw new Win32ErrorCode("RegisterRawInputDevices failed with error code 0. Parameter count mis-match?");
+                }
             }
+        }
 
-            Dictionary<UInt64, Timer> hwtimers = null;
+        private bool AnyWndProcListeners()
+        {
+            return _passiveHidPlugins.Any() || _passiveRawMousePlugins.Any();
+        }
 
-            if (!_hwFlashTimers.TryGetValue(type, out hwtimers))
+        private FrameworkElement BuildFrameworkElement(InputHandlerItem descriptionItem)
+        {
+            FrameworkElement wpfObject;
+
+            if (HidDisplay.SkinModel.Core.UiHelper.IsImage(descriptionItem.Ui))
             {
-                hwtimers = new Dictionary<ulong, Timer>();
-
-                // don't forget to save a reference to the new collection
-                _hwFlashTimers[type] = hwtimers;
+                wpfObject = ImageHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiImageItem)descriptionItem.Ui).Image);
             }
-
-            Timer timer = null;
-
-            if (!hwtimers.TryGetValue(eventSourceId, out timer))
+            else if (HidDisplay.SkinModel.Core.UiHelper.IsText(descriptionItem.Ui))
             {
-                timer = new Timer();
-                timer.AutoReset = false;
-                timer.Interval = interval;
-                timer.Elapsed += (s, e) => act();
-
-                // don't forget to save a reference to the new timer
-                _hwFlashTimers[type][eventSourceId] = timer;
-
-                //System.Diagnostics.Debug.WriteLine($"new timer: {type.Name} {eventSourceId}");
+                wpfObject = TextHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiTextItem)descriptionItem.Ui).TextInfo);
             }
             else
             {
-                timer.Stop();
-
-                //System.Diagnostics.Debug.WriteLine($"restart timer: {type.Name} {eventSourceId}");
+                throw new NotSupportedException();
             }
 
-            timer.Start();
+            return wpfObject;
+        }
+
+        /// <summary>
+        /// Config button handler.
+        /// </summary>
+        /// <param name="sender">sender.</param>
+        /// <param name="e">Args.</param>
+        private void ButtonConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var p = BurnsBac.HotConfig.TypeResolver.ConfigDataProvidersDirectory;
+            var skinSettingsPath = System.IO.Path.Combine(_vm.SelectedSkin.SkinDirectoryPath, HidDisplay.SkinModel.Constants.SkinSettingsFilename);
+            Workspace.CreateSingletonWindow<ConfigWindow>(skinSettingsPath);
+        }
+
+        /// <summary>
+        /// Load button handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Args.</param>
+        private void ButtonLoad_Click(object sender, RoutedEventArgs e)
+        {
+            UnloadSelectedSkin();
+            LoadSelectedSkin();
+        }
+
+        /// <summary>
+        /// Unload button handler.
+        /// </summary>
+        /// <param name="sender">Sender.</param>
+        /// <param name="e">Args.</param>
+        private void ButtonUnload_Click(object sender, RoutedEventArgs e)
+        {
+            UnloadSelectedSkin();
         }
 
         /// <summary>
         /// Stops a timer for an event.
         /// </summary>
-        /// <param name="type">Concrete type of <see cref="IInputSource>".</param>
+        /// <param name="type">Concrete type of <see cref="IInputSource" />.</param>
         /// <param name="eventSourceId">Event source id.</param>
         private void CancelFlashTimer(Type type, UInt64 eventSourceId)
         {
@@ -151,18 +214,34 @@ namespace HidDisplayDnc.Windows
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow"/> class.
+        /// Creates a new <see cref="System.Windows.Controls.Image"/>. Loads the image from disk, and adds to DisplayGrid.
         /// </summary>
-        public MainWindow()
+        /// <param name="name">WPF control name.</param>
+        /// <param name="image">Image info.</param>
+        private FrameworkElement ImageHelper(string name, ImageInfo image)
         {
-            InitializeComponent();
-            Closing += OnWindowClosing;
+            var wpfImage = new Image();
+            wpfImage.Name = name;
 
-            _vm = new MainViewModel();
+            image.LoadImageFromDisk();
 
-            DataContext = _vm;
+            wpfImage.Source = image.ImageData;
+            wpfImage.Width = image.Width;
+            wpfImage.Height = image.Height;
+            wpfImage.Margin = new Thickness()
+            {
+                Left = image.XOffset,
+                Top = image.YOffset,
+                Right = 0,
+                Bottom = 0,
+            };
+            wpfImage.HorizontalAlignment = HorizontalAlignment.Left;
+            wpfImage.VerticalAlignment = VerticalAlignment.Top;
+            wpfImage.Visibility = Visibility.Hidden;
 
-            DisplayGrid.Children.Clear();
+            DisplayGrid.Children.Add(wpfImage);
+
+            return wpfImage;
         }
 
         /// <summary>
@@ -229,8 +308,58 @@ namespace HidDisplayDnc.Windows
         }
 
         /// <summary>
+        /// Stops a timer for an existing event and restarts it. If the timer
+        /// does not exist, it will be created.
+        /// </summary>
+        /// <param name="type">Concrete type of <see cref="IInputSource" />.</param>
+        /// <param name="eventSourceId">Event source id.</param>
+        /// <param name="interval">Timer interval in ms if timer is created.</param>
+        /// <param name="act">Elapsed action to be performed if timer is created.</param>
+        private void RefreshFlashTimer(Type type, UInt64 eventSourceId, int interval, Action act)
+        {
+            if (object.ReferenceEquals(null, _hwFlashTimers))
+            {
+                _hwFlashTimers = new Dictionary<Type, Dictionary<ulong, Timer>>();
+            }
+
+            Dictionary<UInt64, Timer> hwtimers = null;
+
+            if (!_hwFlashTimers.TryGetValue(type, out hwtimers))
+            {
+                hwtimers = new Dictionary<ulong, Timer>();
+
+                // don't forget to save a reference to the new collection
+                _hwFlashTimers[type] = hwtimers;
+            }
+
+            Timer timer = null;
+
+            if (!hwtimers.TryGetValue(eventSourceId, out timer))
+            {
+                timer = new Timer();
+                timer.AutoReset = false;
+                timer.Interval = interval;
+                timer.Elapsed += (s, e) => act();
+
+                // don't forget to save a reference to the new timer
+                _hwFlashTimers[type][eventSourceId] = timer;
+
+                //////System.Diagnostics.Debug.WriteLine($"new timer: {type.Name} {eventSourceId}");
+            }
+            else
+            {
+                timer.Stop();
+
+                //////System.Diagnostics.Debug.WriteLine($"restart timer: {type.Name} {eventSourceId}");
+            }
+
+            timer.Start();
+        }
+
+        /// <summary>
         /// Core functionality of app. Maps hardware events to ui stuff.
         /// </summary>
+        /// <param name="sender">Sender.</param>
         /// <param name="inputHandler">InputHandler to process.</param>
         private void SetupUpdateHandler(object sender, InputHandler inputHandler)
         {
@@ -272,6 +401,7 @@ namespace HidDisplayDnc.Windows
             //             processButton3s(e);
             //     };
             // the method handler for each input type is either there or it's not.
+            ///////////////
 
             var inputEventHandlerExpressions = new List<Expr>();
             var s = Expr.Parameter(typeof(System.Object), "sender");
@@ -345,7 +475,8 @@ namespace HidDisplayDnc.Windows
                 var b2Block = Expr.Block(b2IdMatchIfExpressions);
                 var b2BlockMethod = Expr.Lambda<Action<Button2>>(b2Block, b2).Compile();
 
-                Action<GenericInputEventArgs> processButton2s = (e) => {
+                Action<GenericInputEventArgs> processButton2s = (e) =>
+                {
                     foreach (var item in e.Button2s)
                     {
                         b2BlockMethod(item);
@@ -423,7 +554,8 @@ namespace HidDisplayDnc.Windows
                 var b3Block = Expr.Block(b3IdMatchIfExpressions);
                 var b3BlockMethod = Expr.Lambda<Action<Button3>>(b3Block, b3).Compile();
 
-                Action<GenericInputEventArgs> processButton3s = (e) => {
+                Action<GenericInputEventArgs> processButton3s = (e) =>
+                {
                     foreach (var item in e.Button3s)
                     {
                         b3BlockMethod(item);
@@ -494,7 +626,8 @@ namespace HidDisplayDnc.Windows
                 var r1Block = Expr.Block(r1IdMatchIfExpressions);
                 var r1BlockMethod = Expr.Lambda<Action<IRangeableInput>>(r1Block, r1).Compile();
 
-                Action<GenericInputEventArgs> processRangeable1s = (e) => {
+                Action<GenericInputEventArgs> processRangeable1s = (e) =>
+                {
                     foreach (var item in e.RangeableInputs)
                     {
                         r1BlockMethod(item);
@@ -525,7 +658,8 @@ namespace HidDisplayDnc.Windows
 
                     wpfObject.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                    Action<IRangeableInput2> action = arg => {
+                    Action<IRangeableInput2> action = arg =>
+                    {
                         try
                         {
                             if (arg.Id == descriptionItem.Hw.Id)
@@ -546,7 +680,8 @@ namespace HidDisplayDnc.Windows
                             }
                         }
                         catch (System.Threading.Tasks.TaskCanceledException)
-                        { }
+                        {
+                        }
                     };
 
                     var process = Expr.Call(Expr.Constant(action.Target), action.Method, r2);
@@ -557,7 +692,8 @@ namespace HidDisplayDnc.Windows
                 var r2Block = Expr.Block(r2IdMatchIfExpressions);
                 var r2BlockMethod = Expr.Lambda<Action<IRangeableInput2>>(r2Block, r2).Compile();
 
-                Action<GenericInputEventArgs> processIRangeableInput2s = (e) => {
+                Action<GenericInputEventArgs> processIRangeableInput2s = (e) =>
+                {
                     foreach (var item in e.RangeableInput2s)
                     {
                         r2BlockMethod(item);
@@ -578,49 +714,6 @@ namespace HidDisplayDnc.Windows
                 var x = Expr.Lambda<EventHandler<GenericInputEventArgs>>(inputEventHandlerBody, s, e).Compile();
                 inputHandler.Handler.UpdateEvent += x;
             }
-        }
-
-        /// <summary>
-        /// Window closing handler. Tries to stop event listeners before exiting.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Args.</param>
-        public void OnWindowClosing(object sender, CancelEventArgs e)
-        {
-            UnloadSelectedSkin();
-
-            _rih.Dispose();
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="System.Windows.Controls.Image"/>. Loads the image from disk, and adds to DisplayGrid.
-        /// </summary>
-        /// <param name="name">WPF control name.</param>
-        /// <param name="image">Image info.</param>
-        private FrameworkElement ImageHelper(string name, ImageInfo image)
-        {
-            var wpfImage = new Image();
-            wpfImage.Name = name;
-
-            image.LoadImageFromDisk();
-
-            wpfImage.Source = image.ImageData;
-            wpfImage.Width = image.Width;
-            wpfImage.Height = image.Height;
-            wpfImage.Margin = new Thickness()
-            {
-                Left = image.XOffset,
-                Top = image.YOffset,
-                Right = 0,
-                Bottom = 0,
-            };
-            wpfImage.HorizontalAlignment = HorizontalAlignment.Left;
-            wpfImage.VerticalAlignment = VerticalAlignment.Top;
-            wpfImage.Visibility = Visibility.Hidden;
-
-            DisplayGrid.Children.Add(wpfImage);
-
-            return wpfImage;
         }
 
         private FrameworkElement TextHelper(string name, TextInfo textThing)
@@ -649,39 +742,6 @@ namespace HidDisplayDnc.Windows
         }
 
         /// <summary>
-        /// Load button handler.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Args.</param>
-        private void ButtonLoad_Click(object sender, RoutedEventArgs e)
-        {
-            UnloadSelectedSkin();
-            LoadSelectedSkin();
-        }
-
-        /// <summary>
-        /// Config button handler.
-        /// </summary>
-        /// <param name="sender">sender.</param>
-        /// <param name="e">Args.</param>
-        private void ButtonConfig_Click(object sender, RoutedEventArgs e)
-        {
-            var p = BurnsBac.HotConfig.TypeResolver.ConfigDataProvidersDirectory;
-            var skinSettingsPath = System.IO.Path.Combine(_vm.SelectedSkin.SkinDirectoryPath, HidDisplay.SkinModel.Constants.SkinSettingsFilename);
-            Workspace.CreateSingletonWindow<ConfigWindow>(skinSettingsPath);
-        }
-
-        /// <summary>
-        /// Unload button handler.
-        /// </summary>
-        /// <param name="sender">Sender.</param>
-        /// <param name="e">Args.</param>
-        private void ButtonUnload_Click(object sender, RoutedEventArgs e)
-        {
-            UnloadSelectedSkin();
-        }
-
-        /// <summary>
         /// Unloads skin. Stops all timers. Calls dispose, which should stop all event handlers.
         /// Should clear and free up everything to be able to reload the skin at runtime.
         /// </summary>
@@ -706,65 +766,6 @@ namespace HidDisplayDnc.Windows
             _simpleToStringMethodCache.Clear();
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
-            source.AddHook(WndProc);
-
-            var win = source.Handle;
-
-            RawInputDevice[] rid = new RawInputDevice[2];
-
-            rid[0].UsagePage = HidUsagePages.GenericDesktop;
-            rid[0].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.GamePad;
-            rid[0].Flags = RawInputDeviceFlags.InputSink;
-            rid[0].WindowHandle = win;
-
-            rid[1].UsagePage = HidUsagePages.GenericDesktop;
-            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Joystick;
-            rid[1].Flags = RawInputDeviceFlags.InputSink;
-            rid[1].WindowHandle = win;
-
-            rid[1].UsagePage = HidUsagePages.GenericDesktop;
-            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Mouse;
-            rid[1].Flags = RawInputDeviceFlags.InputSink;
-            rid[1].WindowHandle = win;
-
-            if (BurnsBac.WinApi.User32.Api.RegisterRawInputDevices(rid, (uint)rid.Length, (uint)Marshal.SizeOf(rid[0])) == false)
-            {
-                var err = Marshal.GetLastWin32Error();
-                if (err > 0)
-                {
-                    throw new Win32ErrorCode($"GetLastWin32Error: {err}");
-                }
-                else
-                {
-                    throw new Win32ErrorCode("RegisterRawInputDevices failed with error code 0. Parameter count mis-match?");
-                }
-            }
-        }
-
-        private FrameworkElement BuildFrameworkElement(InputHandlerItem descriptionItem)
-        {
-            FrameworkElement wpfObject;
-
-            if (HidDisplay.SkinModel.Core.UiHelper.IsImage(descriptionItem.Ui))
-            {
-                wpfObject = ImageHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiImageItem)descriptionItem.Ui).Image);
-            }
-            else if (HidDisplay.SkinModel.Core.UiHelper.IsText(descriptionItem.Ui))
-            {
-                wpfObject = TextHelper($"DYN_{descriptionItem.HwTypeName}_{descriptionItem.Name}_{descriptionItem.Hw.Id}_{Guid.NewGuid().ToString("n")}", ((IUiTextItem)descriptionItem.Ui).TextInfo);
-            }
-            else
-            {
-                throw new NotSupportedException();
-            }
-
-            return wpfObject;
-        }
-
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (!AnyWndProcListeners())
@@ -776,7 +777,7 @@ namespace HidDisplayDnc.Windows
             {
                 case (int)BurnsBac.WinApi.Windows.WindowsMessages.INPUT:
                     {
-                        //System.Diagnostics.Debug.WriteLine("Received WndProc.WM_INPUT");
+                        //////System.Diagnostics.Debug.WriteLine("Received WndProc.WM_INPUT");
 
                         var ri = _rih.WndProcToRawInput(lParam);
 

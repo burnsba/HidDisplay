@@ -4,6 +4,9 @@ using System.Text;
 
 namespace HidDisplay.PluginDefinition
 {
+    /// <summary>
+    /// Describes input ranges.
+    /// </summary>
     public interface IRangeableInputDescription
     {
         /// <summary>

@@ -15,17 +15,12 @@ namespace HidDisplay.SkinModel.Core.Display
         /// <inheritdoc />
         public TextInfo TextInfo { get; set; }
 
-        public void Dispose()
-        {
-            // nothing to do
-        }
-
         /// <summary>
-        /// Processes xelement and creates <see cref="FlashToString"/>.
+        /// Processes xelement and creates <see cref="SimpleToString"/>.
         /// </summary>
         /// <param name="node">Node to process.</param>
         /// <param name="parent">Parent info.</param>
-        /// <returns>New <see cref="FlashToString"/>.</returns>
+        /// <returns>New <see cref="SimpleToString"/>.</returns>
         public static SimpleToString FromXElement(XElement node, Skin parent)
         {
             var fts = new SimpleToString();
@@ -43,6 +38,12 @@ namespace HidDisplay.SkinModel.Core.Display
             }
 
             return fts;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            // nothing to do
         }
     }
 }

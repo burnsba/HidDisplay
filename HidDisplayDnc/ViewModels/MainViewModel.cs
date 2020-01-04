@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
 using BurnsBac.WindowsAppToolkit;
-using HidDisplay.SkinModel.Core;
 using BurnsBac.WindowsAppToolkit.Mvvm;
-using HidDisplayDnc.Windows;
-using BurnsBac.WindowsHardware.HardwareWatch.Enums;
 using HidDisplay.SkinModel;
+using HidDisplay.SkinModel.Core;
+using HidDisplayDnc.Windows;
 
 namespace HidDisplayDnc.ViewModels
 {
@@ -24,41 +20,20 @@ namespace HidDisplayDnc.ViewModels
     public class MainViewModel : WindowViewModelBase
     {
         private Skin _activeSkin = null;
-        private string _skinsPath = null;
+        private ObservableCollection<AvailableSkinViewModel> _availableSkins = new ObservableCollection<AvailableSkinViewModel>();
         private AvailableSkinViewModel _availableSkinViewModel = null;
         private SolidColorBrush _backgroundColor = new SolidColorBrush(Color.FromRgb(byte.MaxValue, byte.MaxValue, byte.MaxValue));
         private string _backgroundColorString = null;
-        private ObservableCollection<AvailableSkinViewModel> _availableSkins = new ObservableCollection<AvailableSkinViewModel>();
+        private string _skinsPath = null;
 
         /// <summary>
-        /// Gets list of available skins.
+        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
-        public ObservableCollection<AvailableSkinViewModel> AvailableSkins
+        public MainViewModel()
         {
-            get
-            {
-                return _availableSkins;
-            }
-        }
+            ReadConfig();
 
-        /// <summary>
-        /// Gets or sets currently selected skin.
-        /// </summary>
-        public AvailableSkinViewModel SelectedSkin
-        {
-            get
-            {
-                return _availableSkinViewModel;
-            }
-
-            set
-            {
-                _availableSkinViewModel = value;
-                OnPropertyChanged(nameof(SelectedSkin));
-                OnPropertyChanged(nameof(CanLoadSkin));
-                OnPropertyChanged(nameof(CanConfigSkin));
-                OnPropertyChanged(nameof(CanUnloadSkin));
-            }
+            ShowAppConfigWindowCommand = new CommandHandler(() => Workspace.CreateSingletonWindow<AppConfigWindow>(this));
         }
 
         /// <summary>
@@ -82,69 +57,13 @@ namespace HidDisplayDnc.ViewModels
         }
 
         /// <summary>
-        /// Gets a value indicating whether skin can be loaded.
-        /// Can only load a skin if no skin is currently loaded.
+        /// Gets list of available skins.
         /// </summary>
-        public bool CanLoadSkin
+        public ObservableCollection<AvailableSkinViewModel> AvailableSkins
         {
             get
             {
-                return !(object.ReferenceEquals(null, SelectedSkin));
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether skin can be configured.
-        /// Can only congfigure a selected skin that isn't loaded.
-        /// </summary>
-        public bool CanConfigSkin
-        {
-            get
-            {
-                return object.ReferenceEquals(null, ActiveSkin) && !(object.ReferenceEquals(null, SelectedSkin));
-            }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether skin can be unloaded.
-        /// Can only unload a skin if one is currently loaded.
-        /// </summary>
-        public bool CanUnloadSkin
-        {
-            get
-            {
-                return !(object.ReferenceEquals(null, ActiveSkin));
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the command to show the application configuration window.
-        /// </summary>
-        public ICommand ShowAppConfigWindowCommand { get; set; }
-
-        /// <summary>
-        /// Gets or sets path to directory containing skins.
-        /// </summary>
-        public string SkinsPath
-        {
-            get
-            {
-                return _skinsPath;
-            }
-
-            set
-            {
-                if (string.Compare(_skinsPath, value, false) == 0)
-                {
-                    return;
-                }
-
-                _skinsPath = value;
-
-                ReloadSkins();
-
-                OnPropertyChanged(nameof(SkinsPath));
-                OnPropertyChanged(nameof(AvailableSkins));
+                return _availableSkins;
             }
         }
 
@@ -180,17 +99,97 @@ namespace HidDisplayDnc.ViewModels
             set
             {
                 _backgroundColorString = value;
-                _backgroundColor = (SolidColorBrush)(new BrushConverter().ConvertFrom(value));
+                _backgroundColor = (SolidColorBrush)new BrushConverter().ConvertFrom(value);
                 OnPropertyChanged(nameof(BackgroundColorString));
                 OnPropertyChanged(nameof(BackgroundColor));
             }
         }
 
-        public MainViewModel()
+        /// <summary>
+        /// Gets a value indicating whether skin can be configured.
+        /// Can only congfigure a selected skin that isn't loaded.
+        /// </summary>
+        public bool CanConfigSkin
         {
-            ReadConfig();
+            get
+            {
+                return object.ReferenceEquals(null, ActiveSkin) && !object.ReferenceEquals(null, SelectedSkin);
+            }
+        }
 
-            ShowAppConfigWindowCommand = new CommandHandler(() => Workspace.CreateSingletonWindow<AppConfigWindow>(this));
+        /// <summary>
+        /// Gets a value indicating whether skin can be loaded.
+        /// Can only load a skin if no skin is currently loaded.
+        /// </summary>
+        public bool CanLoadSkin
+        {
+            get
+            {
+                return !object.ReferenceEquals(null, SelectedSkin);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether skin can be unloaded.
+        /// Can only unload a skin if one is currently loaded.
+        /// </summary>
+        public bool CanUnloadSkin
+        {
+            get
+            {
+                return !object.ReferenceEquals(null, ActiveSkin);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets currently selected skin.
+        /// </summary>
+        public AvailableSkinViewModel SelectedSkin
+        {
+            get
+            {
+                return _availableSkinViewModel;
+            }
+
+            set
+            {
+                _availableSkinViewModel = value;
+                OnPropertyChanged(nameof(SelectedSkin));
+                OnPropertyChanged(nameof(CanLoadSkin));
+                OnPropertyChanged(nameof(CanConfigSkin));
+                OnPropertyChanged(nameof(CanUnloadSkin));
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the command to show the application configuration window.
+        /// </summary>
+        public ICommand ShowAppConfigWindowCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets path to directory containing skins.
+        /// </summary>
+        public string SkinsPath
+        {
+            get
+            {
+                return _skinsPath;
+            }
+
+            set
+            {
+                if (string.Compare(_skinsPath, value, false) == 0)
+                {
+                    return;
+                }
+
+                _skinsPath = value;
+
+                ReloadSkins();
+
+                OnPropertyChanged(nameof(SkinsPath));
+                OnPropertyChanged(nameof(AvailableSkins));
+            }
         }
 
         /// <summary>

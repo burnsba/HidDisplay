@@ -10,9 +10,18 @@ namespace HidDisplay.PluginDefinition
     public class GenericInputEventArgs
     {
         /// <summary>
-        /// Gets or sets the time of the input event.
+        /// Initializes a new instance of the <see cref="GenericInputEventArgs"/> class.
         /// </summary>
-        public DateTime OriginTime { get; set; }
+        public GenericInputEventArgs()
+        {
+            OriginTime = DateTime.Now;
+
+            Button2s = new List<Button2>();
+            Button3s = new List<Button3>();
+            RangeableInputs = new List<IRangeableInput>();
+            RangeableInput2s = new List<IRangeableInput2>();
+            RangeableInput3s = new List<IRangeableInput3>();
+        }
 
         /// <summary>
         /// Gets or sets list of 2d button events.
@@ -31,12 +40,9 @@ namespace HidDisplay.PluginDefinition
         public List<Button3> Button3s { get; set; }
 
         /// <summary>
-        /// Gets or sets list of 1d rangeable events.
+        /// Gets or sets the time of the input event.
         /// </summary>
-        /// <remarks>
-        /// E.g. heart rate.
-        /// </remarks>
-        public List<IRangeableInput> RangeableInputs { get; set; }
+        public DateTime OriginTime { get; set; }
 
         /// <summary>
         /// Gets or sets list of 2d rangeable events.
@@ -55,17 +61,11 @@ namespace HidDisplay.PluginDefinition
         public List<IRangeableInput3> RangeableInput3s { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GenericInputEventArgs"/> class.
+        /// Gets or sets list of 1d rangeable events.
         /// </summary>
-        public GenericInputEventArgs()
-        {
-            OriginTime = DateTime.Now;
-
-            Button2s = new List<Button2>();
-            Button3s = new List<Button3>();
-            RangeableInputs = new List<IRangeableInput>();
-            RangeableInput2s = new List<IRangeableInput2>();
-            RangeableInput3s = new List<IRangeableInput3>();
-        }
+        /// <remarks>
+        /// E.g. heart rate.
+        /// </remarks>
+        public List<IRangeableInput> RangeableInputs { get; set; }
     }
 }

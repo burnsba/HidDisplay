@@ -18,7 +18,7 @@ namespace HidDisplay.XenoPlugins.Plugins
     {
         private const string BluetoothAddress = "BluetoothHeartRate.DeviceAddress";
 
-        LowEnergyHeartrateSensor _sensor = null;
+        private LowEnergyHeartrateSensor _sensor = null;
         private ulong _bluetoothAddress;
         private bool _isSetup = false;
 
@@ -72,7 +72,7 @@ namespace HidDisplay.XenoPlugins.Plugins
         }
 
         /// <summary>
-        /// Accepts <see cref="WindowsHardware.Bluetooth.Characteristics.HeartRateMeasurement"/> and translates to <see cref="GenericInputEventArgs"/>.
+        /// Accepts <see cref="BurnsBac.WindowsHardware.Bluetooth.Characteristics.HeartRateMeasurement"/> and translates to <see cref="GenericInputEventArgs"/>.
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="state">Event args.</param>

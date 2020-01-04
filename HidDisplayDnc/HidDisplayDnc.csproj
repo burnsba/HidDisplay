@@ -11,6 +11,10 @@
     <FileVersion>1.2.1.1</FileVersion>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\tolos\code\csharp\HidDisplay\HidDisplayDnc\HidDisplayDnc.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="background.png" />
     <None Remove="img\close.png" />

@@ -12,7 +12,9 @@ namespace HidDisplay.DefaultPlugins
     {
         private static MouseRangeInfo _instance = new MouseRangeInfo();
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the static instance.
+        /// </summary>
         public static MouseRangeInfo Instance { get { return _instance; } }
 
         /// <inheritdoc />

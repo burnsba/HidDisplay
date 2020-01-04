@@ -8,8 +8,9 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
     /// Constants for Nintendo64 controller.
     /// </summary>
     /// <remarks>
-    /// Based on https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395
+    /// Based on https://gamefaqs.gamespot.com/snes/916396-super-nintendo/faqs/5395 .
     /// </remarks>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1310:Field names should not contain underscore", Justification = "Button constants.")]
     public static class SnesConstants
     {
         /// <summary>
@@ -56,7 +57,7 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
         /// HidDisplay D pad down.
         /// </summary>
         /// <remarks>
-        /// Source clock 6
+        /// Source clock 6 .
         /// </remarks>
         public const int Button_D_Down_Id = 6;
 

@@ -9,7 +9,7 @@ namespace HidDisplay.SkinModel.Core.Display
 {
     /// <summary>
     /// Used for something like a 2d joystick around a central point.
-    /// Should always be displayed until hidden. 
+    /// Should always be displayed until hidden.
     /// </summary>
     public class RadialVector : IUiImageItem
     {
@@ -22,29 +22,19 @@ namespace HidDisplay.SkinModel.Core.Display
         public double RadialFactor { get; set; }
 
         /// <summary>
-        /// Gets or sets the min value of the scale, to build scale factor.
-        /// </summary>
-        public double ScaleMin { get; set; } = double.NaN;
-
-        /// <summary>
         /// Gets or sets the max value of the scale, to build scale factor.
         /// </summary>
         public double ScaleMax { get; set; } = double.NaN;
 
         /// <summary>
+        /// Gets or sets the min value of the scale, to build scale factor.
+        /// </summary>
+        public double ScaleMin { get; set; } = double.NaN;
+
+        /// <summary>
         /// Gets or sets scale factor norm (multiplicative).
         /// </summary>
         public double ScaleNorm { get; set; } = double.NaN;
-
-        /// <summary>
-        /// Gets or sets a flag indicating whether or not to use the scale factor.
-        /// </summary>
-        public bool UseScale { get; set; } = false;
-
-        /// <summary>
-        /// Gets or sets a flag indicating whether or not to use the sliding factor.
-        /// </summary>
-        public bool UseSlide { get; set; } = false;
 
         /// <summary>
         /// Gets or sets value to slide item out from radius (multiplicative).
@@ -56,14 +46,15 @@ namespace HidDisplay.SkinModel.Core.Display
         /// </summary>
         public double SlideMax { get; set; } = double.NaN;
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            if (!object.ReferenceEquals(null, Image))
-            {
-                Image.Dispose();
-            }
-        }
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to use the scale factor.
+        /// </summary>
+        public bool UseScale { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to use the sliding factor.
+        /// </summary>
+        public bool UseSlide { get; set; } = false;
 
         /// <summary>
         /// Processes xelement and creates <see cref="RadialVector"/>.
@@ -159,6 +150,14 @@ namespace HidDisplay.SkinModel.Core.Display
 
             return rv;
         }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            if (!object.ReferenceEquals(null, Image))
+            {
+                Image.Dispose();
+            }
+        }
     }
 }
-

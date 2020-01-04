@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Xml.Linq;
 using HidDisplay.PluginDefinition;
 using HidDisplay.SkinModel.Core;
 using HidDisplay.SkinModel.Core.Display;
-using BurnsBac.HotConfig.Error;
-using BurnsBac.HotConfig.DataSource;
-using HidDisplay.SkinModel.InputSourceDescription;
 using HidDisplay.SkinModel.Error;
+using HidDisplay.SkinModel.InputSourceDescription;
 
 namespace HidDisplay.SkinModel
 {
@@ -37,7 +34,8 @@ namespace HidDisplay.SkinModel
         /// Whether or not plugins have already been loaded.
         /// </summary>
         private static bool _pluginsLoaded = false;
-                       /// <summary>
+
+        /// <summary>
         /// Parent assembly for the input source types.
         /// </summary>
         private static Assembly _inputSourceAssembly = null;
@@ -66,8 +64,8 @@ namespace HidDisplay.SkinModel
         /// <summary>
         /// Converts a type name of an input source into a type.
         /// </summary>
-        /// <param name="inputSourceTypeName"></param>
-        /// <returns></returns>
+        /// <param name="inputSourceTypeName">Type name of object to resolve.</param>
+        /// <returns>Type of object.</returns>
         public static Type GetInputSourceType(string inputSourceTypeName)
         {
             var fullname = inputSourceTypeName;
@@ -143,7 +141,7 @@ namespace HidDisplay.SkinModel
         }
 
         /// <summary>
-        /// Resolves parameters to a hadrware input source description
+        /// Resolves parameters to a hadrware input source description.
         /// </summary>
         /// <param name="hwType">Type of item to create.</param>
         /// <param name="itemNode">Base node containing item information.</param>
@@ -178,7 +176,7 @@ namespace HidDisplay.SkinModel
         }
 
         /// <summary>
-        /// Loads assemblies from specified directory. Looks for items of type <see cref="InputListenerBase"/>.
+        /// Loads assemblies from specified directory. Looks for items of type <see cref="IPlugin"/>.
         /// This can only be performed once.
         /// </summary>
         private static void LoadPlugins()
@@ -200,9 +198,9 @@ namespace HidDisplay.SkinModel
             {
                 throw new InvalidOperationException($"Missing plugins directory: {directory}");
             }
-            
+
             var files = Directory.EnumerateFiles(directory);
-            
+
             foreach (var file in files)
             {
                 if (!file.EndsWith(".dll"))
@@ -236,7 +234,7 @@ namespace HidDisplay.SkinModel
 
                 foreach (var type in types)
                 {
-                    if ((typeof(IPlugin)).IsAssignableFrom(type))
+                    if (typeof(IPlugin).IsAssignableFrom(type))
                     {
                         _eventSourceTypes.Add(type);
                     }
@@ -245,6 +243,5 @@ namespace HidDisplay.SkinModel
 
             _pluginsLoaded = true;
         }
-
     }
 }

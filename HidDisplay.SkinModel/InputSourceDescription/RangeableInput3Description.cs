@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
-using HidDisplay.PluginDefinition;
 using BurnsBac.HotConfig.Error;
+using HidDisplay.PluginDefinition;
 
 namespace HidDisplay.SkinModel.InputSourceDescription
 {
@@ -15,9 +13,6 @@ namespace HidDisplay.SkinModel.InputSourceDescription
     {
         /// <inheritdoc />
         public int Id { get; set; }
-
-        /// <inheritdoc />
-        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets input ceiling. This value will be used for any larger input.
@@ -40,10 +35,7 @@ namespace HidDisplay.SkinModel.InputSourceDescription
         public bool Invert3 { get; set; } = false;
 
         /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{Name}";
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// Processes xelement and creates <see cref="RangeableInput3Description"/>.
@@ -113,6 +105,12 @@ namespace HidDisplay.SkinModel.InputSourceDescription
             }
 
             return inputSource;
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }

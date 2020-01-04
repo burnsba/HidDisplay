@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using HidDisplay.Controller.ControllerState;
-using HidDisplay.Controller.ControllerState.Nintendo64;
-using HidDisplay.PluginDefinition;
 using BurnsBac.WinApi.Hid;
 using BurnsBac.WindowsHardware.HardwareWatch;
+using HidDisplay.Controller.ControllerState.Nintendo64;
+using HidDisplay.PluginDefinition;
 
 namespace HidDisplay.Controller.Plugins
 {
