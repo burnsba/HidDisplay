@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using HidDisplay.Controller.ControllerState;
 using HidDisplay.Controller.ControllerState.Nintendo64;
-using WindowsHardware.SerialPort;
+using BurnsBac.WindowsHardware.SerialPort;
 
 namespace HidDisplay.Controller.Readers
 {

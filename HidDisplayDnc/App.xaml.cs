@@ -6,6 +6,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using BurnsBac.WindowsAppToolkit;
+using BurnsBac.WindowsAppToolkit.ViewModels;
+using BurnsBac.WindowsAppToolkit.Windows;
 
 namespace HidDisplayDnc
 {
@@ -20,10 +23,12 @@ namespace HidDisplayDnc
             // existing in the CLR at the same time, I don't want to sort that out now.
             HidDisplay.SkinModel.TypeResolver.PluginsDirectory = ConfigurationManager.AppSettings["PluginsPath"];
 
+            // Make sure the config window know where to find type information
+            BurnsBac.HotConfig.TypeResolver.ConfigDataProvidersDirectory = ConfigurationManager.AppSettings["PluginsPath"];
+
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
             // Hook general uncaught exception events to show user. (this won't help with some of the CLR/pinvoke errors that might occur)
-
             Dispatcher.UnhandledException += (s, e) =>
             {
                 e.Handled = true;
@@ -61,12 +66,12 @@ namespace HidDisplayDnc
         /// <param name="source">Source of exception.</param>
         private void ShowUnhandledException(Exception ex, string source)
         {
-            var ewvm = new ViewModels.ErrorWindowViewModel($"Unhandled exception in application: {source}", ex)
+            var ewvm = new ErrorWindowViewModel($"Unhandled exception in application: {source}", ex)
             {
                 ExitOnClose = true
             };
 
-            Workspace.RecreateSingletonWindow<Windows.ErrorWindow>(ewvm);
+            Workspace.RecreateSingletonWindow<ErrorWindow>(ewvm);
         }
     }
 }

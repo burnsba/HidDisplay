@@ -1,13 +1,13 @@
-﻿using HidDisplay.SkinModel.HotConfig;
-using HidDisplay.SkinModel.HotConfig.DataSource;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Timers;
+using BurnsBac.HotConfig;
+using BurnsBac.HotConfig.DataSource;
+using BurnsBac.WindowsHardware.Bluetooth;
 using Windows.Devices.Bluetooth.Advertisement;
-using WindowsHardware.Bluetooth;
 
 namespace HidDisplay.DefaultConfigDataProviders
 {

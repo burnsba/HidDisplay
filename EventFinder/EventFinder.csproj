@@ -6,7 +6,7 @@
     <Authors>Ben Burns</Authors>
     <Product>HidDisplay</Product>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.1.1.4</FileVersion>
+    <FileVersion>1.1.2.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+    <PackageReference Include="BurnsBac.WindowsHardware" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

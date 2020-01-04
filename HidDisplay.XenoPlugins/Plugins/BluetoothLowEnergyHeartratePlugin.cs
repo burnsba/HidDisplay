@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using BurnsBac.WindowsHardware.Bluetooth.Sensors;
+using BurnsBac.WindowsHardware.HardwareWatch;
 using HidDisplay.Controller.ControllerState;
 using HidDisplay.Controller.ControllerState.Nintendo64;
 using HidDisplay.PluginDefinition;
 using HidDisplay.XenoPlugins.SensorRange;
-using WindowsHardware.Bluetooth.Sensors;
-using WindowsHardware.HardwareWatch;
 
 namespace HidDisplay.XenoPlugins.Plugins
 {
@@ -76,7 +76,7 @@ namespace HidDisplay.XenoPlugins.Plugins
         /// </summary>
         /// <param name="sender">Sender.</param>
         /// <param name="state">Event args.</param>
-        private void InputEventMapper(object sender, WindowsHardware.Bluetooth.Characteristics.HeartRateMeasurement state)
+        private void InputEventMapper(object sender, BurnsBac.WindowsHardware.Bluetooth.Characteristics.HeartRateMeasurement state)
         {
             if (!IsEnabled)
             {

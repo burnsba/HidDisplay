@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using HidDisplay.PluginDefinition;
 
-
 namespace HidDisplay.DefaultPlugins
 {
     /// <summary>

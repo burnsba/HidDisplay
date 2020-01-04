@@ -1,5 +1,5 @@
 ﻿using HidDisplay.PluginDefinition;
-using HidDisplay.SkinModel.Error;
+using BurnsBac.HotConfig.Error;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
-    <FileVersion>1.1.1.4</FileVersion>
+    <FileVersion>1.1.2.1</FileVersion>
     <Authors>Ben Burns</Authors>
     <Company>Ben Burns</Company>
     <Product>HidDisplay</Product>
@@ -12,8 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WinApi\WinApi.csproj" />
-    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
+    <PackageReference Include="BurnsBac.WindowsHardware" Version="1.0.1" />
   </ItemGroup>
 
 </Project>

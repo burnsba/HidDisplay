@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using HidDisplayDnc.Mvvm;
+using BurnsBac.WindowsAppToolkit.Mvvm;
 using HidDisplayDnc.ViewModels;
 
 namespace HidDisplayDnc.Windows

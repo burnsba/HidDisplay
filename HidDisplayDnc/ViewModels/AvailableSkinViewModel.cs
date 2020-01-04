@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using HidDisplayDnc.Mvvm;
+using BurnsBac.WindowsAppToolkit.Mvvm;
 
 namespace HidDisplayDnc.ViewModels
 {

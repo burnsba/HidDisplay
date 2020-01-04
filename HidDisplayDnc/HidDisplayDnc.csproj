@@ -2,17 +2,13 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
     <AssemblyName>HidDisplayDnc</AssemblyName>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
     <Authors>Ben Burns</Authors>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.1.5.1</FileVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <FileVersion>1.2.1.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="BurnsBac.WindowsAppToolkit" Version="1.1.0" />
+    <PackageReference Include="BurnsBac.WindowsHardware" Version="1.0.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
   </ItemGroup>
 
@@ -33,8 +35,6 @@
     <ProjectReference Include="..\HidDisplay.DefaultPlugins\HidDisplay.DefaultPlugins.csproj" />
     <ProjectReference Include="..\HidDisplay.PluginDefinition\HidDisplay.PluginDefinition.csproj" />
     <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
-    <ProjectReference Include="..\WinApi\WinApi.csproj" />
-    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,9 +6,12 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
-using HidDisplay.SkinModel.HotConfig;
-using HidDisplayDnc.Dto;
-using HidDisplayDnc.Mvvm;
+using BurnsBac.HotConfig;
+using BurnsBac.WindowsAppToolkit;
+using BurnsBac.WindowsAppToolkit.Dto;
+using BurnsBac.WindowsAppToolkit.Mvvm;
+using BurnsBac.WindowsAppToolkit.ViewModels;
+using BurnsBac.WindowsAppToolkit.Windows;
 using HidDisplayDnc.Windows;
 
 namespace HidDisplayDnc.ViewModels

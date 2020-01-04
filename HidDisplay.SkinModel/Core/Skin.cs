@@ -1,5 +1,6 @@
-﻿using HidDisplay.SkinModel.Error;
-using HidDisplay.SkinModel.HotConfig;
+﻿using BurnsBac.HotConfig.Error;
+using BurnsBac.HotConfig;
+using HidDisplay.SkinModel.Error;
 using System;
 using System.Collections.Generic;
 using System.IO;

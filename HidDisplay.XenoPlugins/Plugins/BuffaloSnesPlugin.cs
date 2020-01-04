@@ -5,8 +5,8 @@ using System.Text;
 using HidDisplay.Controller.ControllerState;
 using HidDisplay.Controller.ControllerState.Nintendo64;
 using HidDisplay.PluginDefinition;
-using WinApi.Hid;
-using WindowsHardware.HardwareWatch;
+using BurnsBac.WinApi.Hid;
+using BurnsBac.WindowsHardware.HardwareWatch;
 
 namespace HidDisplay.Controller.Plugins
 {
@@ -67,8 +67,8 @@ namespace HidDisplay.Controller.Plugins
                 return;
             }
 
-            var ux = message.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.X);
-            var uy = message.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)WinApi.Hid.Usage.GenericDesktop.Y);
+            var ux = message.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)BurnsBac.WinApi.Hid.Usage.GenericDesktop.X);
+            var uy = message.UsageValues.First(x => x.UsagePage == HidUsagePages.GenericDesktop && x.Usage == (uint)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Y);
 
             var genArgs = new GenericInputEventArgs();
             int controllerPort = 1;

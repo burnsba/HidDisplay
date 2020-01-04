@@ -6,7 +6,7 @@
     <Company>Ben Burns</Company>
     <Product>HidDisplay</Product>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.1.5.1</FileVersion>
+    <FileVersion>1.2.1.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,9 +14,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BurnsBac.WindowsHardware" Version="1.0.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\HidDisplay.PluginDefinition\HidDisplay.PluginDefinition.csproj" />
     <ProjectReference Include="..\HidDisplay.SkinModel\HidDisplay.SkinModel.csproj" />
-    <ProjectReference Include="..\WindowsHardware\WindowsHardware.csproj" />
   </ItemGroup>
 
 </Project>

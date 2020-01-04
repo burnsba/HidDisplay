@@ -5,7 +5,7 @@ using HidDisplay.Controller.ControllerState;
 using HidDisplay.Controller.ControllerState.Nintendo64;
 using HidDisplay.Controller.Readers;
 using HidDisplay.PluginDefinition;
-using WindowsHardware.SerialPort;
+using BurnsBac.WindowsHardware.SerialPort;
 
 namespace HidDisplay.Controller.Plugins
 {

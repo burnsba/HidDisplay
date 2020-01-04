@@ -20,9 +20,9 @@ using HidDisplay.PluginDefinition;
 using HidDisplay.SkinModel.InputSourceDescription;
 using HidDisplay.SkinModel.Core;
 using HidDisplay.SkinModel.Core.Display;
-using WindowsHardwareWatch.HardwareWatch;
-using WindowsHardwareWatch.HardwareWatch.Enums;
-using WindowsHardwareWatch.Windows;
+using BurnsBac.WindowsHardware.HardwareWatch;
+using BurnsBac.WindowsHardware.HardwareWatch.Enums;
+using BurnsBac.WindowsHardware.Windows;
 
 namespace HidDisplayDnc
 {

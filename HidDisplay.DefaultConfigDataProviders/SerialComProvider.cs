@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using HidDisplay.SkinModel.HotConfig.DataSource;
-
+using BurnsBac.HotConfig.DataSource;
 using Microsoft.Win32;
-using System.ComponentModel;
 
 namespace HidDisplay.DefaultConfigDataProviders
 {
@@ -23,7 +20,7 @@ namespace HidDisplay.DefaultConfigDataProviders
         }
 
         /// <summary>
-        /// 
+        /// Gets list of serial com ports. 
         /// </summary>
         /// <returns></returns>
         /// <remarks>

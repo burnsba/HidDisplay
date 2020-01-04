@@ -23,6 +23,10 @@ A simple customization capability is provided to define which plugin(s) to use a
 
 When I started this project, I was vaguely aware Windows (OS) referred to input devices as "Human Interface Device," which seemed like a nice generic way to refer to them. I borrowed the name, but it wasn't until later I started using hid.dll.
 
+Note: Bluetooth support pulls in a dependency from the Windows SDK, a file called "windows.winmd". After installing the SDK, you can find it (depending on the actual version) at
+
+    C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd
+
 # Application settings
 
 The path to the skin folder, path to the plugin folder, and application background and configured in the `app.config`. These can be changed from the "Settings" option in the window menu. Due to the way Type information is handled in dotnet, changing the plugin folder will not take effect until the program is restarted.

@@ -9,11 +9,12 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
-using HidDisplay.SkinModel;
+using BurnsBac.WindowsAppToolkit;
 using HidDisplay.SkinModel.Core;
-using HidDisplayDnc.Mvvm;
+using BurnsBac.WindowsAppToolkit.Mvvm;
 using HidDisplayDnc.Windows;
-using WindowsHardwareWatch.HardwareWatch.Enums;
+using BurnsBac.WindowsHardware.HardwareWatch.Enums;
+using HidDisplay.SkinModel;
 
 namespace HidDisplayDnc.ViewModels
 {

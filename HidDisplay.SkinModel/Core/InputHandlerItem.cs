@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using HidDisplay.PluginDefinition;
-using HidDisplay.SkinModel.Error;
+using BurnsBac.HotConfig.Error;
 using HidDisplay.SkinModel.InputSourceDescription;
 
 namespace HidDisplay.SkinModel.Core

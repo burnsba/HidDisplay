@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using System.Timers;
+using BurnsBac.WinApi.User32;
+using BurnsBac.WinApi.Windows;
+using BurnsBac.WindowsHardware.HardwareWatch;
+using BurnsBac.WindowsHardware.HardwareWatch.Enums;
 using HidDisplay.PluginDefinition;
-using WinApi.User32;
-using WinApi.Windows;
-using WindowsHardwareWatch.HardwareWatch;
-using WindowsHardwareWatch.HardwareWatch.Enums;
-using WindowsHardwareWatch.Windows;
 
 namespace HidDisplay.DefaultPlugins
 {

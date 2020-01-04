@@ -8,9 +8,10 @@ using System.Xml.Linq;
 using HidDisplay.PluginDefinition;
 using HidDisplay.SkinModel.Core;
 using HidDisplay.SkinModel.Core.Display;
-using HidDisplay.SkinModel.Error;
-using HidDisplay.SkinModel.HotConfig.DataSource;
+using BurnsBac.HotConfig.Error;
+using BurnsBac.HotConfig.DataSource;
 using HidDisplay.SkinModel.InputSourceDescription;
+using HidDisplay.SkinModel.Error;
 
 namespace HidDisplay.SkinModel
 {
@@ -36,13 +37,7 @@ namespace HidDisplay.SkinModel
         /// Whether or not plugins have already been loaded.
         /// </summary>
         private static bool _pluginsLoaded = false;
-
-        /// <summary>
-        /// Whether or not data providers have already been loaded.
-        /// </summary>
-        private static bool _configDataProvidersLoaded = false;
-
-        /// <summary>
+                       /// <summary>
         /// Parent assembly for the input source types.
         /// </summary>
         private static Assembly _inputSourceAssembly = null;
@@ -103,24 +98,6 @@ namespace HidDisplay.SkinModel
         }
 
         /// <summary>
-        /// Resolves type name and assembly name to a type from the list
-        /// of known data provider types.
-        /// </summary>
-        /// <param name="shortTypeName">Type name without assembly or version.</param>
-        /// <param name="assemblyName">Name of hosting assembly.</param>
-        /// <returns>Type. First() is called, so this will throw an exception if not found.</returns>
-        public static Type GetConfigDataProviderType(string shortTypeName, string assemblyName)
-        {
-            LoadConfigDataProviders();
-
-            return _configDataProviderTypes
-                .Where(x =>
-                    x.Assembly.FullName.IndexOf(assemblyName, 0, StringComparison.OrdinalIgnoreCase) >= 0
-                    && x.FullName.IndexOf(shortTypeName, 0, StringComparison.OrdinalIgnoreCase) >= 0)
-                .First();
-        }
-
-        /// <summary>
         /// Creates instance of plugin event source.
         /// </summary>
         /// <param name="shortTypeName">Type name without assembly or version.</param>
@@ -132,20 +109,6 @@ namespace HidDisplay.SkinModel
 
             var type = GetPluginType(shortTypeName, assemblyName);
             return (IPlugin)Activator.CreateInstance(type);
-        }
-
-        /// <summary>
-        /// Creates instance of skin data providor source.
-        /// </summary>
-        /// <param name="shortTypeName">Type name without assembly or version.</param>
-        /// <param name="assemblyName">Name of hosting assembly.</param>
-        /// <returns>New instance of data providor.</returns>
-        public static IConfigDataProvider CreateConfigDataProviderInstance(string shortTypeName, string assemblyName)
-        {
-            LoadConfigDataProviders();
-
-            var type = GetConfigDataProviderType(shortTypeName, assemblyName);
-            return (IConfigDataProvider)Activator.CreateInstance(type);
         }
 
         /// <summary>
@@ -283,73 +246,5 @@ namespace HidDisplay.SkinModel
             _pluginsLoaded = true;
         }
 
-        /// <summary>
-        /// Loads assemblies from specified directory. Looks for items of type <see cref="IConfigDataProvider"/>.
-        /// This can only be performed once.
-        /// </summary>
-        private static void LoadConfigDataProviders()
-        {
-            if (_configDataProvidersLoaded)
-            {
-                return;
-            }
-
-            // Need an absolute path to iterate over the sub directories
-            var directory = Path.GetFullPath(PluginsDirectory);
-
-            if (string.IsNullOrEmpty(directory))
-            {
-                throw new ArgumentNullException($"{nameof(PluginsDirectory)}");
-            }
-
-            if (!Directory.Exists(directory))
-            {
-                throw new InvalidOperationException($"Missing plugins directory: {directory}");
-            }
-
-            var files = Directory.EnumerateFiles(directory);
-
-            foreach (var file in files)
-            {
-                if (!file.EndsWith(".dll"))
-                {
-                    continue;
-                }
-
-                var dllPath = Path.Combine(directory, file);
-                Assembly assembly = null;
-
-                try
-                {
-                    assembly = Assembly.LoadFrom(dllPath);
-                }
-                catch (System.IO.FileLoadException)
-                {
-                    System.Console.WriteLine($"The assembly {dllPath} has already been loaded.");
-                    continue;
-                }
-                catch (System.BadImageFormatException)
-                {
-                    System.Console.WriteLine($"The file {dllPath} is not an assembly.");
-                    continue;
-                }
-                catch
-                {
-                    throw;
-                }
-
-                var types = assembly.GetTypes();
-
-                foreach (var type in types)
-                {
-                    if ((typeof(IConfigDataProvider)).IsAssignableFrom(type))
-                    {
-                        _configDataProviderTypes.Add(type);
-                    }
-                }
-            }
-
-            _configDataProvidersLoaded = true;
-        }
     }
 }

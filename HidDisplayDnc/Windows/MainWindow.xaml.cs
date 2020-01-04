@@ -23,12 +23,15 @@ using HidDisplay.SkinModel.InputSourceDescription;
 using HidDisplay.SkinModel.Core;
 using HidDisplay.SkinModel.Core.Display;
 using HidDisplayDnc.ViewModels;
-using WinApi.Error;
-using WinApi.Hid;
-using WinApi.User32;
-using WindowsHardware.HardwareWatch;
-using HidDisplayDnc.Mvvm;
+using BurnsBac.WinApi.Error;
+using BurnsBac.WinApi.Hid;
+using BurnsBac.WinApi.User32;
+using BurnsBac.WindowsHardware.HardwareWatch;
+using BurnsBac.WindowsAppToolkit.Mvvm;
 using System.IO;
+using BurnsBac.WindowsAppToolkit.ViewModels;
+using BurnsBac.WindowsAppToolkit.Windows;
+using BurnsBac.WindowsAppToolkit;
 
 namespace HidDisplayDnc.Windows
 {
@@ -39,7 +42,7 @@ namespace HidDisplayDnc.Windows
     /// </summary>
     public partial class MainWindow : Window, ICloseable
     {
-        private WindowsHardware.HardwareWatch.RawInputHandler _rih = new WindowsHardware.HardwareWatch.RawInputHandler();
+        private RawInputHandler _rih = new RawInputHandler();
         private List<IPassiveTranslate<HidResult>> _passiveHidPlugins = new List<IPassiveTranslate<HidResult>>();
         private List<IPassiveTranslate<RawMouse>> _passiveRawMousePlugins = new List<IPassiveTranslate<RawMouse>>();
 
@@ -76,7 +79,7 @@ namespace HidDisplayDnc.Windows
             }
 
             Dictionary<UInt64, Timer> hwtimers = null;
-            
+
             if (!_hwFlashTimers.TryGetValue(type, out hwtimers))
             {
                 hwtimers = new Dictionary<ulong, Timer>();
@@ -461,7 +464,7 @@ namespace HidDisplayDnc.Windows
                                     if (!string.IsNullOrEmpty(toStringParams))
                                     {
                                         System.Reflection.MethodInfo toStringMethod;
-                                        
+
                                         if (!_simpleToStringMethodCache.TryGetValue(arg.RangeInfo.BaseType, out toStringMethod))
                                         {
                                             toStringMethod = arg.RangeInfo.BaseType.GetMethod(nameof(object.ToString), new Type[] { typeof(string) });
@@ -663,7 +666,9 @@ namespace HidDisplayDnc.Windows
         /// <param name="e">Args.</param>
         private void ButtonConfig_Click(object sender, RoutedEventArgs e)
         {
-            Workspace.CreateSingletonWindow<SkinConfigWindow>(_vm.SelectedSkin);
+            var p = BurnsBac.HotConfig.TypeResolver.ConfigDataProvidersDirectory;
+            var skinSettingsPath = System.IO.Path.Combine(_vm.SelectedSkin.SkinDirectoryPath, HidDisplay.SkinModel.Constants.SkinSettingsFilename);
+            Workspace.CreateSingletonWindow<ConfigWindow>(skinSettingsPath);
         }
 
         /// <summary>
@@ -712,21 +717,21 @@ namespace HidDisplayDnc.Windows
             RawInputDevice[] rid = new RawInputDevice[2];
 
             rid[0].UsagePage = HidUsagePages.GenericDesktop;
-            rid[0].Usage = (ushort)WinApi.Hid.Usage.GenericDesktop.GamePad;
+            rid[0].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.GamePad;
             rid[0].Flags = RawInputDeviceFlags.InputSink;
             rid[0].WindowHandle = win;
 
             rid[1].UsagePage = HidUsagePages.GenericDesktop;
-            rid[1].Usage = (ushort)WinApi.Hid.Usage.GenericDesktop.Joystick;
+            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Joystick;
             rid[1].Flags = RawInputDeviceFlags.InputSink;
             rid[1].WindowHandle = win;
 
             rid[1].UsagePage = HidUsagePages.GenericDesktop;
-            rid[1].Usage = (ushort)WinApi.Hid.Usage.GenericDesktop.Mouse;
+            rid[1].Usage = (ushort)BurnsBac.WinApi.Hid.Usage.GenericDesktop.Mouse;
             rid[1].Flags = RawInputDeviceFlags.InputSink;
             rid[1].WindowHandle = win;
 
-            if (WinApi.User32.Api.RegisterRawInputDevices(rid, (uint)rid.Length, (uint)Marshal.SizeOf(rid[0])) == false)
+            if (BurnsBac.WinApi.User32.Api.RegisterRawInputDevices(rid, (uint)rid.Length, (uint)Marshal.SizeOf(rid[0])) == false)
             {
                 var err = Marshal.GetLastWin32Error();
                 if (err > 0)
@@ -762,14 +767,14 @@ namespace HidDisplayDnc.Windows
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            //if (!AnyWndProcListeners())
-            //{
-            //    return hwnd;
-            //}
+            if (!AnyWndProcListeners())
+            {
+                return hwnd;
+            }
 
             switch (msg)
             {
-                case (int)WinApi.Windows.WindowsMessages.INPUT:
+                case (int)BurnsBac.WinApi.Windows.WindowsMessages.INPUT:
                     {
                         //System.Diagnostics.Debug.WriteLine("Received WndProc.WM_INPUT");
 
@@ -798,6 +803,7 @@ namespace HidDisplayDnc.Windows
                             }
                         }
                     }
+
                     break;
             }
 
