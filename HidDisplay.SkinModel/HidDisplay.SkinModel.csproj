@@ -6,11 +6,11 @@
     <Company>Ben Burns</Company>
     <Product>HidDisplay</Product>
     <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.2.1.1</FileVersion>
+    <FileVersion>1.2.2.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\tolos\code\csharp\HidDisplay\HidDisplay.SkinModel\HidDisplay.SkinModel.xml</DocumentationFile>
+    <DocumentationFile>HidDisplay\HidDisplay.SkinModel\HidDisplay.SkinModel.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

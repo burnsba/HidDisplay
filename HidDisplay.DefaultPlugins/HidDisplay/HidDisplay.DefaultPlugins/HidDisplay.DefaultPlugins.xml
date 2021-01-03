@@ -1,0 +1,302 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HidDisplay.DefaultPlugins</name>
+    </assembly>
+    <members>
+        <member name="T:HidDisplay.DefaultPlugins.MouseMoveAxisInput">
+            <summary>
+            Mouse movement translator for single axis value.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.MouseMoveAxisInput.#ctor(System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultPlugins.MouseMoveAxisInput"/> class.
+            </summary>
+            <param name="value">Value.</param>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.EventSourceId">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.IsEmpty">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.RangeInfo">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.Value">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.ValueDecimal">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.ValueDouble">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.ValueInt">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveAxisInput.ValueSingle">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.MouseMoveAxisInput.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.DefaultPlugins.MouseMoveRangeableInput">
+            <summary>
+            Mouse movement coordinates.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.#ctor(System.Double,System.Double)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultPlugins.MouseMoveRangeableInput"/> class.
+            </summary>
+            <param name="x">X value.</param>
+            <param name="y">Y value.</param>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.Empty">
+            <summary>
+            Gets the generic null movement.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.EventSourceId">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.IsEmpty">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.Value1">
+            <summary>
+            Gets mouse X movement.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.Value2">
+            <summary>
+            Gets mouse Y movement.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.MouseMoveRangeableInput.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.DefaultPlugins.MouseRangeInfo">
+            <summary>
+            Minimal implementation to describe movement value.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.Instance">
+            <summary>
+            Gets the static instance.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MinValueInt">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MaxValueInt">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MinValueDecimal">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MaxValueDecimal">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MinValueDouble">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MaxValueDouble">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MinValueSingle">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.MaxValueSingle">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.MouseRangeInfo.BaseType">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.MouseRangeInfo.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin">
+            <summary>
+            Plugin wrapper to listen for keyboard events.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin"/> class.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.InstanceDispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.Setup(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.FromKeys(BurnsBac.WindowsHardware.HardwareWatch.Enums.KeyChangeDirection)">
+            <summary>
+            Translate button state from hardware watch to plugin event format.
+            </summary>
+            <param name="direction">Hardware button state.</param>
+            <returns>Plugin button state.</returns>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsKeyboardPlugin.InputEventMapper(System.Object,BurnsBac.WindowsHardware.HardwareWatch.KeyboardChangeEventArgs)">
+            <summary>
+            Accepts events from the hardware watch and translates them to plugin event format.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Event args.</param>
+        </member>
+        <member name="T:HidDisplay.DefaultPlugins.WindowsMousePlugin">
+            <summary>
+            Plugin wrapper to listen for mouse events.
+            </summary>
+            <remarks>
+            Instead of immediately forwarding every mousemovement, this accumulates events
+            for a set period of time the forwards the sum of the movements.
+            </remarks>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultPlugins.WindowsMousePlugin"/> class.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.WindowsMousePlugin.MouseMoveUpdateIntervalMs">
+            <summary>
+            Gets or sets how long to accumulate move events before updating the ui.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.InstanceDispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.Setup(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.FromMouseButton(BurnsBac.WindowsHardware.HardwareWatch.Enums.ButtonChangeDirection)">
+            <summary>
+            Translate button state from hardware watch to plugin event format.
+            </summary>
+            <param name="direction">Hardware button state.</param>
+            <returns>Plugin button state.</returns>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.FromMouseScroll(BurnsBac.WindowsHardware.HardwareWatch.Enums.ScrollChangeDirection)">
+            <summary>
+            Translate scroll state from hardware watch to plugin event format.
+            </summary>
+            <param name="direction">Hardware scroll state.</param>
+            <returns>Plugin button state.</returns>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.InputEventMapper(System.Object,BurnsBac.WindowsHardware.HardwareWatch.MouseChangeEventArgs)">
+            <summary>
+            Accepts hardware mouse events. Button and scroll events are forwarded
+            immediately. Movement events are added to the accumulator to be
+            forwarded later.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Event args.</param>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMousePlugin.MouseMoveSmootherElapsed(System.Object,System.EventArgs)">
+            <summary>
+            Forwards sum of movements to app for display.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Args.</param>
+        </member>
+        <member name="T:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin">
+            <summary>
+            Plugin wrapper to listen for mouse events.
+            </summary>
+            <remarks>
+            Instead of immediately forwarding every mousemovement, this accumulates events
+            for a set period of time the forwards the sum of the movements.
+            </remarks>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin"/> class.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.MouseMoveUpdateIntervalMs">
+            <summary>
+            Gets or sets how long to accumulate move events before updating the ui.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.AcceptMessage(System.Object,BurnsBac.WinApi.User32.RawMouse)">
+            <summary>
+            Accepts raw mouse event.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="message">Mouse info.</param>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.InstanceDispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.Setup(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.FromMouseButton(BurnsBac.WindowsHardware.HardwareWatch.Enums.ButtonChangeDirection)">
+            <summary>
+            Translate button state from hardware watch to plugin event format.
+            </summary>
+            <param name="direction">Hardware button state.</param>
+            <returns>Plugin button state.</returns>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.FromMouseScroll(BurnsBac.WindowsHardware.HardwareWatch.Enums.ScrollChangeDirection)">
+            <summary>
+            Translate scroll state from hardware watch to plugin event format.
+            </summary>
+            <param name="direction">Hardware scroll state.</param>
+            <returns>Plugin button state.</returns>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.InputEventMapper(System.Object,BurnsBac.WindowsHardware.HardwareWatch.MouseChangeEventArgs)">
+            <summary>
+            Accepts hardware mouse events. Button and scroll events are forwarded
+            immediately. Movement events are added to the accumulator to be
+            forwarded later.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Event args.</param>
+        </member>
+        <member name="M:HidDisplay.DefaultPlugins.WindowsMouseRawInputPlugin.MouseMoveSmootherElapsed(System.Object,System.EventArgs)">
+            <summary>
+            Forwards sum of movements to app for display.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Args.</param>
+        </member>
+    </members>
+</doc>

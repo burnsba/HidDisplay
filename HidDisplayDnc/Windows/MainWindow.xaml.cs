@@ -647,46 +647,88 @@ namespace HidDisplayDnc.Windows
                     if (descriptionItem.UiType == UiType.RadialVector)
                     {
                         // supported!
+                        // also adds FrameworkElement to DisplayGrid UI grid.
+                        FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
+
+                        wpfObject.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                        Action<IRangeableInput2> action = arg =>
+                        {
+                            try
+                            {
+                                if (arg.Id == descriptionItem.Hw.Id)
+                                {
+                                    Dispatcher.Invoke(() =>
+                                    {
+                                        if (arg.IsEmpty)
+                                        {
+                                            wpfObject.Visibility = Visibility.Hidden;
+                                        }
+                                        else
+                                        {
+                                            var transform = EventWpfUtility.RadialVector2Transform(arg.Value1.ValueDouble, arg.Value2.ValueDouble, descriptionItem);
+                                            wpfObject.RenderTransform = transform;
+                                            wpfObject.Visibility = Visibility.Visible;
+                                        }
+                                    });
+                                }
+                            }
+                            catch (System.Threading.Tasks.TaskCanceledException)
+                            {
+                            }
+                        };
+
+                        var process = Expr.Call(Expr.Constant(action.Target), action.Method, r2);
+
+                        r2IdMatchIfExpressions.Add(process);
                     }
-                    else
+                    else if (descriptionItem.UiType == UiType.SimpleToString)
                     {
-                        throw new NotSupportedException($"Only {nameof(UiType.RadialVector)} is allowed for {nameof(IRangeableInput2)}");
-                    }
+                        // also adds FrameworkElement to DisplayGrid UI grid.
+                        FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
 
-                    // also adds FrameworkElement to DisplayGrid UI grid.
-                    FrameworkElement wpfObject = BuildFrameworkElement(descriptionItem);
+                        MethodCallExpression singleIdActionExpression = null;
 
-                    wpfObject.RenderTransformOrigin = new Point(0.5, 0.5);
-
-                    Action<IRangeableInput2> action = arg =>
-                    {
-                        try
+                        Action<IRangeableInput2> action = arg =>
                         {
                             if (arg.Id == descriptionItem.Hw.Id)
                             {
                                 Dispatcher.Invoke(() =>
                                 {
-                                    if (arg.IsEmpty)
+                                    var textItem = (IUiTextItem)descriptionItem.Ui;
+                                    var toStringParams = textItem.TextInfo.ToStringFormatParameters;
+
+                                    wpfObject.Visibility = Visibility.Visible;
+
+                                    if (!string.IsNullOrEmpty(toStringParams))
                                     {
-                                        wpfObject.Visibility = Visibility.Hidden;
+                                        System.Reflection.MethodInfo toStringMethod;
+                                        var argType = arg.GetType();
+
+                                        if (!_simpleToStringMethodCache.TryGetValue(argType, out toStringMethod))
+                                        {
+                                            toStringMethod = argType.GetMethod(nameof(object.ToString), new Type[] { typeof(string) });
+                                            _simpleToStringMethodCache.Add(argType, toStringMethod);
+                                        }
+
+                                        ((TextBlock)wpfObject).Text = (string)toStringMethod.Invoke(arg, new object[] { toStringParams });
                                     }
                                     else
                                     {
-                                        var transform = EventWpfUtility.RadialVector2Transform(arg.Value1.ValueDouble, arg.Value2.ValueDouble, descriptionItem);
-                                        wpfObject.RenderTransform = transform;
-                                        wpfObject.Visibility = Visibility.Visible;
+                                        ((TextBlock)wpfObject).Text = arg.ToString();
                                     }
                                 });
                             }
-                        }
-                        catch (System.Threading.Tasks.TaskCanceledException)
-                        {
-                        }
-                    };
+                        };
 
-                    var process = Expr.Call(Expr.Constant(action.Target), action.Method, r2);
+                        var process = Expr.Call(Expr.Constant(action.Target), action.Method, r2);
 
-                    r2IdMatchIfExpressions.Add(process);
+                        r2IdMatchIfExpressions.Add(process);
+                    }
+                    else
+                    {
+                        throw new NotSupportedException($"Only {nameof(UiType.RadialVector)} is allowed for {nameof(IRangeableInput2)}");
+                    }
                 }
 
                 var r2Block = Expr.Block(r2IdMatchIfExpressions);

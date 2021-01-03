@@ -1,0 +1,933 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HidDisplay.SkinModel</name>
+    </assembly>
+    <members>
+        <member name="T:HidDisplay.SkinModel.Constants">
+            <summary>
+            Constants for skin definitions.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Constants.SkinDefinitionFilename">
+            <summary>
+            Name of file describing skin.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Constants.SkinSettingsFilename">
+            <summary>
+            Name of file for skin settings.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.Display.FlashButton">
+            <summary>
+            Should be displayed for a brief period of time and then disappear.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.FlashButton.DisplayDurationMs">
+            <summary>
+            Gets or sets duration in milliseconds for how long to display the item.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.FlashButton.Image">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.FlashButton.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.Display.FlashButton"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Display.FlashButton"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.FlashButton.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.Display.RadialVector">
+            <summary>
+            Used for something like a 2d joystick around a central point.
+            Should always be displayed until hidden.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.Image">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.RadialFactor">
+            <summary>
+            Gets or sets radial factor (multiplicative).
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.ScaleMax">
+            <summary>
+            Gets or sets the max value of the scale, to build scale factor.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.ScaleMin">
+            <summary>
+            Gets or sets the min value of the scale, to build scale factor.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.ScaleNorm">
+            <summary>
+            Gets or sets scale factor norm (multiplicative).
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.SlideFactor">
+            <summary>
+            Gets or sets value to slide item out from radius (multiplicative).
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.SlideMax">
+            <summary>
+            Gets or sets max sliding value. This takes priority over scaling.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.UseScale">
+            <summary>
+            Gets or sets a value indicating whether or not to use the scale factor.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.RadialVector.UseSlide">
+            <summary>
+            Gets or sets a value indicating whether or not to use the sliding factor.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.RadialVector.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.Display.RadialVector"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Display.RadialVector"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.RadialVector.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.Display.SimpleToString">
+            <summary>
+            Should be displayed until state changes or hidden.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.SimpleToString.TextInfo">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.SimpleToString.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.Display.SimpleToString"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Display.SimpleToString"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.SimpleToString.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.Display.ToggleButton">
+            <summary>
+            Should be displayed until state changes or hidden.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Display.ToggleButton.Image">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.ToggleButton.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.Display.ToggleButton"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Display.ToggleButton"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Display.ToggleButton.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.ImageInfo">
+            <summary>
+            Describes image information.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.Filename">
+            <summary>
+            Gets or sets image filename.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.Height">
+            <summary>
+            Gets the height used for the image.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.ImageData">
+            <summary>
+            Gets associate image data for the file.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.OriginalHeight">
+            <summary>
+            Gets or sets the height of the image according to the file source.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.OriginalWidth">
+            <summary>
+            Gets or sets the width of the image according to the file source.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.OverrideHeight">
+            <summary>
+            Gets or sets the height the image should be resized to.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.OverrideWidth">
+            <summary>
+            Gets or sets width image should be resized to.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.Width">
+            <summary>
+            Gets the width used for the image.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.XOffset">
+            <summary>
+            Gets or sets the x offfset used to display the image in the main area.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.YOffset">
+            <summary>
+            Gets or sets the y offset used to display the image in the main area.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.ImageInfo.AbsolutePathFilename">
+            <summary>
+            Gets or sets absolute path to image file.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.ImageInfo.FromXElement(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.ImageInfo"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="containingDirectory">Parent directory containing images.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.ImageInfo"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.ImageInfo.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.ImageInfo.FreeImageResources">
+            <summary>
+            Unloads image from memory.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.ImageInfo.LoadImageFromDisk">
+            <summary>
+            Loads image from disk into memory.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.ImageInfo.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.InputHandler">
+            <summary>
+            Input handler skin definition and hardware monitor type information.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandler.Description">
+            <summary>
+            Gets or sets input handler description.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandler.Handler">
+            <summary>
+            Gets or sets the event handler.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandler.HandlerAssemblyName">
+            <summary>
+            Gets or sets the assembly name containing hardware event handler.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandler.HandlerTypeName">
+            <summary>
+            Gets or sets the type name of hardware event handler.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandler.Items">
+            <summary>
+            Gets or sets list of items to monitor.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandler.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.InputHandler"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.InputHandler"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandler.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandler.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.InputHandlerItem">
+            <summary>
+            Skin definition of single item to monitor.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.Hw">
+            <summary>
+            Gets or sets skin defition of what to monitor for.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.HwType">
+            <summary>
+            Gets or sets input event type (what comes from the <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />).
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.HwTypeName">
+            <summary>
+            Gets or sets the hardware event type name.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.Name">
+            <summary>
+            Gets or sets the friendly name of the item being monitored.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.Ui">
+            <summary>
+            Gets or sets wpf ui element.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.InputHandlerItem.UiType">
+            <summary>
+            Gets or sets ui display type.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandlerItem.FromXElement(System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.InputHandlerItem"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="parent">Parent info.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.InputHandlerItem"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandlerItem.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.InputHandlerItem.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.IPositionable">
+            <summary>
+            Interface definition for an object that can be drawn in the display area.
+            </summary>
+            <remarks>
+            Should this be merged into IUiItem? .
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.IPositionable.XOffset">
+            <summary>
+            Gets or sets the x offfset used to display the item in the main area.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.IPositionable.YOffset">
+            <summary>
+            Gets or sets the y offset used to display the item in the main area.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.IUiImageItem">
+            <summary>
+            UI item to display an image.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.IUiImageItem.Image">
+            <summary>
+            Gets or sets image to associate with button.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.IUiItem">
+            <summary>
+            Generic interface for item to display on screen.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.IUiTextItem">
+            <summary>
+            UI item to display text.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.IUiTextItem.TextInfo">
+            <summary>
+            Gets or sets information about how to display text.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.Skin">
+            <summary>
+            Defines how to display hardware event interactions on screen.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Core.Skin"/> class.
+            </summary>
+            <param name="containingDirectory">Absolute path of directory containing skin.</param>
+        </member>
+        <member name="E:HidDisplay.SkinModel.Core.Skin.SetupCallback">
+            <summary>
+            Event to hook for setup to initialize wpf ui during activation.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.AbsoluteContainerPath">
+            <summary>
+            Gets or sets the absolute path of the directory containing this skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.Author">
+            <summary>
+            Gets or sets the author of the skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.BackgroundImage">
+            <summary>
+            Gets or sets the background image.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.ConfigOptions">
+            <summary>
+            Gets or sets list of configuration options forwarded to input handlers during activation/startup.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.DirectoryContainerName">
+            <summary>
+            Gets or sets the name of the directory containing this skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.DisplayName">
+            <summary>
+            Gets or sets the name of this skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.InputHandlers">
+            <summary>
+            Gets or sets associated input handlers to be used by this skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.Skin.MetaFormat">
+            <summary>
+            Gets or sets the format version used.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.FromXmlFile(System.String)">
+            <summary>
+            Processes xml file and creates <see cref="T:HidDisplay.SkinModel.Core.Skin"/>.
+            </summary>
+            <param name="path">Absolute path of skin definition file.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Skin"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.FromXmlRaw(System.String,System.String)">
+            <summary>
+            Processes xml and creates <see cref="T:HidDisplay.SkinModel.Core.Skin"/>.
+            </summary>
+            <param name="xml">Full xml string to parse.</param>
+            <param name="containingDirectory">Absolute path of directory containing skin.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Skin"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.InfoFromXmlRaw(System.String,System.String)">
+            <summary>
+            Partially loads skin, just enough to read the meta-data associated.
+            </summary>
+            <param name="xml">Full xml string to parse.</param>
+            <param name="containingDirectory">Absolute path of directory containing skin.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.Skin"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.Activate">
+            <summary>
+            Loads settings json file from disk, calls setup on each input handler, fires
+            the SetupInputEvent for wpf app to setup, then starts each input handler.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.Skin.LoadConfigOptions">
+            <summary>
+            Looks in the skin directory and attempts to read settings json file into ConfigOptions.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.TextInfo">
+            <summary>
+            Describes text information.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.TextInfo.DefaultFontIfNotFound">
+            <summary>
+            Default font to use if the user doesn't supply one.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.XOffset">
+            <summary>
+            Gets or sets the x offfset used to display the text in the main area.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.YOffset">
+            <summary>
+            Gets or sets the y offset used to display the text in the main area.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.FontSize">
+            <summary>
+            Gets or sets the font size to display text.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.Font">
+            <summary>
+            Gets or sets name of the font to display text.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.IsBold">
+            <summary>
+            Gets or sets a value indicating whether bold styling should be applied to the font.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.IsItalic">
+            <summary>
+            Gets or sets a value indicating whether italic styling should be applied to the font.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.IsUnderline">
+            <summary>
+            Gets or sets a value indicating whether underline styling should be applied to the font.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.Core.TextInfo.ToStringFormatParameters">
+            <summary>
+            Gets or sets optional parameters to pass to ToString.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.TextInfo.FromXElement(System.Xml.Linq.XElement,System.String)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.Core.TextInfo"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <param name="containingDirectory">Parent directory containing skin.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.Core.TextInfo"/>.</returns>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.UiHelper">
+            <summary>
+            Helper functions for UI interaction code.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.UiHelper.IsImage(HidDisplay.SkinModel.Core.IUiItem)">
+            <summary>
+            Determines whether the item is an image.
+            </summary>
+            <param name="item">Item to resolve.</param>
+            <returns>True if <see cref="T:HidDisplay.SkinModel.Core.IUiImageItem"/>, false otherwise.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Core.UiHelper.IsText(HidDisplay.SkinModel.Core.IUiItem)">
+            <summary>
+            Determines whether the item is text.
+            </summary>
+            <param name="item">Item to resolve.</param>
+            <returns>True if <see cref="T:HidDisplay.SkinModel.Core.IUiTextItem"/>, false otherwise.</returns>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Core.UiType">
+            <summary>
+            Supported display types.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.UiType.Unknown">
+            <summary>
+            Default/unknown.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.UiType.ToggleButton">
+            <summary>
+            <see cref="T:HidDisplay.SkinModel.Core.Display.ToggleButton" />.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.UiType.RadialVector">
+            <summary>
+            <see cref="T:HidDisplay.SkinModel.Core.Display.RadialVector" />.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.UiType.FlashButton">
+            <summary>
+            <see cref="T:HidDisplay.SkinModel.Core.Display.FlashButton" />.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.Core.UiType.SimpleToString">
+            <summary>
+            <see cref="T:HidDisplay.SkinModel.Core.Display.SimpleToString" />.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Error.ActivationException">
+            <summary>
+            Exception when activating skin.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.ActivationException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.ActivationException"/> class.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.ActivationException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.ActivationException"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.ActivationException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.ActivationException"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.ActivationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.ActivationException"/> class.
+            </summary>
+            <param name="info">SerializationInfo.</param>
+            <param name="context">StreamingContext.</param>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Error.GenericHardwareNotSupported">
+            <summary>
+            Exception when reading skin xml file, can not resolve hardware in xml to known type.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.GenericHardwareNotSupported.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.GenericHardwareNotSupported"/> class.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.GenericHardwareNotSupported.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.GenericHardwareNotSupported"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.GenericHardwareNotSupported.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.GenericHardwareNotSupported"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.GenericHardwareNotSupported.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.GenericHardwareNotSupported"/> class.
+            </summary>
+            <param name="info">SerializationInfo.</param>
+            <param name="context">StreamingContext.</param>
+        </member>
+        <member name="T:HidDisplay.SkinModel.Error.UiNotSupported">
+            <summary>
+            Exception when reading skin xml file, can not ui display type to known type.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.UiNotSupported.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.UiNotSupported"/> class.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.UiNotSupported.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.UiNotSupported"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.UiNotSupported.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.UiNotSupported"/> class.
+            </summary>
+            <param name="message">Exception message.</param>
+            <param name="innerException">Inner exception.</param>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Error.UiNotSupported.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.SkinModel.Error.UiNotSupported"/> class.
+            </summary>
+            <param name="info">SerializationInfo.</param>
+            <param name="context">StreamingContext.</param>
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.Button2Description">
+            <summary>
+            Describes how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button2Description.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button2Description.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button2Description.StateMatch">
+            <summary>
+            Gets or sets button state to match.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.Button2Description.FromXElement(System.Xml.Linq.XElement)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.InputSourceDescription.Button2Description"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.InputSourceDescription.Button2Description"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.Button2Description.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.Button3Description">
+            <summary>
+            Describes how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button3Description.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button3Description.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.Button3Description.StateMatch">
+            <summary>
+            Gets or sets button state to match.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.Button3Description.FromXElement(System.Xml.Linq.XElement)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.InputSourceDescription.Button3Description"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.InputSourceDescription.Button3Description"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.Button3Description.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.IInputSourceDescription">
+            <summary>
+            Interface for how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.IInputSourceDescription.Id">
+            <summary>
+            Gets or sets id of event originator.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.IInputSourceDescription.Name">
+            <summary>
+            Gets or sets name of event to match/process.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description">
+            <summary>
+            Describes how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.InputCeiling">
+            <summary>
+            Gets or sets input ceiling. This value will be used for any larger input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.Invert1">
+            <summary>
+            Gets or sets a value indicating whether input 1/x should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.Invert2">
+            <summary>
+            Gets or sets a value indicating whether input 2/y should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.FromXElement(System.Xml.Linq.XElement)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInput2Description.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description">
+            <summary>
+            Describes how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.InputCeiling">
+            <summary>
+            Gets or sets input ceiling. This value will be used for any larger input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.Invert1">
+            <summary>
+            Gets or sets a value indicating whether input 1/x should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.Invert2">
+            <summary>
+            Gets or sets a value indicating whether input 2/y should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.Invert3">
+            <summary>
+            Gets or sets a value indicating whether input 3/z should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.FromXElement(System.Xml.Linq.XElement)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInput3Description.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription">
+            <summary>
+            Describes how to match/process incoming hardware events from <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs" />.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.InputCeiling">
+            <summary>
+            Gets or sets input ceiling. This value will be used for any larger input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.Invert1">
+            <summary>
+            Gets or sets a value indicating whether input should be inverted.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.Name">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.FromXElement(System.Xml.Linq.XElement)">
+            <summary>
+            Processes xelement and creates <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription"/>.
+            </summary>
+            <param name="node">Node to process.</param>
+            <returns>New <see cref="T:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription"/>.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.InputSourceDescription.RangeableInputDescription.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.SkinModel.Parsers">
+            <summary>
+            Utility class.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Parsers.MakeBool(System.String)">
+            <summary>
+            Converts a string to bool.
+            </summary>
+            <param name="s">String to parse.</param>
+            <returns>True, if string contains "true" or "1", false if it contains "false" or "0", and false otherwise.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.Parsers.GetNodeLine(System.Xml.Linq.XElement)">
+            <summary>
+            Gets line number for given node. Xml must have been parsed with LoadOptions.SetLineInfo set.
+            </summary>
+            <param name="node">Node to get line number from.</param>
+            <returns>Line number or -1.</returns>
+        </member>
+        <member name="T:HidDisplay.SkinModel.TypeResolver">
+            <summary>
+            Core of this library. Instantiates correct hw/ui types from skin xml. Resolves
+            data sources from skin config json.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.TypeResolver._eventSourceTypes">
+            <summary>
+            List of types of known input handlers.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.TypeResolver._configDataProviderTypes">
+            <summary>
+            List of types of known config data providers.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.TypeResolver._pluginsLoaded">
+            <summary>
+            Whether or not plugins have already been loaded.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.SkinModel.TypeResolver._inputSourceAssembly">
+            <summary>
+            Parent assembly for the input source types.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.TypeResolver.InputSourceAssembly">
+            <summary>
+            Gets the parent assembly for the input source types (<see cref="T:HidDisplay.PluginDefinition.Button2"/>, etc).
+            </summary>
+        </member>
+        <member name="P:HidDisplay.SkinModel.TypeResolver.PluginsDirectory">
+            <summary>
+            Gets or sets directory to load assemblies from.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.GetInputSourceType(System.String)">
+            <summary>
+            Converts a type name of an input source into a type.
+            </summary>
+            <param name="inputSourceTypeName">Type name of object to resolve.</param>
+            <returns>Type of object.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.GetPluginType(System.String,System.String)">
+            <summary>
+            Resolves type name and assembly name to a type from the list
+            of known event source types.
+            </summary>
+            <param name="shortTypeName">Type name without assembly or version.</param>
+            <param name="assemblyName">Name of hosting assembly.</param>
+            <returns>Type. First() is called, so this will throw an exception if not found.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.CreatePluginInstance(System.String,System.String)">
+            <summary>
+            Creates instance of plugin event source.
+            </summary>
+            <param name="shortTypeName">Type name without assembly or version.</param>
+            <param name="assemblyName">Name of hosting assembly.</param>
+            <returns>New instance of plugin.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.CreateUiItemFromXElement(HidDisplay.SkinModel.Core.UiType,System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Resolves parameters to a ui item.
+            </summary>
+            <param name="uiType">Type of item to create.</param>
+            <param name="itemNode">Base node containing item information.</param>
+            <param name="parent">Associate parent.</param>
+            <returns>New ui item.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.CreateInputSourceFromXElement(System.Type,System.Xml.Linq.XElement,HidDisplay.SkinModel.Core.Skin)">
+            <summary>
+            Resolves parameters to a hadrware input source description.
+            </summary>
+            <param name="hwType">Type of item to create.</param>
+            <param name="itemNode">Base node containing item information.</param>
+            <param name="parent">Associate parent.</param>
+            <returns>New input description item.</returns>
+        </member>
+        <member name="M:HidDisplay.SkinModel.TypeResolver.LoadPlugins">
+            <summary>
+            Loads assemblies from specified directory. Looks for items of type <see cref="T:HidDisplay.PluginDefinition.IPlugin"/>.
+            This can only be performed once.
+            </summary>
+        </member>
+    </members>
+</doc>

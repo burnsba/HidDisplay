@@ -6,7 +6,7 @@
       "input": "dropdown",
       "datasource": "SerialComProvider",
       "assembly": "HidDisplay.DefaultConfigDataProviders",
-      "currentValue": "COM5"
+      "currentValue": "COM3"
     },
     {
       "key": "DuoWatch64.Baudrate",

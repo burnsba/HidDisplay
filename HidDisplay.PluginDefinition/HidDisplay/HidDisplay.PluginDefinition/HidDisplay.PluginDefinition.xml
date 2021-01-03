@@ -1,0 +1,431 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HidDisplay.PluginDefinition</name>
+    </assembly>
+    <members>
+        <member name="T:HidDisplay.PluginDefinition.Button2">
+            <summary>
+            Button with two states.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button2.EventSourceId">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button2.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button2.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button2.State">
+            <summary>
+            Gets or sets current state of the button.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.Button2.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.Button2State">
+            <summary>
+            Button with two states.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button2State.Unknown">
+            <summary>
+            Default/unknown.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button2State.Active">
+            <summary>
+            Active, pressed, down.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button2State.Released">
+            <summary>
+            Inactive, released, up.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.Button3">
+            <summary>
+            Button with three states.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button3.EventSourceId">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button3.Id">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button3.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.Button3.State">
+            <summary>
+            Gets or sets current state of the button.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.Button3.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.Button3State">
+            <summary>
+            Button with three states.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button3State.Unknown">
+            <summary>
+            Default/unknown.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button3State.StateDefault">
+            <summary>
+            Neutral.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button3State.State2">
+            <summary>
+            Active/scroll up.
+            </summary>
+        </member>
+        <member name="F:HidDisplay.PluginDefinition.Button3State.State3">
+            <summary>
+            Released/scroll down.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.GenericInputEventArgs">
+            <summary>
+            Input event args.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.GenericInputEventArgs.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs"/> class.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.Button2s">
+            <summary>
+            Gets or sets list of 2d button events.
+            </summary>
+            <remarks>
+            E.g. keyboard key, mouse button.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.Button3s">
+            <summary>
+            Gets or sets list of 3d button events.
+            </summary>
+            <remarks>
+            E.g. mouse scroll.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.OriginTime">
+            <summary>
+            Gets or sets the time of the input event.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.RangeableInput2s">
+            <summary>
+            Gets or sets list of 2d rangeable events.
+            </summary>
+            <remarks>
+            E.g. mouse movement.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.RangeableInput3s">
+            <summary>
+            Gets or sets list of 3d rangeable events.
+            </summary>
+            <remarks>
+            E.g. 3d accelerometer.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.GenericInputEventArgs.RangeableInputs">
+            <summary>
+            Gets or sets list of 1d rangeable events.
+            </summary>
+            <remarks>
+            E.g. heart rate.
+            </remarks>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IActiveMonitorPlugin">
+            <summary>
+            A plugin that manages it's own resources and actively monitors for events.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IInputSource">
+            <summary>
+            Input source interface.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IInputSource.Id">
+            <summary>
+            Gets id of input source.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IInputSource.Name">
+            <summary>
+            Gets name of input source.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IInputSource.EventSourceId">
+            <summary>
+            Gets unique sourceid. This should resolve based on item performing the action, such as
+            left mouse button click event, or mouse wheel scroll up event. This is used to
+            make reset timers, which is why just identifying "mouse wheel vertical scroll"
+            is not enough (need direction as well).
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IPassiveTranslatePlugin">
+            <summary>
+            A plugin that manages it's own resources, but does not initiate update events on
+            it's own. The main application will have to pass some kind of data to the plugin,
+            which will then parse and evaluate.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IPassiveTranslate`1">
+            <summary>
+            A plugin that manages it's own resources, but does not initiate update events on
+            it's own. The main application will have to pass some kind of data to the plugin,
+            which will then parse and evaluate.
+            </summary>
+            <typeparam name="T">Type of hardware message to translate.</typeparam>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.IPassiveTranslate`1.AcceptMessage(System.Object,`0)">
+            <summary>
+            Accepts message from main application. Will parse and emit <see cref="T:HidDisplay.PluginDefinition.GenericInputEventArgs"/>
+            if required.
+            </summary>
+            <param name="sender">Sender of message.</param>
+            <param name="message">Incoming data.</param>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IPlugin">
+            <summary>
+            Interface to desribe a plugin.
+            </summary>
+        </member>
+        <member name="E:HidDisplay.PluginDefinition.IPlugin.UpdateEvent">
+            <summary>
+            Fired when input is received.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IPlugin.IsEnabled">
+            <summary>
+            Gets or sets a value indicating whether the current state of the plugin.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.IPlugin.Setup(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Initialization to begin accepting or receiving events.
+            </summary>
+            <param name="configOptions">Configuration options.</param>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.IPlugin.Start">
+            <summary>
+            Starts accepting or receiving events from input source. Events will then be translated.
+            </summary>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.IPlugin.Stop">
+            <summary>
+            Stops accepting or receiving events. Events will stop being translated.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IRangeableInput">
+            <summary>
+            One dimensional rangeable input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.Value">
+            <summary>
+            Gets object value.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.ValueInt">
+            <summary>
+            Gets object value as integer.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.IsEmpty">
+            <summary>
+            Gets a value indicating whether the input is "empty".
+            </summary>
+            <remarks>
+            There should be a way to distinguish between an empty reading, and
+            a neutral/zero reading.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.ValueDecimal">
+            <summary>
+            Gets object value as decimal.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.ValueSingle">
+            <summary>
+            Gets object value as single.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.ValueDouble">
+            <summary>
+            Gets object value as double.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput.RangeInfo">
+            <summary>
+            Gets range description.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IRangeableInput2">
+            <summary>
+            Defines two dimensional ranging input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput2.IsEmpty">
+            <summary>
+            Gets a value indicating whether the input is "empty".
+            </summary>
+            <remarks>
+            There should be a way to distinguish between an empty reading, and
+            a neutral/zero reading.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput2.Value1">
+            <summary>
+            Gets the first value.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput2.Value2">
+            <summary>
+            Gets the second value.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IRangeableInput3">
+            <summary>
+            Describes three dimensional input.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput3.IsEmpty">
+            <summary>
+            Gets a value indicating whether the input is "empty".
+            </summary>
+            <remarks>
+            There should be a way to distinguish between an empty reading, and
+            a neutral/zero reading.
+            </remarks>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput3.Value1">
+            <summary>
+            Gets the first value.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput3.Value2">
+            <summary>
+            Gets the second value.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInput3.Value3">
+            <summary>
+            Gets the third value.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.IRangeableInputDescription">
+            <summary>
+            Describes input ranges.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.Name">
+            <summary>
+            Gets name of range description.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MinValueInt">
+            <summary>
+            Gets min value as integer for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MaxValueInt">
+            <summary>
+            Gets max value as integer for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MinValueDecimal">
+            <summary>
+            Gets min value as decimal for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MaxValueDecimal">
+            <summary>
+            Gets max value as decimal for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MinValueDouble">
+            <summary>
+            Gets min value as double for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MaxValueDouble">
+            <summary>
+            Gets max value as double for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MinValueSingle">
+            <summary>
+            Gets min value as single for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.MaxValueSingle">
+            <summary>
+            Gets max value as single for range.
+            </summary>
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.IRangeableInputDescription.BaseType">
+            <summary>
+            Gets the base data type: int, single, double, decimal.
+            </summary>
+        </member>
+        <member name="T:HidDisplay.PluginDefinition.PluginBase">
+            <summary>
+            Base class for plugins.
+            </summary>
+        </member>
+        <member name="E:HidDisplay.PluginDefinition.PluginBase.UpdateEvent">
+            <inheritdoc />
+        </member>
+        <member name="P:HidDisplay.PluginDefinition.PluginBase.IsEnabled">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.Dispose">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.Start">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.Stop">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.Setup(System.Collections.Generic.Dictionary{System.String,System.String})">
+            <inheritdoc />
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.InstanceDispose">
+            <summary>
+            Dispose for concrete implementation.
+            </summary>
+            <remarks>
+            Want to force dispose being called on this abstract class, but also
+            any concrete implementations.
+            </remarks>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.AnyEventListeners">
+            <summary>
+            Gets a value indicating whether or not there are any attached event listeners.
+            </summary>
+            <returns>True/false.</returns>
+        </member>
+        <member name="M:HidDisplay.PluginDefinition.PluginBase.FireEventHandler(System.Object,HidDisplay.PluginDefinition.GenericInputEventArgs)">
+            <summary>
+            Forwards arguments to attached event listeners. Ignores <see cref="P:HidDisplay.PluginDefinition.PluginBase.IsEnabled"/>.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="args">Args.</param>
+        </member>
+    </members>
+</doc>

@@ -72,6 +72,10 @@
 				useSlide="true" slideFactor="1" slideMax="30"/>
 			<hwSettings id="1" inputCeiling="128" invert1="false" invert2="false"/>
 		</item>
+		<item uiType="SimpleToString" hwType="IRangeableInput2" name="P1_Analog_text">
+			<uiSettings image="stick.png" xOffset="156" yOffset="4" font="Consolas" isBold="false" fontSize="28"/>
+			<hwSettings id="1" inputCeiling="128" invert1="false" invert2="false"/>
+		</item>
         
         <item uiType="toggleButton" hwType="Button2" name="P2_A">
 			<uiSettings image="a.png" overrideWidth="" overrideHeight="" xOffset="277" yOffset="250" />
@@ -133,6 +137,10 @@
 			<uiSettings image="stick.png" xOffset="191" yOffset="216" radialFactor="1"
 				useScale="false" scaleMin="0.5" scaleNorm="2.0" scaleMax="25.0" 
 				useSlide="true" slideFactor="1" slideMax="30"/>
+			<hwSettings id="2" inputCeiling="128" invert1="false" invert2="false"/>
+		</item>
+		<item uiType="SimpleToString" hwType="IRangeableInput2" name="P2_Analog_text">
+			<uiSettings image="stick.png" xOffset="156" yOffset="148" font="Consolas" isBold="true" fontSize="28"/>
 			<hwSettings id="2" inputCeiling="128" invert1="false" invert2="false"/>
 		</item>
 	</inputHandler>

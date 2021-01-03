@@ -67,7 +67,7 @@ namespace HidDisplay.Controller.ControllerState.Nintendo64
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{Value1}, {Value2}";
+            return string.Format("{0: 000;-000}", Value1.ValueInt) + "," + string.Format("{0: 000;-000}", Value2.ValueInt);
         }
     }
 }

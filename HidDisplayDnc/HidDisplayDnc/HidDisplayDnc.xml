@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>HidDisplayDnc</name>
+    </assembly>
+    <members>
+        <member name="T:HidDisplayDnc.App">
+            <summary>
+            Interaction logic for App.xaml .
+            </summary>
+            <summary>
+            App
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.App.ShowUnhandledException(System.Exception,System.String)">
+            <summary>
+            Shows error window for uncaught exceptions. Closes application once
+            the error window is closed.
+            </summary>
+            <param name="ex">Exception to display.</param>
+            <param name="source">Source of exception.</param>
+        </member>
+        <member name="M:HidDisplayDnc.App.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.App.Main">
+            <summary>
+            Application Entry Point.
+            </summary>
+        </member>
+        <member name="T:HidDisplayDnc.EventWpfUtility">
+            <summary>
+            Helper class for main window.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.EventWpfUtility.MakeShowAction(System.Windows.FrameworkElement)">
+            <summary>
+            Creates new action to set item visibility to visible.
+            </summary>
+            <param name="item">Item to set visibility.</param>
+            <returns>New action.</returns>
+        </member>
+        <member name="M:HidDisplayDnc.EventWpfUtility.MakeHideAction(System.Windows.FrameworkElement)">
+            <summary>
+            Creates new action to set item visibility to hidden.
+            </summary>
+            <param name="item">Item to set visibility.</param>
+            <returns>New action.</returns>
+        </member>
+        <member name="M:HidDisplayDnc.EventWpfUtility.RadialVector2Transform(System.Double,System.Double,HidDisplay.SkinModel.Core.InputHandlerItem)">
+            <summary>
+            Parses input args (as double) for the radial vector display type and for the
+            input description, and generates wpf transform to be applied.
+            </summary>
+            <param name="x">X param.</param>
+            <param name="y">Y value.</param>
+            <param name="item">Single item definition.</param>
+            <returns>Wpf transform based on values and item definition.</returns>
+        </member>
+        <member name="T:HidDisplayDnc.ViewModels.AppConfigViewModel">
+            <summary>
+            View model for application configuration.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.ViewModels.AppConfigViewModel.#ctor(HidDisplayDnc.ViewModels.MainViewModel)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplayDnc.ViewModels.AppConfigViewModel"/> class.
+            </summary>
+            <param name="mainVm">Mainview model. Config options are proxied here until saved, at which point the main vm will be updated.</param>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AppConfigViewModel.BackgroundColorString">
+            <summary>
+            Gets or sets the main window background color, as a hex code string.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AppConfigViewModel.CancelCommand">
+            <summary>
+            Gets or sets cancel button command.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AppConfigViewModel.OkCommand">
+            <summary>
+            Gets or sets ok button command.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AppConfigViewModel.PluginsPath">
+            <summary>
+            Gets or sets path to directory containing skins.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AppConfigViewModel.SkinsPath">
+            <summary>
+            Gets or sets path to directory containing skins.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.ViewModels.AppConfigViewModel.SaveChanges">
+            <summary>
+            Writes config settings to settings json file.
+            </summary>
+            <returns>True is changes saved, false otherwise.</returns>
+        </member>
+        <member name="T:HidDisplayDnc.ViewModels.AvailableSkinViewModel">
+            <summary>
+            Information about available skins.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AvailableSkinViewModel.Sha256">
+            <summary>
+            Gets or sets hash of source file.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AvailableSkinViewModel.DisplayName">
+            <summary>
+            Gets or sets display name to show.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AvailableSkinViewModel.DirectoryContainerName">
+            <summary>
+            Gets or sets name of directory containing skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AvailableSkinViewModel.SkinDirectoryPath">
+            <summary>
+            Gets or sets absolute path of directory containing skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.AvailableSkinViewModel.SkinXmlPath">
+            <summary>
+            Gets or sets absolute path of skin xml file.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.ViewModels.AvailableSkinViewModel.ToString">
+            <inheritdoc />
+        </member>
+        <member name="T:HidDisplayDnc.ViewModels.MainViewModel">
+            <summary>
+            Main window view model.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.ViewModels.MainViewModel.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplayDnc.ViewModels.MainViewModel"/> class.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.ActiveSkin">
+            <summary>
+            Gets or sets currently active skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.AvailableSkins">
+            <summary>
+            Gets list of available skins.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.BackgroundColor">
+            <summary>
+            Gets or sets the main window background color.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.BackgroundColorString">
+            <summary>
+            Gets or sets the main window background color, as a hex string.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.CanConfigSkin">
+            <summary>
+            Gets a value indicating whether skin can be configured.
+            Can only congfigure a selected skin that isn't loaded.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.CanLoadSkin">
+            <summary>
+            Gets a value indicating whether skin can be loaded.
+            Can only load a skin if no skin is currently loaded.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.CanUnloadSkin">
+            <summary>
+            Gets a value indicating whether skin can be unloaded.
+            Can only unload a skin if one is currently loaded.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.SelectedSkin">
+            <summary>
+            Gets or sets currently selected skin.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.ShowAppConfigWindowCommand">
+            <summary>
+            Gets or sets the command to show the application configuration window.
+            </summary>
+        </member>
+        <member name="P:HidDisplayDnc.ViewModels.MainViewModel.SkinsPath">
+            <summary>
+            Gets or sets path to directory containing skins.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.ViewModels.MainViewModel.ReadConfig">
+            <summary>
+            Reads app.config and sets global settings. Creates list of available skins.
+            </summary>
+        </member>
+        <member name="T:HidDisplayDnc.Windows.AppConfigWindow">
+            <summary>
+            Interaction logic for AppConfigWindow.xaml .
+            </summary>
+            <summary>
+            AppConfigWindow
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.AppConfigWindow.#ctor(HidDisplayDnc.ViewModels.MainViewModel)">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplayDnc.Windows.AppConfigWindow"/> class.
+            </summary>
+            <param name="mainVm">Source info.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.AppConfigWindow.ButtonOk_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Ok button handler.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.AppConfigWindow.ButtonCancel_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Cancel button handler.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.AppConfigWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:HidDisplayDnc.Windows.MainWindow">
+            <summary>
+            Interaction logic for MainWindow.xaml .
+            </summary>
+            <summary>
+            MainWindow
+            </summary>
+        </member>
+        <member name="F:HidDisplayDnc.Windows.MainWindow._hwFlashTimers">
+            <summary>
+            Timers for flash events.
+            </summary>
+        </member>
+        <member name="F:HidDisplayDnc.Windows.MainWindow._vm">
+            <summary>
+            Main view model.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:HidDisplayDnc.Windows.MainWindow"/> class.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.OnWindowClosing(System.Object,System.ComponentModel.CancelEventArgs)">
+            <summary>
+            Window closing handler. Tries to stop event listeners before exiting.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.OnSourceInitialized(System.EventArgs)">
+            <summary>
+            Windows start event to hook raw input events.
+            </summary>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.ButtonConfig_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Config button handler.
+            </summary>
+            <param name="sender">sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.ButtonLoad_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Load button handler.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.ButtonUnload_Click(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Unload button handler.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="e">Args.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.CancelFlashTimer(System.Type,System.UInt64)">
+            <summary>
+            Stops a timer for an event.
+            </summary>
+            <param name="type">Concrete type of <see cref="T:HidDisplay.PluginDefinition.IInputSource" />.</param>
+            <param name="eventSourceId">Event source id.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.DisposeAllFlashTimers">
+            <summary>
+            Stops all timers associated with flash buttons.
+            Clears references to existing timers.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.ImageHelper(System.String,HidDisplay.SkinModel.Core.ImageInfo)">
+            <summary>
+            Creates a new <see cref="T:System.Windows.Controls.Image"/>. Loads the image from disk, and adds to DisplayGrid.
+            </summary>
+            <param name="name">WPF control name.</param>
+            <param name="image">Image info.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.LoadSelectedSkin">
+            <summary>
+            Loads skin definition from disk. Sets up everything and starts event handlers.
+            </summary>
+            <remarks>
+            Should be able to change xml file while the app is running, unload, then load
+            and pickup new changes.
+            </remarks>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.RefreshFlashTimer(System.Type,System.UInt64,System.Int32,System.Action)">
+            <summary>
+            Stops a timer for an existing event and restarts it. If the timer
+            does not exist, it will be created.
+            </summary>
+            <param name="type">Concrete type of <see cref="T:HidDisplay.PluginDefinition.IInputSource" />.</param>
+            <param name="eventSourceId">Event source id.</param>
+            <param name="interval">Timer interval in ms if timer is created.</param>
+            <param name="act">Elapsed action to be performed if timer is created.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.SetupUpdateHandler(System.Object,HidDisplay.SkinModel.Core.InputHandler)">
+            <summary>
+            Core functionality of app. Maps hardware events to ui stuff.
+            </summary>
+            <param name="sender">Sender.</param>
+            <param name="inputHandler">InputHandler to process.</param>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.UnloadSelectedSkin">
+            <summary>
+            Unloads skin. Stops all timers. Calls dispose, which should stop all event handlers.
+            Should clear and free up everything to be able to reload the skin at runtime.
+            </summary>
+        </member>
+        <member name="M:HidDisplayDnc.Windows.MainWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>
