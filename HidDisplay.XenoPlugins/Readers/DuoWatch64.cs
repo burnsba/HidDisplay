@@ -145,6 +145,12 @@ namespace HidDisplay.Controller.Readers
                     continue;
                 }
 
+                if (dataBytes[3] == 0xff && (dataBytes[4] & 0xfc) == 0xfc)
+                {
+                    // invalid packet
+                    continue;
+                }
+
                 Nintendo64ControllerStateChange(this, new Nintendo64ControllerState()
                 {
                     ControllerPort = port,

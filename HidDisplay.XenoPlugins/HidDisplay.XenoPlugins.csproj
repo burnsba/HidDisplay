@@ -5,8 +5,8 @@
     <Authors>Ben Burns</Authors>
     <Company>Ben Burns</Company>
     <Product>HidDisplay</Product>
-    <Copyright>Ben Burns 2019</Copyright>
-    <FileVersion>1.2.2.1</FileVersion>
+    <Copyright>Ben Burns 2021</Copyright>
+    <FileVersion>1.2.2.2</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
