@@ -54,8 +54,12 @@ namespace HidDisplay.Controller.Readers
             short analogx;
             short analogy;
 
+            int button_received_count;
+
             do
             {
+                button_received_count = 0;
+
                 endPacketIndex = _readBuffer.IndexOf((byte)'|');
                 if (endPacketIndex < 0)
                 {
@@ -115,23 +119,51 @@ namespace HidDisplay.Controller.Readers
                 }
 
                 var bits = new byte[32];
-                a = (dataBytes[3] & 0x01) > 0;
-                b = (dataBytes[3] & 0x02) > 0;
-                z = (dataBytes[3] & 0x04) > 0;
-                start = (dataBytes[3] & 0x08) > 0;
-                d_up = (dataBytes[3] & 0x10) > 0;
-                d_down = (dataBytes[3] & 0x20) > 0;
-                d_left = (dataBytes[3] & 0x40) > 0;
-                d_right = (dataBytes[3] & 0x80) > 0;
 
-                // unused // bits[8] = ((dataBytes[4] & 0x01) > 0) ? (byte)100 : (byte)0;
-                // unused // bits[9] = ((dataBytes[4] & 0x02) > 0) ? (byte)100 : (byte)0;
+                a = (dataBytes[3] & 0x01) > 0;
+                button_received_count += a ? 1 : 0;
+
+                b = (dataBytes[3] & 0x02) > 0;
+                button_received_count += b ? 1 : 0;
+
+                z = (dataBytes[3] & 0x04) > 0;
+                button_received_count += z ? 1 : 0;
+
+                start = (dataBytes[3] & 0x08) > 0;
+                button_received_count += start ? 1 : 0;
+
+                d_up = (dataBytes[3] & 0x10) > 0;
+                button_received_count += d_up ? 1 : 0;
+
+                d_down = (dataBytes[3] & 0x20) > 0;
+                button_received_count += d_down ? 1 : 0;
+
+                d_left = (dataBytes[3] & 0x40) > 0;
+                button_received_count += d_left ? 1 : 0;
+
+                d_right = (dataBytes[3] & 0x80) > 0;
+                button_received_count += d_right ? 1 : 0;
+
+                //// unused // bits[8] = ((dataBytes[4] & 0x01) > 0) ? (byte)100 : (byte)0;
+                //// unused // bits[9] = ((dataBytes[4] & 0x02) > 0) ? (byte)100 : (byte)0;
+
                 l_shoulder = (dataBytes[4] & 0x04) > 0;
+                button_received_count += l_shoulder ? 1 : 0;
+
                 r_shoulder = (dataBytes[4] & 0x08) > 0;
+                button_received_count += r_shoulder ? 1 : 0;
+
                 c_up = (dataBytes[4] & 0x10) > 0;
+                button_received_count += c_up ? 1 : 0;
+
                 c_down = (dataBytes[4] & 0x20) > 0;
+                button_received_count += c_down ? 1 : 0;
+
                 c_left = (dataBytes[4] & 0x40) > 0;
+                button_received_count += c_left ? 1 : 0;
+
                 c_right = (dataBytes[4] & 0x80) > 0;
+                button_received_count += c_right ? 1 : 0;
 
                 // analog inputs are each one signed integer byte
                 analogx = (short)Utility.MakeSignedReverseByte(dataBytes[5]);
@@ -146,6 +178,13 @@ namespace HidDisplay.Controller.Readers
                 }
 
                 if (dataBytes[3] == 0xff && (dataBytes[4] & 0xfc) == 0xfc)
+                {
+                    // invalid packet
+                    continue;
+                }
+
+                // try to filter out bad packets
+                if (button_received_count > 7)
                 {
                     // invalid packet
                     continue;
